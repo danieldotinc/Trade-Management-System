@@ -4,6 +4,7 @@ import FullList from "../../components/table/fullList";
 export class profiles extends Component {
   render() {
     const {
+      listName,
       columns,
       items,
       genres,
@@ -19,6 +20,7 @@ export class profiles extends Component {
     } = this.props;
     return (
       <FullList
+        listName={listName}
         columns={columns}
         items={items}
         genres={genres}

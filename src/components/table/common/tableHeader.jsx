@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 class TableHeader extends Component {
-  raiseSort = path => {
+  raiseSort = (path, listName) => {
     const sortColumn = { ...this.props.sortColumn };
     if (sortColumn.path === path)
       sortColumn.order = sortColumn.order == "asc" ? "desc" : "asc";
@@ -9,7 +9,7 @@ class TableHeader extends Component {
       sortColumn.path = path;
       sortColumn.order = "asc";
     }
-    this.props.onSort(sortColumn);
+    this.props.onSort(sortColumn, listName);
   };
 
   sortedIcon = column => {
@@ -20,7 +20,7 @@ class TableHeader extends Component {
   };
 
   render() {
-    const { columns } = this.props;
+    const { columns, listName } = this.props;
     return (
       <thead>
         <tr>
@@ -28,10 +28,10 @@ class TableHeader extends Component {
             return (
               <th
                 key={column.path || column.key}
-                onClick={() => this.raiseSort(column.path)}
+                onClick={() => this.raiseSort(column.path, listName)}
                 style={{ cursor: "pointer" }}
               >
-                {column.label} {this.sortedIcon(column)}
+                {column.label} {this.sortedIcon(column, listName)}
               </th>
             );
           })}

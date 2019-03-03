@@ -5,6 +5,7 @@ import TableBody from "./common/tableBody";
 class MoviesTable extends Component {
   render() {
     const {
+      listName,
       columns,
       sortColumn,
       onSort,
@@ -22,6 +23,7 @@ class MoviesTable extends Component {
         </div>
         <table className="table">
           <TableHeader
+            listName={listName}
             columns={columns}
             sortColumn={sortColumn}
             onSort={onSort}

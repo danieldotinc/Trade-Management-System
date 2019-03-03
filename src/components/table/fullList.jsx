@@ -8,6 +8,7 @@ import _ from "lodash";
 export class FullList extends Component {
   render() {
     const {
+      listName,
       items,
       pageSize,
       currentPage,
@@ -30,6 +31,7 @@ export class FullList extends Component {
         <div className="row">
           <div className="col-3">
             <ListItem
+              listName={listName}
               genres={genres}
               onGenreChange={onGenreChange}
               selectedGenre={selectedGenre}
@@ -37,6 +39,7 @@ export class FullList extends Component {
           </div>
           <div className="col">
             <ListTable
+              listName={listName}
               sortColumn={sortColumn}
               itemsCount={items.length}
               onSort={onSort}
@@ -46,6 +49,7 @@ export class FullList extends Component {
               onLikeItem={onLikeItem}
             />
             <Pagination
+              listName={listName}
               pageSize={pageSize}
               currentPage={currentPage}
               itemsCount={items.length}

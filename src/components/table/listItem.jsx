@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 const ListItem = props => {
   const {
+    listName,
     selectedGenre,
     genres,
     textProperty,
@@ -16,7 +17,7 @@ const ListItem = props => {
           selectedGenre == "all" ? "list-group-item active" : "list-group-item"
         }
         style={{ cursor: "pointer" }}
-        onClick={() => onGenreChange("all")}
+        onClick={() => onGenreChange("all", listName)}
       >
         All Genres
       </li>
@@ -29,7 +30,7 @@ const ListItem = props => {
               : "list-group-item"
           }
           style={{ cursor: "pointer" }}
-          onClick={() => onGenreChange(genre)}
+          onClick={() => onGenreChange(genre, listName)}
         >
           {genre[textProperty]}
         </li>
@@ -40,7 +41,7 @@ const ListItem = props => {
 
 ListItem.defaultProps = {
   textProperty: "name",
-  valueProperty: "_id"
+  valueProperty: "id"
 };
 
 ListItem.propTypes = {};
