@@ -1,36 +1,35 @@
 import React, { Component } from "react";
-import Table from "../table/table";
+import TableHeader from "../table/common/tableHeader";
+import TableBody from "../table/common/tableBody";
 
-const MoviesTable = ({
+const Table = ({
   listName,
   columns,
   sortColumn,
   onSort,
-  itemsCount,
   onDeleteTableItem,
   onEditTableItem,
   onLikeItem,
   pageItems
 }) => {
   return (
-    <React.Fragment>
-      <div className="m-3 h5">
-        {itemsCount == 0
-          ? "هیچ آیتمی برای نمایش وجود ندارد"
-          : `تعداد ${itemsCount} آیتم در پایگاه داده وجود دارد.`}
-      </div>
-      <Table
+    <table className="table">
+      <TableHeader
         listName={listName}
         columns={columns}
         sortColumn={sortColumn}
         onSort={onSort}
+      />
+      <TableBody
+        listName={listName}
         onDeleteTableItem={onDeleteTableItem}
         onEditTableItem={onEditTableItem}
         onLikeItem={onLikeItem}
         pageItems={pageItems}
+        columns={columns}
       />
-    </React.Fragment>
+    </table>
   );
 };
 
-export default MoviesTable;
+export default Table;
