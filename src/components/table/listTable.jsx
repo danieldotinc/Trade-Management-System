@@ -11,6 +11,7 @@ class MoviesTable extends Component {
       onSort,
       itemsCount,
       onDeleteTableItem,
+      onEditTableItem,
       onLikeItem,
       pageItems
     } = this.props;
@@ -29,7 +30,9 @@ class MoviesTable extends Component {
             onSort={onSort}
           />
           <TableBody
+            listName={listName}
             onDeleteTableItem={onDeleteTableItem}
+            onEditTableItem={onEditTableItem}
             onLikeItem={onLikeItem}
             pageItems={pageItems}
             columns={columns}

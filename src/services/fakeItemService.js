@@ -45,7 +45,7 @@ const businessItems = [
   }
 ];
 
-const employeesItems = [
+const employeeItems = [
   {
     id: "1",
     name: "دانیال دانشی",
@@ -102,12 +102,61 @@ const employeesItems = [
   }
 ];
 
+const customerItems = [
+  {
+    id: "6",
+    name: "حمید مرادی",
+    type: "ظروف چینی",
+    transaction: "1,546,000",
+    city: "اراک"
+  },
+  {
+    id: "5",
+    name: "سالار اقبالی",
+    type: "جهیزیه",
+    transaction: "13,780,000",
+    city: "اصفهان"
+  },
+  {
+    id: "4",
+    name: "مهدی احمدوند",
+    type: "ظروف مسی",
+    transaction: "850,000",
+    city: "بندرعباس"
+  },
+  {
+    id: "3",
+    name: "شایان پورعماد",
+    type: "دکوراتیو",
+    transaction: "4,562,000",
+    city: "شیراز"
+  },
+  {
+    id: "2",
+    name: "سامان شهبازپور",
+    type: "صنایع دستی",
+    transaction: "320,000",
+    city: "کرج"
+  },
+  {
+    id: "1",
+    name: "بهمن امام",
+    type: "وسایل برقی",
+    transaction: "16,140,000",
+    city: "تهران"
+  }
+];
+
 export function getBusinessItems() {
   return businessItems;
 }
 
-export function getEmployeesItems() {
-  return employeesItems;
+export function getEmployeeItems() {
+  return employeeItems;
+}
+
+export function getCustomerItems() {
+  return customerItems;
 }
 
 export function getBusinessItem(id) {
@@ -136,7 +185,13 @@ export function deleteBusinessItem(id) {
 }
 
 export function deleteEmployeeItem(id) {
-  let itemInDb = employeesItems.find(m => m.id === id);
-  employeesItems.splice(employeesItems.indexOf(itemInDb), 1);
+  let itemInDb = employeeItems.find(m => m.id === id);
+  employeeItems.splice(employeeItems.indexOf(itemInDb), 1);
+  return itemInDb;
+}
+
+export function deleteCustomerItem(id) {
+  let itemInDb = customerItems.find(m => m.id === id);
+  customerItems.splice(customerItems.indexOf(itemInDb), 1);
   return itemInDb;
 }

@@ -16,10 +16,23 @@ export const employeeTypes = [
   { id: 6, name: "مدیر پروژه" }
 ];
 
+export const customerTypes = [
+  // { id: 1, name: "واحد فنی" },
+  // { id: 2, name: "واحد بازرگانی" },
+  // { id: 3, name: "واحد مالی" },
+  // { id: 4, name: "واحد فروش" },
+  // { id: 5, name: "واحد منابع انسانی" },
+  // { id: 6, name: "مدیر پروژه" }
+];
+
 export function getBusinessTypes() {
   return businessTypes.filter(g => g);
 }
 
 export function getEmployeeTypes() {
   return employeeTypes.filter(g => g);
+}
+
+export function getCustomerTypes() {
+  return customerTypes.filter(g => g);
 }

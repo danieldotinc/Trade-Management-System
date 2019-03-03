@@ -1,10 +1,6 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  withRouter
-} from "react-router-dom";
+import { BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import Navigation from "./components/layouts/Navbar";
 import uuid from "uuid";
 import Home from "./components/Home";
@@ -15,74 +11,60 @@ import Profiles from "./views/profiles/profiles";
 import {
   getBusinessItems,
   deleteBusinessItem,
-  getEmployeesItems,
-  deleteEmployeeItem
+  getEmployeeItems,
+  deleteEmployeeItem,
+  getCustomerItems,
+  deleteCustomerItem
 } from "./services/fakeItemService";
-import { getBusinessTypes, getEmployeeTypes } from "./services/fakeTypeService";
+import {
+  getBusinessTypes,
+  getEmployeeTypes,
+  getCustomerTypes
+} from "./services/fakeTypeService";
+
+import {
+  getBusinessColumns,
+  getCustomerColumns,
+  getEmployeeColumns
+} from "./services/fakeColumnService";
 
 import "./assets/css/style.css";
 
 class App extends Component {
   state = {
-    businessTypes: getBusinessTypes(),
-    employeeTypes: getEmployeeTypes(),
-    businessColumns: [
-      { label: "ID", path: "id" },
-      { label: "نام", path: "name" },
-      { label: "حوزه فعالیت", path: "type" },
-      { label: "تراکنش مالی", path: "transaction" },
-      { label: "شهر", path: "city" },
-      {
-        key: uuid.v4(),
-        content: item => (
-          <Like movie={item} onClick={() => this.handleLikeItem(item)} />
-        )
-      },
-      {
-        key: uuid.v4(),
-        content: item => (
-          <button
-            className="btn btn-danger"
-            onClick={() => this.handleDeleteTableItem(item.id, "business")}
-          >
-            حذف
-          </button>
-        )
-      }
-    ],
-    employeesColumns: [
-      { label: "ID", path: "id" },
-      { label: "نام", path: "name" },
-      { label: "واحد فعالیت", path: "type" },
-      { label: "تلفن اینترنتی", path: "telephone" },
-      {
-        key: uuid.v4(),
-        content: item => (
-          <Like movie={item} onClick={() => this.handleLikeItem(item)} />
-        )
-      },
-      {
-        key: uuid.v4(),
-        content: item => (
-          <button
-            className="btn btn-danger"
-            onClick={() => this.handleDeleteTableItem(item.id, "employee")}
-          >
-            حذف
-          </button>
-        )
-      }
-    ],
+    types: [],
+    columns: [],
     selectedGenre: "all",
-    sortColumn: "id",
+    sortColumn: { path: "id", order: "asc" },
     currentPage: 1,
     pageSize: 3,
-    businessItems: getBusinessItems(),
-    employeeItems: getEmployeesItems(),
+    items: [],
     personInfo: false,
     personId: 1,
     activePage: "Home"
   };
+
+  componentDidMount() {
+    // console.log(window.location.href);
+    if (this.props.location.pathname == "/Profiles/Business")
+      return this.setState({
+        items: getBusinessItems(),
+        columns: getBusinessColumns(),
+        types: getBusinessTypes()
+      });
+    if (this.props.location.pathname == "/Profiles/Employee")
+      return this.setState({
+        items: getEmployeeItems(),
+        columns: getEmployeeColumns(),
+        types: getEmployeeTypes()
+      });
+    if (this.props.location.pathname == "/Profiles/Customer")
+      return this.setState({
+        items: getCustomerItems(),
+        columns: getCustomerColumns(),
+        types: getCustomerTypes()
+      });
+  }
 
   handleDeleteTableItem = (id, listName) => {
     if (listName == "business") {
@@ -93,36 +75,58 @@ class App extends Component {
     } else if (listName == "employee") {
       deleteEmployeeItem(id);
       this.setState({
-        employeeItems: getEmployeesItems()
+        employeeItems: getEmployeeItems()
+      });
+    } else if (listName == "customer") {
+      deleteCustomerItem(id);
+      this.setState({
+        employeeItems: getCustomerItems()
       });
     }
   };
 
+  handleEditTableItem = (id, listName) => {
+    console.log(listName);
+    if (listName == "business") {
+    } else if (listName == "employee") {
+    } else if (listName == "customer") {
+    }
+  };
+
   handleLikeItem = item => {
-    const businessItems = [...this.state.businessItems];
-    const index = businessItems.indexOf(item);
-    businessItems[index].liked = !businessItems[index].liked;
+    const items = [...this.state.items];
+    const index = items.indexOf(item);
+    items[index].liked = !items[index].liked;
     this.setState({
-      businessItems
+      items
     });
   };
 
   handleTypesFilter = (type, listName) => {
-    if (listName == "businessItems") {
+    if (listName == "business") {
       this.setState({
-        businessItems:
+        items:
           type.name && type.id
             ? getBusinessItems().filter(item => item.type == type.name)
             : getBusinessItems(),
         selectedGenre: type == "all" ? "all" : type.name,
         currentPage: 1
       });
-    } else if (listName == "employeeItems") {
+    } else if (listName == "employee") {
       this.setState({
-        employeeItems:
+        items:
           type.name && type.id
-            ? getEmployeesItems().filter(item => item.type == type.name)
-            : getEmployeesItems(),
+            ? getEmployeeItems().filter(item => item.type == type.name)
+            : getEmployeeItems(),
+        selectedGenre: type == "all" ? "all" : type.name,
+        currentPage: 1
+      });
+    } else if (listName == "customer") {
+      this.setState({
+        items:
+          type.name && type.id
+            ? getCustomerItems().filter(item => item.type == type.name)
+            : getCustomerItems(),
         selectedGenre: type == "all" ? "all" : type.name,
         currentPage: 1
       });
@@ -141,52 +145,24 @@ class App extends Component {
 
   render() {
     const { products } = this.state;
+
     return (
-      <Router>
+      <BrowserRouter>
         <React.Fragment>
           <Navigation activePage={this.state.activePage} />
           <div className="m-3">
             <Switch>
-              {/* <Route
-                exact
-                path="/Home"
-                render={props => (
-                  <Home products={products} onDelete={this.handleDelete} />
-                )}
-              /> */}
               <Route
-                exact
                 path="/Profiles"
                 render={props => (
                   <Profiles
-                    listName={"businessItems"}
-                    columns={this.state.businessColumns}
-                    items={this.state.businessItems}
-                    genres={this.state.businessTypes}
+                    columns={this.state.columns}
+                    items={this.state.items}
+                    genres={this.state.types}
                     selectedGenre={this.state.selectedGenre}
                     sortColumn={this.state.sortColumn}
                     onDeleteTableItem={this.handleDeleteTableItem}
-                    onLikeItem={this.handleLikeItem}
-                    currentPage={this.state.currentPage}
-                    pageSize={this.state.pageSize}
-                    onPageChange={this.handlePageChange}
-                    onGenreChange={this.handleTypesFilter}
-                    onSort={this.handleSort}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/Profiles/Employees"
-                render={props => (
-                  <Profiles
-                    listName={"employeeItems"}
-                    columns={this.state.employeesColumns}
-                    items={this.state.employeeItems}
-                    genres={this.state.employeeTypes}
-                    selectedGenre={this.state.selectedGenre}
-                    sortColumn={this.state.sortColumn}
-                    onDeleteTableItem={this.handleDeleteTableItem}
+                    onEditTableItem={this.handleEditTableItem}
                     onLikeItem={this.handleLikeItem}
                     currentPage={this.state.currentPage}
                     pageSize={this.state.pageSize}
@@ -199,9 +175,9 @@ class App extends Component {
             </Switch>
           </div>
         </React.Fragment>
-      </Router>
+      </BrowserRouter>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
