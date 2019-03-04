@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import uuid from "uuid";
 
 class TableHeader extends Component {
   raiseSort = (path, listName) => {
@@ -27,7 +28,7 @@ class TableHeader extends Component {
           {columns.map(column => {
             return (
               <th
-                key={column.path || column.key}
+                key={uuid.v4()}
                 onClick={() => this.raiseSort(column.path, listName)}
                 style={{ cursor: "pointer" }}
               >

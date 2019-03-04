@@ -17,13 +17,20 @@ export class BusinessProfiles extends Component {
       pageSize,
       onPageChange,
       onGenreChange,
-      onSort
+      onSort,
+      onStep,
+      showDetailModal,
+      hideDetailModal,
+      detailedModal
     } = this.props;
     return (
       <React.Fragment>
         <h3 className="text-center m-5">اطلاعات کسب و کارها</h3>
         <FullList
           listName={listName}
+          detailedModal={detailedModal}
+          hideDetailModal={hideDetailModal}
+          showDetailModal={showDetailModal}
           columns={columns}
           items={items}
           genres={genres}
@@ -37,6 +44,7 @@ export class BusinessProfiles extends Component {
           onPageChange={onPageChange}
           onGenreChange={onGenreChange}
           onSort={onSort}
+          onStep={onStep}
         />
       </React.Fragment>
     );

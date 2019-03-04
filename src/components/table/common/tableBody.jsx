@@ -20,14 +20,20 @@ class TableBody extends Component {
       onDeleteTableItem,
       onEditTableItem,
       onLikeItem,
-      listName
+      listName,
+      showDetailModal
     } = this.props;
     return (
       <tbody>
         {pageItems.map(item => (
-          <tr key={item.id}>
+          <tr key={uuid.v4()}>
             {columns.map(column => (
-              <td key={this.generateKey(item, column)}>
+              <td
+                onClick={() => showDetailModal(item, listName)}
+                data-toggle="modal"
+                data-target="#detailmodal"
+                key={uuid.v4()}
+              >
                 {this.renderCell(item, column)}
               </td>
             ))}

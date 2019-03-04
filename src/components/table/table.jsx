@@ -10,7 +10,8 @@ const Table = ({
   onDeleteTableItem,
   onEditTableItem,
   onLikeItem,
-  pageItems
+  pageItems,
+  showDetailModal
 }) => {
   return (
     <table className="table">
@@ -22,6 +23,7 @@ const Table = ({
       />
       <TableBody
         listName={listName}
+        showDetailModal={showDetailModal}
         onDeleteTableItem={onDeleteTableItem}
         onEditTableItem={onEditTableItem}
         onLikeItem={onLikeItem}

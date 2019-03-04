@@ -3,45 +3,93 @@ import * as genresAPI from "./fakeTypeService";
 const businessItems = [
   {
     id: "1",
+    identityType: "کسب و کار",
     name: "حمید مرادی",
     type: "ظروف چینی",
+    telephone: "02155041823",
+    telExtention: "210",
     transaction: "1,546,000",
-    city: "اراک"
+    mobile: "09121412400",
+    postalcode: "1987528943",
+    state: "اراک",
+    city: "اراک",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
     id: "2",
+    identityType: "کسب و کار",
     name: "سالار اقبالی",
     type: "جهیزیه",
+    telephone: "02155041823",
+    telExtention: "210",
     transaction: "13,780,000",
-    city: "اصفهان"
+    mobile: "09121412400",
+    postalcode: "1987528943",
+    state: "اصفهان",
+    city: "اصفهان",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
     id: "3",
+    identityType: "کسب و کار",
     name: "مهدی احمدوند",
     type: "ظروف مسی",
+    telephone: "02155041823",
+    telExtention: "210",
+    mobile: "09121412400",
+    postalcode: "1987528943",
     transaction: "850,000",
-    city: "بندرعباس"
+    state: "بندرعباس",
+    city: "بندرعباس",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
     id: "4",
+    identityType: "کسب و کار",
     name: "شایان پورعماد",
     type: "دکوراتیو",
+    telephone: "02155041823",
+    telExtention: "210",
+    mobile: "09121412400",
+    postalcode: "1987528943",
     transaction: "4,562,000",
-    city: "شیراز"
+    state: "شیراز",
+    city: "شیراز",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
     id: "5",
+    identityType: "کسب و کار",
     name: "سامان شهبازپور",
     type: "صنایع دستی",
+    telephone: "02155041823",
+    telExtention: "210",
+    mobile: "09121412400",
+    postalcode: "1987528943",
     transaction: "320,000",
-    city: "کرج"
+    state: "کرج",
+    city: "کرج",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
     id: "6",
+    identityType: "کسب و کار",
     name: "بهمن امام",
     type: "وسایل برقی",
+    telephone: "02155041823",
+    telExtention: "210",
+    mobile: "09121412400",
+    postalcode: "1987528943",
     transaction: "16,140,000",
-    city: "تهران"
+    state: "تهران",
+    city: "تهران",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   }
 ];
 

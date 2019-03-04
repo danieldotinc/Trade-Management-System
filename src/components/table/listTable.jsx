@@ -10,7 +10,8 @@ const MoviesTable = ({
   onDeleteTableItem,
   onEditTableItem,
   onLikeItem,
-  pageItems
+  pageItems,
+  showDetailModal
 }) => {
   return (
     <React.Fragment>
@@ -20,6 +21,7 @@ const MoviesTable = ({
           : `تعداد ${itemsCount} آیتم در پایگاه داده وجود دارد.`}
       </div>
       <Table
+        showDetailModal={showDetailModal}
         listName={listName}
         columns={columns}
         sortColumn={sortColumn}

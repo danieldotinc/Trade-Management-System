@@ -3,8 +3,10 @@ import { BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import Navigation from "./components/layouts/Navbar";
 import uuid from "uuid";
+import $ from "jquery";
 import Home from "./components/Home";
 import Like from "./components/table/common/like";
+import routes from "./routes";
 
 import Profiles from "./views/profiles/profiles";
 
@@ -41,11 +43,23 @@ class App extends Component {
     items: [],
     personInfo: false,
     personId: 1,
-    activePage: "Home"
+    activePage: "Home",
+    detailedModal: {
+      state: false,
+      item: { name: "", mobile: "", postalcode: "", telephone: "" }
+    },
+    formStep: 1
+  };
+
+  showDetailModal = (item, listName) => {
+    this.setState({ detailedModal: { state: true, item: item } });
+  };
+
+  hideDetailModal = () => {
+    this.setState({ detailedModal: { state: false, item: {} } });
   };
 
   componentDidMount() {
-    // console.log(window.location.href);
     if (this.props.location.pathname == "/Profiles/Business")
       return this.setState({
         items: getBusinessItems(),
@@ -65,6 +79,12 @@ class App extends Component {
         types: getCustomerTypes()
       });
   }
+
+  handleFormSteps = formName => {
+    $("#" + formName + this.state.formStep).hide();
+    $("#" + formName + (this.state.formStep + 1)).show();
+    this.setState({ formStep: this.state.formStep + 1 });
+  };
 
   handleDeleteTableItem = (id, listName) => {
     if (listName == "business") {
@@ -152,26 +172,60 @@ class App extends Component {
           <Navigation activePage={this.state.activePage} />
           <div className="m-3">
             <Switch>
-              <Route
+              {/* <Route
                 path="/Profiles"
                 render={props => (
                   <Profiles
-                    columns={this.state.columns}
-                    items={this.state.items}
-                    genres={this.state.types}
-                    selectedGenre={this.state.selectedGenre}
-                    sortColumn={this.state.sortColumn}
-                    onDeleteTableItem={this.handleDeleteTableItem}
-                    onEditTableItem={this.handleEditTableItem}
-                    onLikeItem={this.handleLikeItem}
-                    currentPage={this.state.currentPage}
-                    pageSize={this.state.pageSize}
-                    onPageChange={this.handlePageChange}
-                    onGenreChange={this.handleTypesFilter}
-                    onSort={this.handleSort}
+                    listName={prop.name}
+                        columns={columns}
+                        items={items}
+                        genres={genres}
+                        selectedGenre={selectedGenre}
+                        sortColumn={sortColumn}
+                        onDeleteTableItem={onDeleteTableItem}
+                        onEditTableItem={onEditTableItem}
+                        onLikeItem={onLikeItem}
+                        currentPage={currentPage}
+                        pageSize={pageSize}
+                        onPageChange={onPageChange}
+                        onGenreChange={onGenreChange}
+                        onSort={onSort}
                   />
                 )}
-              />
+              /> */}
+              {routes.map((prop, key) => {
+                if (prop.layout === "/Profiles") {
+                  return (
+                    <Route
+                      path={prop.layout + prop.path}
+                      key={key}
+                      render={props => (
+                        <prop.component
+                          {...props}
+                          listName={prop.name}
+                          detailedModal={this.state.detailedModal}
+                          showDetailModal={this.showDetailModal}
+                          hideDetailModal={this.hideDetailModal}
+                          columns={this.state.columns}
+                          items={this.state.items}
+                          genres={this.state.types}
+                          selectedGenre={this.state.selectedGenre}
+                          sortColumn={this.state.sortColumn}
+                          onDeleteTableItem={this.handleDeleteTableItem}
+                          onEditTableItem={this.handleEditTableItem}
+                          onLikeItem={this.handleLikeItem}
+                          currentPage={this.state.currentPage}
+                          pageSize={this.state.pageSize}
+                          onPageChange={this.handlePageChange}
+                          onGenreChange={this.handleTypesFilter}
+                          onSort={this.handleSort}
+                          onStep={this.handleFormSteps}
+                        />
+                      )}
+                    />
+                  );
+                }
+              })}
             </Switch>
           </div>
         </React.Fragment>
