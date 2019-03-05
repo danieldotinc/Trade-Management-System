@@ -2,12 +2,11 @@ import React, { Component } from "react";
 import uuid from "uuid";
 import Like from "./like";
 import _ from "lodash";
+import PersianDigit, { PersianNum } from "./persiandigit";
 
 class TableBody extends Component {
   renderCell = (item, column) => {
-    if (column.content) return column.content(item);
-
-    return _.get(item, column.path);
+    return PersianNum(_.get(item, column.path));
   };
 
   generateKey = (item, column) => {

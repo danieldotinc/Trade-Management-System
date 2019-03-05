@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 
-const PersianDigit = props => {
-  let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
-  let persianMap = persianDigits.split("");
+let persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+let persianMap = persianDigits.split("");
 
-  function convertToPersianNumber(input) {
-    if (typeof input == "undefined") {
-      input = "";
-    }
-    return input.replace(/\d/g, function(m) {
-      return persianMap[parseInt(m)];
-    });
+export function PersianNum(input) {
+  if (typeof input == "undefined") {
+    input = "";
   }
-  return convertToPersianNumber(props.children);
+  return input.replace(/\d/g, function(m) {
+    return persianMap[parseInt(m)];
+  });
+}
+const PersianDigit = props => {
+  return PersianNum(props.children);
 };
 
 export default PersianDigit;

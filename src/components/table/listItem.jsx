@@ -5,7 +5,7 @@ const ListItem = props => {
   const {
     listName,
     selectedGenre,
-    genres,
+    types,
     textProperty,
     valueProperty,
     onGenreChange
@@ -21,7 +21,7 @@ const ListItem = props => {
       >
         All Genres
       </li>
-      {genres.map(genre => (
+      {types.map(genre => (
         <li
           key={genre[valueProperty]}
           className={

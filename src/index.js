@@ -7,16 +7,16 @@ import "bootstrap/dist/js/bootstrap.js";
 import $ from "jquery";
 import Popper from "popper.js";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 const hist = createBrowserHistory();
 
 ReactDOM.render(
-  <Router history={hist}>
+  <BrowserRouter>
     <Switch>
       <Route path="/" component={App} />
       {/* <Redirect from="/" to="/Home" /> */}
     </Switch>
-  </Router>,
+  </BrowserRouter>,
   document.getElementById("root")
 );

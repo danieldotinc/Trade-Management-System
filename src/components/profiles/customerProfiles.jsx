@@ -24,7 +24,7 @@ export class BusinessProfiles extends Component {
     } = this.props;
     return (
       <React.Fragment>
-        <h3 className="text-center m-5">اطلاعات مشتریان</h3>
+        <h3 className="text-center m-5">اطلاعات افراد</h3>
         <FullList
           listName={listName}
           detailedModal={detailedModal}

@@ -7,6 +7,8 @@ import $ from "jquery";
 import Home from "./components/Home";
 import Like from "./components/table/common/like";
 import routes from "./routes";
+import { PersianNum } from "./components/table/common/persiandigit";
+import FormValidate from "./components/table/common/formValidate";
 
 import Profiles from "./views/profiles/profiles";
 
@@ -34,13 +36,14 @@ import "./assets/css/style.css";
 
 class App extends Component {
   state = {
+    listName: "",
+    items: [],
     types: [],
     columns: [],
     selectedGenre: "all",
     sortColumn: { path: "id", order: "asc" },
     currentPage: 1,
     pageSize: 3,
-    items: [],
     personInfo: false,
     personId: 1,
     activePage: "Home",
@@ -48,10 +51,12 @@ class App extends Component {
       state: false,
       item: { name: "", mobile: "", postalcode: "", telephone: "" }
     },
-    formStep: 1
+    addNewForm: { name: "", mobile: "", telephone: "" },
+    formStep: 0,
+    formValidation: false
   };
 
-  showDetailModal = (item, listName) => {
+  handleShowDetailModal = (item, listName) => {
     this.setState({ detailedModal: { state: true, item: item } });
   };
 
@@ -60,30 +65,95 @@ class App extends Component {
   };
 
   componentDidMount() {
-    if (this.props.location.pathname == "/Profiles/Business")
+    this.handleRouteChange(this.props.location.pathname);
+  }
+
+  checkForm = formName => {
+    // var res = true;
+    // $("#" + formName + this.state.formStep + " input[required]").each(
+    //   function() {
+    //     // FormValidate(this);
+    //     $("#fullNameInput").change();
+    //     if (
+    //       $(this)
+    //         .val()
+    //         .trim() == ""
+    //     ) {
+    //       res = false;
+    //     }
+    //   }
+    // );
+    // return res;
+    // returning false will prevent the form from submitting.
+    // $("#" + formName + this.state.formStep).on("submit", () => {
+    //   var has_empty = false;
+    //   console.log("here!");
+    //   $(this)
+    //     .find('input[type!="hidden"]')
+    //     .each(() => {
+    //       if (!$(this).val() && $(this).prop("required")) {
+    //         has_empty = true;
+    //         console.log("here!");
+    //         // $(this).trigger("onChange");
+    //         return false;
+    //       }
+    //     });
+    //   if (has_empty) {
+    //     return false;
+    //   }
+    // });
+  };
+
+  handleFormSteps = formName => {
+    if (this.state.formValidation) {
+      $("#" + formName + this.state.formStep).hide();
+      $("#" + formName + (this.state.formStep + 1)).show();
+      $("#prevBtn").show();
+      $("#cancelBtn").hide();
+      this.setState({ formStep: this.state.formStep + 1 });
+    } else {
+      this.checkForm(formName);
+    }
+  };
+
+  handleFormBack = formName => {
+    $("#" + formName + this.state.formStep).hide();
+    $("#" + formName + (this.state.formStep - 1)).show();
+    $("#prevBtn").hide();
+    $("#cancelBtn").show();
+    this.setState({ formStep: this.state.formStep - 1 });
+  };
+
+  handleNewForm = formName => {
+    $("#" + formName + 1).show();
+    $("#" + formName + 2 + ",#" + formName + 3 + ",#" + formName + 4).hide();
+    $("#prevBtn").hide();
+    $("#cancelBtn").show();
+    this.setState({ formStep: 1 });
+  };
+
+  handleRouteChange = Route => {
+    if (Route == "/Profiles/Business")
       return this.setState({
+        listName: "business",
         items: getBusinessItems(),
         columns: getBusinessColumns(),
         types: getBusinessTypes()
       });
-    if (this.props.location.pathname == "/Profiles/Employee")
+    if (Route == "/Profiles/Employee")
       return this.setState({
+        listName: "employee",
         items: getEmployeeItems(),
         columns: getEmployeeColumns(),
         types: getEmployeeTypes()
       });
-    if (this.props.location.pathname == "/Profiles/Customer")
+    if (Route == "/Profiles/Customer")
       return this.setState({
+        listName: "customer",
         items: getCustomerItems(),
         columns: getCustomerColumns(),
         types: getCustomerTypes()
       });
-  }
-
-  handleFormSteps = formName => {
-    $("#" + formName + this.state.formStep).hide();
-    $("#" + formName + (this.state.formStep + 1)).show();
-    this.setState({ formStep: this.state.formStep + 1 });
   };
 
   handleDeleteTableItem = (id, listName) => {
@@ -106,7 +176,6 @@ class App extends Component {
   };
 
   handleEditTableItem = (id, listName) => {
-    console.log(listName);
     if (listName == "business") {
     } else if (listName == "employee") {
     } else if (listName == "customer") {
@@ -155,6 +224,14 @@ class App extends Component {
 
   handlePageChange = (page, listName) => this.setState({ currentPage: page });
 
+  handleFormChange = e => {
+    const addNewForm = { ...this.state.addNewForm };
+    addNewForm[e.target.name] = PersianNum(e.target.value);
+    const formValidation = FormValidate(e);
+
+    this.setState({ addNewForm, formValidation });
+  };
+
   handleSort = (sortColumn, listName) => this.setState({ sortColumn });
 
   handleDelete = id => {
@@ -167,69 +244,44 @@ class App extends Component {
     const { products } = this.state;
 
     return (
-      <BrowserRouter>
-        <React.Fragment>
-          <Navigation activePage={this.state.activePage} />
-          <div className="m-3">
-            <Switch>
-              {/* <Route
-                path="/Profiles"
-                render={props => (
-                  <Profiles
-                    listName={prop.name}
-                        columns={columns}
-                        items={items}
-                        genres={genres}
-                        selectedGenre={selectedGenre}
-                        sortColumn={sortColumn}
-                        onDeleteTableItem={onDeleteTableItem}
-                        onEditTableItem={onEditTableItem}
-                        onLikeItem={onLikeItem}
-                        currentPage={currentPage}
-                        pageSize={pageSize}
-                        onPageChange={onPageChange}
-                        onGenreChange={onGenreChange}
-                        onSort={onSort}
+      <React.Fragment>
+        <Navigation
+          activePage={this.state.activePage}
+          onRoute={this.handleRouteChange}
+        />
+        <div className="m-3">
+          <Switch>
+            {routes.map((prop, key) => {
+              if (prop.layout === "/Profiles") {
+                return (
+                  <Route
+                    path={prop.layout + prop.path}
+                    key={key}
+                    render={props => (
+                      <prop.component
+                        {...props}
+                        state={this.state}
+                        listName={prop.name}
+                        onShowDetailModal={this.handleShowDetailModal}
+                        onDeleteTableItem={this.handleDeleteTableItem}
+                        onEditTableItem={this.handleEditTableItem}
+                        onLikeItem={this.handleLikeItem}
+                        onPageChange={this.handlePageChange}
+                        onGenreChange={this.handleTypesFilter}
+                        onSort={this.handleSort}
+                        onStep={this.handleFormSteps}
+                        onNewForm={this.handleNewForm}
+                        onFormBack={this.handleFormBack}
+                        onFormChange={this.handleFormChange}
+                      />
+                    )}
                   />
-                )}
-              /> */}
-              {routes.map((prop, key) => {
-                if (prop.layout === "/Profiles") {
-                  return (
-                    <Route
-                      path={prop.layout + prop.path}
-                      key={key}
-                      render={props => (
-                        <prop.component
-                          {...props}
-                          listName={prop.name}
-                          detailedModal={this.state.detailedModal}
-                          showDetailModal={this.showDetailModal}
-                          hideDetailModal={this.hideDetailModal}
-                          columns={this.state.columns}
-                          items={this.state.items}
-                          genres={this.state.types}
-                          selectedGenre={this.state.selectedGenre}
-                          sortColumn={this.state.sortColumn}
-                          onDeleteTableItem={this.handleDeleteTableItem}
-                          onEditTableItem={this.handleEditTableItem}
-                          onLikeItem={this.handleLikeItem}
-                          currentPage={this.state.currentPage}
-                          pageSize={this.state.pageSize}
-                          onPageChange={this.handlePageChange}
-                          onGenreChange={this.handleTypesFilter}
-                          onSort={this.handleSort}
-                          onStep={this.handleFormSteps}
-                        />
-                      )}
-                    />
-                  );
-                }
-              })}
-            </Switch>
-          </div>
-        </React.Fragment>
-      </BrowserRouter>
+                );
+              }
+            })}
+          </Switch>
+        </div>
+      </React.Fragment>
     );
   }
 }

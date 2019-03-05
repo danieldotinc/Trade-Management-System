@@ -16,11 +16,12 @@ export class Navigation extends Component {
     return "nav-item";
   };
   render() {
+    const { onRoute } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="#">
           مدیریت کسب و کار
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -39,19 +40,19 @@ export class Navigation extends Component {
             style={{ textAlign: "right !important" }}
           >
             <li className="nav-item active">
-              <a className="nav-link" href="#">
+              <Link className="nav-link" to="#">
                 داشبورد <span className="sr-only">(current)</span>
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link className="nav-link" to="#">
                 حساب کاربری
-              </a>
+              </Link>
             </li>
             <li className="nav-item dropdown">
-              <a
+              <Link
                 className="nav-link dropdown-toggle"
-                href="#"
+                to="#"
                 id="navbarDropdown"
                 role="button"
                 data-toggle="dropdown"
@@ -59,24 +60,39 @@ export class Navigation extends Component {
                 aria-expanded="false"
               >
                 اشخاص
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="/Profiles/Business">
-                  کسب و کارها
-                </a>
-                <a className="dropdown-item" href="/Profiles/Customer">
-                  مشتریان
-                </a>
+              </Link>
+              <div
+                className="dropdown-menu text-right"
+                aria-labelledby="navbarDropdown"
+              >
+                <Link
+                  className="dropdown-item"
+                  to="/Profiles/Business"
+                  onClick={() => onRoute("/Profiles/Business")}
+                >
+                  کسب و کار
+                </Link>
+                <Link
+                  className="dropdown-item"
+                  to="/Profiles/Customer"
+                  onClick={() => onRoute("/Profiles/Customer")}
+                >
+                  فرد
+                </Link>
                 <div className="dropdown-divider" />
-                <a className="dropdown-item" href="/Profiles/Employee">
-                  کارمندان
-                </a>
+                <Link
+                  className="dropdown-item"
+                  to="/Profiles/Employee"
+                  onClick={() => onRoute("/Profiles/Employee")}
+                >
+                  کارمند
+                </Link>
               </div>
             </li>
             <li className="nav-item">
-              <a className="nav-link disabled" href="#">
+              <Link className="nav-link disabled" to="#">
                 Disabled
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
