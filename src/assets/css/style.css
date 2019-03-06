@@ -19,6 +19,10 @@
   line-height: 1.5em; */
 }
 
+.be-bold {
+  font-weight: 600;
+}
+
 input {
   font-size: 20px !important;
 }

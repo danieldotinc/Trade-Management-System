@@ -18,7 +18,8 @@ import {
   getEmployeeItems,
   deleteEmployeeItem,
   getCustomerItems,
-  deleteCustomerItem
+  deleteCustomerItem,
+  saveItem
 } from "./services/fakeItemService";
 import {
   getBusinessTypes,
@@ -43,21 +44,48 @@ class App extends Component {
     selectedGenre: "all",
     sortColumn: { path: "id", order: "asc" },
     currentPage: 1,
-    pageSize: 3,
+    pageSize: 5,
     personInfo: false,
     personId: 1,
     activePage: "Home",
     detailedModal: {
       state: false,
-      item: { name: "", mobile: "", postalcode: "", telephone: "" }
+      item: {
+        name: "",
+        company: "",
+        type: "",
+        mobile: "",
+        postalCode: "",
+        telephone: "",
+        telExtention: "",
+        state: "",
+        city: "",
+        address: "",
+        credit: "",
+        identityType: ""
+      }
     },
-    addNewForm: { name: "", mobile: "", telephone: "" },
+    addNewForm: {
+      name: "",
+      company: "",
+      type: "",
+      mobile: "",
+      postalCode: "",
+      telephone: "",
+      telExtention: "",
+      state: "",
+      city: "",
+      address: "",
+      credit: "",
+      identityType: "کسب و کار"
+    },
     formStep: 0,
     formValidation: false
   };
 
   handleShowDetailModal = (item, listName) => {
     this.setState({ detailedModal: { state: true, item: item } });
+    this.props.history.push("/Profiles/BusinessProfile");
   };
 
   hideDetailModal = () => {
@@ -68,68 +96,38 @@ class App extends Component {
     this.handleRouteChange(this.props.location.pathname);
   }
 
-  checkForm = formName => {
-    // var res = true;
-    // $("#" + formName + this.state.formStep + " input[required]").each(
-    //   function() {
-    //     // FormValidate(this);
-    //     $("#fullNameInput").change();
-    //     if (
-    //       $(this)
-    //         .val()
-    //         .trim() == ""
-    //     ) {
-    //       res = false;
-    //     }
-    //   }
-    // );
-    // return res;
-    // returning false will prevent the form from submitting.
-    // $("#" + formName + this.state.formStep).on("submit", () => {
-    //   var has_empty = false;
-    //   console.log("here!");
-    //   $(this)
-    //     .find('input[type!="hidden"]')
-    //     .each(() => {
-    //       if (!$(this).val() && $(this).prop("required")) {
-    //         has_empty = true;
-    //         console.log("here!");
-    //         // $(this).trigger("onChange");
-    //         return false;
-    //       }
-    //     });
-    //   if (has_empty) {
-    //     return false;
-    //   }
-    // });
-  };
+  // handleFormSteps = formName => {
+  //   if (this.state.formValidation) {
+  //     $("#" + formName + this.state.formStep).hide();
+  //     $("#" + formName + (this.state.formStep + 1)).show();
+  //     $("#prevBtn").show();
+  //     $("#cancelBtn").hide();
+  //     this.setState({ formStep: this.state.formStep + 1 });
+  //   } else {
+  //     this.checkForm(formName);
+  //   }
+  // };
 
-  handleFormSteps = formName => {
-    if (this.state.formValidation) {
-      $("#" + formName + this.state.formStep).hide();
-      $("#" + formName + (this.state.formStep + 1)).show();
-      $("#prevBtn").show();
-      $("#cancelBtn").hide();
-      this.setState({ formStep: this.state.formStep + 1 });
-    } else {
-      this.checkForm(formName);
-    }
-  };
+  // handleFormBack = formName => {
+  //   $("#" + formName + this.state.formStep).hide();
+  //   $("#" + formName + (this.state.formStep - 1)).show();
+  //   $("#prevBtn").hide();
+  //   $("#cancelBtn").show();
+  //   this.setState({ formStep: this.state.formStep - 1 });
+  // };
 
-  handleFormBack = formName => {
-    $("#" + formName + this.state.formStep).hide();
-    $("#" + formName + (this.state.formStep - 1)).show();
-    $("#prevBtn").hide();
-    $("#cancelBtn").show();
-    this.setState({ formStep: this.state.formStep - 1 });
-  };
+  // handleNewForm = formName => {
+  //   $("#" + formName + 1).show();
+  //   $("#" + formName + 2 + ",#" + formName + 3 + ",#" + formName + 4).hide();
+  //   $("#prevBtn").hide();
+  //   $("#cancelBtn").show();
+  //   this.setState({ formStep: 1 });
+  // };
 
-  handleNewForm = formName => {
-    $("#" + formName + 1).show();
-    $("#" + formName + 2 + ",#" + formName + 3 + ",#" + formName + 4).hide();
-    $("#prevBtn").hide();
-    $("#cancelBtn").show();
-    this.setState({ formStep: 1 });
+  handleNewForm = () => {
+    const addNewForm = { ...this.state.addNewForm };
+    Object.keys(addNewForm).map((keyName, i) => (addNewForm[keyName] = ""));
+    this.setState({ addNewForm });
   };
 
   handleRouteChange = Route => {
@@ -175,8 +173,14 @@ class App extends Component {
     }
   };
 
-  handleEditTableItem = (id, listName) => {
+  handleAddItem = item => {
+    saveItem(item);
+  };
+
+  handleEditTableItem = (item, listName) => {
     if (listName == "business") {
+      this.setState({ addNewForm: item });
+      this.props.history.push("/Profiles/addBusinessPerson");
     } else if (listName == "employee") {
     } else if (listName == "customer") {
     }
@@ -273,6 +277,8 @@ class App extends Component {
                         onNewForm={this.handleNewForm}
                         onFormBack={this.handleFormBack}
                         onFormChange={this.handleFormChange}
+                        onRoute={this.handleRouteChange}
+                        onAddItem={this.handleAddItem}
                       />
                     )}
                   />

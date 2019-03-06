@@ -2,6 +2,8 @@ import BusinessProfiles from "./components/profiles/businessProfiles";
 import CustomerProfiles from "./components/profiles/customerProfiles";
 import EmployeeProfiles from "./components/profiles/employeeProfiles";
 import Home from "./components/Home";
+import AddBusinessPerson from "./components/profiles/addBusinessPerson";
+import BusinessProfile from "./components/profiles/BusinessProfile";
 
 let dashboardRoutes = [
   {
@@ -31,6 +33,20 @@ let dashboardRoutes = [
     rtlName: "کارمندان",
     layout: "/Profiles",
     component: EmployeeProfiles
+  },
+  {
+    path: "/AddBusinessPerson",
+    name: "addPerson",
+    rtlName: "افزودن شخص",
+    layout: "/Profiles",
+    component: AddBusinessPerson
+  },
+  {
+    path: "/BusinessProfile",
+    name: "businessProfile",
+    rtlName: "پروفایل کسب و کار",
+    layout: "/Profiles",
+    component: BusinessProfile
   }
 ];
 

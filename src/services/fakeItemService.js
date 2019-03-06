@@ -5,12 +5,13 @@ const businessItems = [
     id: "1",
     identityType: "کسب و کار",
     name: "حمید مرادی",
+    company: "جهیزیه عروس",
     type: "ظروف چینی",
     telephone: "02155041823",
     telExtention: "210",
-    transaction: "1,546,000",
+    credit: "1,546,000",
     mobile: "09121412400",
-    postalcode: "1987528943",
+    postalCode: "1987528943",
     state: "اراک",
     city: "اراک",
     address:
@@ -20,12 +21,13 @@ const businessItems = [
     id: "2",
     identityType: "کسب و کار",
     name: "سالار اقبالی",
+    company: "آشپزخانه شما",
     type: "جهیزیه",
     telephone: "02155041823",
     telExtention: "210",
-    transaction: "13,780,000",
+    credit: "13,780,000",
     mobile: "09121412400",
-    postalcode: "1987528943",
+    postalCode: "1987528943",
     state: "اصفهان",
     city: "اصفهان",
     address:
@@ -35,12 +37,13 @@ const businessItems = [
     id: "3",
     identityType: "کسب و کار",
     name: "مهدی احمدوند",
+    company: "ابزار پذیرایی",
     type: "ظروف مسی",
     telephone: "02155041823",
     telExtention: "210",
     mobile: "09121412400",
-    postalcode: "1987528943",
-    transaction: "850,000",
+    postalCode: "1987528943",
+    credit: "850,000",
     state: "بندرعباس",
     city: "بندرعباس",
     address:
@@ -50,12 +53,13 @@ const businessItems = [
     id: "4",
     identityType: "کسب و کار",
     name: "شایان پورعماد",
+    company: "دکور مریم",
     type: "دکوراتیو",
     telephone: "02155041823",
     telExtention: "210",
     mobile: "09121412400",
-    postalcode: "1987528943",
-    transaction: "4,562,000",
+    postalCode: "1987528943",
+    credit: "4,562,000",
     state: "شیراز",
     city: "شیراز",
     address:
@@ -65,12 +69,13 @@ const businessItems = [
     id: "5",
     identityType: "کسب و کار",
     name: "سامان شهبازپور",
+    company: "دست سازان",
     type: "صنایع دستی",
     telephone: "02155041823",
     telExtention: "210",
     mobile: "09121412400",
-    postalcode: "1987528943",
-    transaction: "320,000",
+    postalCode: "1987528943",
+    credit: "320,000",
     state: "کرج",
     city: "کرج",
     address:
@@ -80,12 +85,109 @@ const businessItems = [
     id: "6",
     identityType: "کسب و کار",
     name: "بهمن امام",
+    company: "لوازم خانگی امام",
     type: "وسایل برقی",
     telephone: "02155041823",
     telExtention: "210",
     mobile: "09121412400",
-    postalcode: "1987528943",
-    transaction: "16,140,000",
+    postalCode: "1987528943",
+    credit: "16,140,000",
+    state: "تهران",
+    city: "تهران",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
+  },
+  {
+    id: "7",
+    identityType: "کسب و کار",
+    name: "حمید مرادی",
+    company: "جهیزیه عروس",
+    type: "ظروف چینی",
+    telephone: "02155041823",
+    telExtention: "210",
+    credit: "1,546,000",
+    mobile: "09121412400",
+    postalCode: "1987528943",
+    state: "اراک",
+    city: "اراک",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
+  },
+  {
+    id: "8",
+    identityType: "کسب و کار",
+    name: "سالار اقبالی",
+    company: "آشپزخانه شما",
+    type: "جهیزیه",
+    telephone: "02155041823",
+    telExtention: "210",
+    credit: "13,780,000",
+    mobile: "09121412400",
+    postalCode: "1987528943",
+    state: "اصفهان",
+    city: "اصفهان",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
+  },
+  {
+    id: "9",
+    identityType: "کسب و کار",
+    name: "مهدی احمدوند",
+    company: "ابزار پذیرایی",
+    type: "ظروف مسی",
+    telephone: "02155041823",
+    telExtention: "210",
+    mobile: "09121412400",
+    postalCode: "1987528943",
+    credit: "850,000",
+    state: "بندرعباس",
+    city: "بندرعباس",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
+  },
+  {
+    id: "10",
+    identityType: "کسب و کار",
+    name: "شایان پورعماد",
+    company: "دکور مریم",
+    type: "دکوراتیو",
+    telephone: "02155041823",
+    telExtention: "210",
+    mobile: "09121412400",
+    postalCode: "1987528943",
+    credit: "4,562,000",
+    state: "شیراز",
+    city: "شیراز",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
+  },
+  {
+    id: "11",
+    identityType: "کسب و کار",
+    name: "سامان شهبازپور",
+    company: "دست سازان",
+    type: "صنایع دستی",
+    telephone: "02155041823",
+    telExtention: "210",
+    mobile: "09121412400",
+    postalCode: "1987528943",
+    credit: "320,000",
+    state: "کرج",
+    city: "کرج",
+    address:
+      "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
+  },
+  {
+    id: "12",
+    identityType: "کسب و کار",
+    name: "بهمن امام",
+    company: "لوازم خانگی امام",
+    type: "وسایل برقی",
+    telephone: "02155041823",
+    telExtention: "210",
+    mobile: "09121412400",
+    postalCode: "1987528943",
+    credit: "16,140,000",
     state: "تهران",
     city: "تهران",
     address:
@@ -155,42 +257,42 @@ const customerItems = [
     id: "6",
     name: "حمید مرادی",
     type: "ظروف چینی",
-    transaction: "1,546,000",
+    credit: "1,546,000",
     city: "اراک"
   },
   {
     id: "5",
     name: "سالار اقبالی",
     type: "جهیزیه",
-    transaction: "13,780,000",
+    credit: "13,780,000",
     city: "اصفهان"
   },
   {
     id: "4",
     name: "مهدی احمدوند",
     type: "ظروف مسی",
-    transaction: "850,000",
+    credit: "850,000",
     city: "بندرعباس"
   },
   {
     id: "3",
     name: "شایان پورعماد",
     type: "دکوراتیو",
-    transaction: "4,562,000",
+    credit: "4,562,000",
     city: "شیراز"
   },
   {
     id: "2",
     name: "سامان شهبازپور",
     type: "صنایع دستی",
-    transaction: "320,000",
+    credit: "320,000",
     city: "کرج"
   },
   {
     id: "1",
     name: "بهمن امام",
     type: "وسایل برقی",
-    transaction: "16,140,000",
+    credit: "16,140,000",
     city: "تهران"
   }
 ];
@@ -211,20 +313,26 @@ export function getBusinessItem(id) {
   return businessItems.find(m => m.id === id);
 }
 
-// export function saveItem(item) {
-//   let itemInDb = businessItems.find(m => m.id === item.id) || {};
-//   itemInDb.name = item.name;
-//   itemInDb.type = genresAPI.genres.find(g => g._id === movie.genreId);
-//   itemInDb.numberInStock = item.numberInStock;
-//   itemInDb.dailyRentalRate = item.dailyRentalRate;
+export function saveItem(item) {
+  // let itemInDb = businessItems.find(m => m.id === item.id) || {};
+  // itemInDb.name = item.name;
+  // itemInDb.type = genresAPI.genres.find(g => g._id === movie.genreId);
+  // itemInDb.mobile = item.mobile;
+  // itemInDb.telephone = item.telephone;
+  // itemInDb.telExtension = item.mobile;
+  // itemInDb.mobile = item.mobile;
+  // itemInDb.mobile = item.mobile;
+  // itemInDb.mobile = item.mobile;
+  // itemInDb.mobile = item.mobile;
 
-//   if (!itemInDb.id) {
-//     itemInDb.id = Date.now();
-//     businessItems.push(itemInDb);
-//   }
+  // if (!item.id) {
+  //   item.id = Date.now();
+  //   businessItems.push(item);
+  // }
 
-//   return itemInDb;
-// }
+  businessItems.push(item);
+  return item;
+}
 
 export function deleteBusinessItem(id) {
   let itemInDb = businessItems.find(m => m.id === id);

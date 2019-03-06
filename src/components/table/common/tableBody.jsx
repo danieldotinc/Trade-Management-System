@@ -29,8 +29,7 @@ class TableBody extends Component {
             {columns.map(column => (
               <td
                 onClick={() => showDetailModal(item, listName)}
-                data-toggle="modal"
-                data-target="#detailmodal"
+                style={{ cursor: "pointer" }}
                 key={uuid.v4()}
               >
                 {this.renderCell(item, column)}
@@ -42,7 +41,7 @@ class TableBody extends Component {
             <td key={uuid.v4()}>
               <button
                 className="btn btn-dark ml-2"
-                onClick={() => onEditTableItem(item.id, listName)}
+                onClick={() => onEditTableItem(item, listName)}
               >
                 <i className="fa fa-wrench" />
               </button>

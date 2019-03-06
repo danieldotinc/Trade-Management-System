@@ -15,7 +15,7 @@ const MoviesTable = ({
 }) => {
   return (
     <React.Fragment>
-      <div className="m-3 h5">
+      <div className="m-3 h6 mr-5">
         {itemsCount == 0
           ? "هیچ آیتمی برای نمایش وجود ندارد"
           : `تعداد ${itemsCount} آیتم در پایگاه داده وجود دارد.`}

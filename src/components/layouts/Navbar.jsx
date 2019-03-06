@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -11,17 +11,13 @@ import {
 } from "react-bootstrap";
 
 export class Navigation extends Component {
-  getClass = route => {
-    if (this.props.location.pathname == route) return "nav-item active";
-    return "nav-item";
-  };
   render() {
     const { onRoute } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link className="navbar-brand" to="#">
+        <NavLink className="navbar-brand" to="#">
           مدیریت کسب و کار
-        </Link>
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -39,18 +35,18 @@ export class Navigation extends Component {
             className="navbar-nav mr-auto"
             style={{ textAlign: "right !important" }}
           >
-            <li className="nav-item active">
-              <Link className="nav-link" to="#">
+            <li className="nav-item">
+              <NavLink className="nav-link" to="#">
                 داشبورد <span className="sr-only">(current)</span>
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="#">
+              <NavLink className="nav-link" to="#">
                 حساب کاربری
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-item dropdown">
-              <Link
+              <NavLink
                 className="nav-link dropdown-toggle"
                 to="#"
                 id="navbarDropdown"
@@ -60,39 +56,39 @@ export class Navigation extends Component {
                 aria-expanded="false"
               >
                 اشخاص
-              </Link>
+              </NavLink>
               <div
                 className="dropdown-menu text-right"
                 aria-labelledby="navbarDropdown"
               >
-                <Link
+                <NavLink
                   className="dropdown-item"
                   to="/Profiles/Business"
                   onClick={() => onRoute("/Profiles/Business")}
                 >
                   کسب و کار
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   className="dropdown-item"
                   to="/Profiles/Customer"
                   onClick={() => onRoute("/Profiles/Customer")}
                 >
                   فرد
-                </Link>
+                </NavLink>
                 <div className="dropdown-divider" />
-                <Link
+                <NavLink
                   className="dropdown-item"
                   to="/Profiles/Employee"
                   onClick={() => onRoute("/Profiles/Employee")}
                 >
                   کارمند
-                </Link>
+                </NavLink>
               </div>
             </li>
             <li className="nav-item">
-              <Link className="nav-link disabled" to="#">
+              <NavLink className="nav-link disabled" to="#">
                 Disabled
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>

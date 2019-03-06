@@ -14,7 +14,7 @@ const Table = ({
   showDetailModal
 }) => {
   return (
-    <table className="table">
+    <table className="table table-hover">
       <TableHeader
         listName={listName}
         columns={columns}

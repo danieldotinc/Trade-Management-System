@@ -11,7 +11,8 @@ export function PersianNum(input) {
     return persianMap[parseInt(m)];
   });
 }
-const PersianDigit = props => {
+
+export const PersianDigit = props => {
   return PersianNum(props.children);
 };
 

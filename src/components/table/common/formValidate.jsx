@@ -16,6 +16,24 @@ const FormValidate = e => {
     case "telephone":
       pname = "تلفن";
       break;
+    case "telExtension":
+      pname = "تلفن داخلی";
+      break;
+    case "address":
+      pname = "آدرس";
+      break;
+    case "postalCode":
+      pname = "کد پستی";
+      break;
+    case "state":
+      pname = "استان";
+      break;
+    case "city":
+      pname = "شهر";
+      break;
+    case "credit":
+      pname = "اعتبار";
+      break;
   }
   $("#" + e.target.id).removeClass("is-invalid");
   $("#" + e.target.id).removeClass("is-valid");
@@ -23,6 +41,7 @@ const FormValidate = e => {
 
   if (input == "" || input == null || typeof input == "undefined") {
     if ($(e.target).prop("required")) {
+      e.target.setCustomValidity(" ");
       msg = "لطفا " + pname + " را وارد کنید.";
       status = false;
     } else {
@@ -30,6 +49,7 @@ const FormValidate = e => {
     }
   } else if (name == "mobile") {
     if (input.length !== 11 && input.length !== 13) {
+      e.target.setCustomValidity(" ");
       msg = "لطفا " + pname + " را به درستی وارد کنید.";
       status = false;
     }
@@ -42,6 +62,7 @@ const FormValidate = e => {
         '">کاملا درسته</div>'
     );
     $("#" + e.target.id).addClass("is-valid");
+    e.target.setCustomValidity("");
     return true;
   } else if (status === false) {
     $(e.target.parentNode).append(
@@ -52,6 +73,7 @@ const FormValidate = e => {
         "</div>"
     );
     $("#" + e.target.id).addClass("is-invalid");
+    e.preventDefault();
     return false;
   }
 };
