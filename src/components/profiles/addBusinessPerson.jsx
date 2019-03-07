@@ -1,34 +1,48 @@
 import React, { Component } from "react";
 import $ from "jquery";
 import uuid from "uuid";
-import Input from "../form/input";
+import Form from "../form/form";
 
-export class AddBusinessPerson extends Component {
+export class AddBusinessPerson extends Form {
+  state = {
+    data: {
+      name: "",
+      company: "",
+      type: "",
+      mobile: "",
+      postalCode: "",
+      telephone: "",
+      telExtention: "",
+      state: "",
+      city: "",
+      address: "",
+      credit: "",
+      identityType: "کسب و کار"
+    },
+    errors: {}
+  };
+
+  componentDidMount() {
+    this.props.state.editForm
+      ? this.setState({ data: this.props.state.detailedModal.item })
+      : this.handleCleaningForm();
+  }
+
   handleBack = () => {
     this.props.onRoute("/Profiles/Business");
     this.props.history.push("/Profiles/Business");
   };
 
-  handleFormSubmission = e => {
-    e.preventDefault();
-    const addNewForm = this.props.state.addNewForm;
-    addNewForm.id = "15";
-    this.props.onAddItem(addNewForm);
+  doSubmit = data => {
+    console.log("submitted!");
+    this.props.onAddItem(data);
     this.props.onRoute("/Profiles/Business");
     this.props.history.push("/Profiles/Business");
+    this.handleCleaningForm();
   };
 
-  //   handleRequiredEmptyField = e => {
-  //     if ($(e.target).prop("required")) {
-  //       e.target.setCustomValidity("please...");
-  //     } else {
-  //       e.target.setCustomValidity(" ");
-  //       return true;
-  //     }
-  //   };
-
   render() {
-    const { state, onFormChange } = this.props;
+    const { data, onFormChange } = this.state;
     return (
       <React.Fragment>
         <form
@@ -38,110 +52,38 @@ export class AddBusinessPerson extends Component {
         >
           <h5 className="text-center m-5 be-bold">افزودن کسب و کار</h5>
           <div className="row m-2">
-            <button className="btn btn-primary m-2">ذخیره</button>
-            <span className="btn btn-secondary m-2" onClick={this.handleBack}>
-              لغو
-            </span>
+            {this.renderSubmitBtn("ذخیره")}
+            {this.renderCancelBtn("لغو")}
           </div>
           <div className="row">
-            <Input
-              name="name"
-              rtlName="نام و نام خانوادگی"
-              value={state.addNewForm.name}
-              size="3"
-              required="true"
-              onChange={onFormChange}
-            />
-            <Input
-              name="company"
-              rtlName="نام کسب و کار"
-              value={state.addNewForm.company}
-              size="3"
-              required="false"
-              onChange={onFormChange}
-            />
+            {this.renderInput("name", "نام و نام خانوادگی", "3", true)}
+            {this.renderInput("company", "نام کسب و کار", "3", false)}
             <div className="form-group m-4 col-3">
               <label htmlFor="selectInput">حوزه فعالیت</label>
               <select
                 className="form-control form-control-lg"
                 id="TypeInput"
                 name="type"
-                value={state.addNewForm.type}
-                onChange={onFormChange}
+                value={data.type}
+                onChange={this.handleFormChange}
                 required
               >
-                {state.types.map(workType => (
+                {this.props.state.types.map(workType => (
                   <option key={uuid.v4()} value={workType.name}>
                     {workType.name}
                   </option>
                 ))}
               </select>
             </div>
-            <Input
-              name="mobile"
-              rtlName="شماره موبایل"
-              value={state.addNewForm.mobile}
-              size="3"
-              required="true"
-              onChange={onFormChange}
-            />
-            <Input
-              name="telephone"
-              rtlName="تلفن"
-              value={state.addNewForm.telephone}
-              size="3"
-              required="false"
-              onChange={onFormChange}
-            />
-            <Input
-              name="telExtention"
-              rtlName="تلفن داخلی"
-              value={state.addNewForm.telExtention}
-              size="3"
-              required="false"
-              onChange={onFormChange}
-            />
-            <Input
-              name="postalCode"
-              rtlName="کد پستی"
-              value={state.addNewForm.postalCode}
-              size="3"
-              required="false"
-              onChange={onFormChange}
-            />
-            <Input
-              name="state"
-              rtlName="استان"
-              value={state.addNewForm.state}
-              size="3"
-              required="false"
-              onChange={onFormChange}
-            />
-            <Input
-              name="city"
-              rtlName="شهر"
-              value={state.addNewForm.city}
-              size="3"
-              required="false"
-              onChange={onFormChange}
-            />
-            <Input
-              name="address"
-              rtlName="آدرس"
-              value={state.addNewForm.address}
-              size="5"
-              required="false"
-              onChange={onFormChange}
-            />
-            <Input
-              name="credit"
-              rtlName="اعتبار"
-              value={state.addNewForm.credit}
-              size="3"
-              required="false"
-              onChange={onFormChange}
-            />
-            <input type="hidden" name="identityType" value="کسب و کار" />
+            {this.renderInput("mobile", "شماره موبایل", "3", true)}
+            {this.renderInput("telephone", "تلفن", "3", false)}
+            {this.renderInput("telExtention", "تلفن داخلی", "3", false)}
+            {this.renderInput("postalCode", "کد پستی", "3", false)}
+            {this.renderInput("state", "استان", "3", false)}
+            {this.renderInput("city", "شهر", "3", false)}
+            {this.renderInput("address", "آدرس", "5", false)}
+            {this.renderInput("credit", "اعتبار", "3", false)}
+            {this.renderInput("identityType", "", "3", false, "hidden")}
           </div>
         </form>
       </React.Fragment>

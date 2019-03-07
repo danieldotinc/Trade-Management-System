@@ -6,7 +6,7 @@ import PersianDigit, { PersianNum } from "./persiandigit";
 
 class TableBody extends Component {
   renderCell = (item, column) => {
-    return PersianNum(_.get(item, column.path));
+    return _.get(item, column.path);
   };
 
   generateKey = (item, column) => {

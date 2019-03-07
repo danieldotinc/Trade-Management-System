@@ -4,6 +4,11 @@ import Navigation from "./components/layouts/Navbar";
 import routes from "./routes";
 import { PersianNum } from "./components/table/common/persiandigit";
 import FormValidate from "./components/form/formValidate";
+<<<<<<< HEAD
+=======
+
+import Profiles from "./views/profiles/profiles";
+>>>>>>> 77bafbafd755a7f26c6abcae2e8768aba36ab043
 
 import {
   getBusinessItems,
@@ -58,22 +63,8 @@ class App extends Component {
         identityType: ""
       }
     },
-    addNewForm: {
-      name: "",
-      company: "",
-      type: "",
-      mobile: "",
-      postalCode: "",
-      telephone: "",
-      telExtention: "",
-      state: "",
-      city: "",
-      address: "",
-      credit: "",
-      identityType: "کسب و کار"
-    },
-    formStep: 0,
-    formValidation: false
+    editForm: false,
+    formStep: 0
   };
 
   handleShowDetailModal = (item, listName) => {
@@ -118,9 +109,7 @@ class App extends Component {
   // };
 
   handleNewForm = () => {
-    const addNewForm = { ...this.state.addNewForm };
-    Object.keys(addNewForm).map((keyName, i) => (addNewForm[keyName] = ""));
-    this.setState({ addNewForm });
+    this.setState({ editForm: false });
   };
 
   handleRouteChange = Route => {
@@ -172,7 +161,7 @@ class App extends Component {
 
   handleEditTableItem = (item, listName) => {
     if (listName == "business") {
-      this.setState({ addNewForm: item });
+      this.setState({ detailedModal: { state: false, item }, editForm: true });
       this.props.history.push("/Profiles/addBusinessPerson");
     } else if (listName == "employee") {
     } else if (listName == "customer") {
@@ -221,14 +210,6 @@ class App extends Component {
 
   handlePageChange = (page, listName) => this.setState({ currentPage: page });
 
-  handleFormChange = e => {
-    const addNewForm = { ...this.state.addNewForm };
-    addNewForm[e.target.name] = PersianNum(e.target.value);
-    const formValidation = FormValidate(e);
-
-    this.setState({ addNewForm, formValidation });
-  };
-
   handleSort = (sortColumn, listName) => this.setState({ sortColumn });
 
   handleDelete = id => {
@@ -267,11 +248,11 @@ class App extends Component {
                         onGenreChange={this.handleTypesFilter}
                         onSort={this.handleSort}
                         onStep={this.handleFormSteps}
-                        onNewForm={this.handleNewForm}
                         onFormBack={this.handleFormBack}
                         onFormChange={this.handleFormChange}
                         onRoute={this.handleRouteChange}
                         onAddItem={this.handleAddItem}
+                        onNewForm={this.handleNewForm}
                       />
                     )}
                   />

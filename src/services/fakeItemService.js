@@ -2,7 +2,7 @@ import * as genresAPI from "./fakeTypeService";
 
 const businessItems = [
   {
-    id: "1",
+    id: 1,
     identityType: "کسب و کار",
     name: "حمید مرادی",
     company: "جهیزیه عروس",
@@ -18,7 +18,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "2",
+    id: 2,
     identityType: "کسب و کار",
     name: "سالار اقبالی",
     company: "آشپزخانه شما",
@@ -34,7 +34,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "3",
+    id: 3,
     identityType: "کسب و کار",
     name: "مهدی احمدوند",
     company: "ابزار پذیرایی",
@@ -50,7 +50,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "4",
+    id: 4,
     identityType: "کسب و کار",
     name: "شایان پورعماد",
     company: "دکور مریم",
@@ -66,7 +66,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "5",
+    id: 5,
     identityType: "کسب و کار",
     name: "سامان شهبازپور",
     company: "دست سازان",
@@ -82,7 +82,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "6",
+    id: 6,
     identityType: "کسب و کار",
     name: "بهمن امام",
     company: "لوازم خانگی امام",
@@ -98,7 +98,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "7",
+    id: 7,
     identityType: "کسب و کار",
     name: "حمید مرادی",
     company: "جهیزیه عروس",
@@ -114,7 +114,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "8",
+    id: 8,
     identityType: "کسب و کار",
     name: "سالار اقبالی",
     company: "آشپزخانه شما",
@@ -130,7 +130,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "9",
+    id: 9,
     identityType: "کسب و کار",
     name: "مهدی احمدوند",
     company: "ابزار پذیرایی",
@@ -146,7 +146,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "10",
+    id: 10,
     identityType: "کسب و کار",
     name: "شایان پورعماد",
     company: "دکور مریم",
@@ -162,7 +162,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "11",
+    id: 11,
     identityType: "کسب و کار",
     name: "سامان شهبازپور",
     company: "دست سازان",
@@ -178,7 +178,7 @@ const businessItems = [
       "میدان شوش - خیابان فدائیان اسلام - کوچه هفتم - پلاک 9 - واحد 1 و 2"
   },
   {
-    id: "12",
+    id: 12,
     identityType: "کسب و کار",
     name: "بهمن امام",
     company: "لوازم خانگی امام",
@@ -314,23 +314,16 @@ export function getBusinessItem(id) {
 }
 
 export function saveItem(item) {
-  // let itemInDb = businessItems.find(m => m.id === item.id) || {};
-  // itemInDb.name = item.name;
-  // itemInDb.type = genresAPI.genres.find(g => g._id === movie.genreId);
-  // itemInDb.mobile = item.mobile;
-  // itemInDb.telephone = item.telephone;
-  // itemInDb.telExtension = item.mobile;
-  // itemInDb.mobile = item.mobile;
-  // itemInDb.mobile = item.mobile;
-  // itemInDb.mobile = item.mobile;
-  // itemInDb.mobile = item.mobile;
+  let itemInDb = businessItems.find(m => m.id === item.id) || {};
 
-  // if (!item.id) {
-  //   item.id = Date.now();
-  //   businessItems.push(item);
-  // }
+  if (!itemInDb.id) {
+    item.id = 176;
+    businessItems.push(item);
+  } else {
+    businessItems.splice(businessItems.indexOf(itemInDb), 1);
+    businessItems.push(item);
+  }
 
-  businessItems.push(item);
   return item;
 }
 

@@ -20,6 +20,7 @@ const MoviesTable = ({
           ? "هیچ آیتمی برای نمایش وجود ندارد"
           : `تعداد ${itemsCount} آیتم در پایگاه داده وجود دارد.`}
       </div>
+
       <Table
         showDetailModal={showDetailModal}
         listName={listName}
