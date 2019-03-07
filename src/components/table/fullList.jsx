@@ -5,8 +5,13 @@ import ListItem from "./listItem";
 import ListTable from "./listTable";
 import { Link } from "react-router-dom";
 import _ from "lodash";
+import Search from "./common/search";
 
-export class FullList extends Component {
+export class FullList extends Search {
+  state = {
+    search: ""
+  };
+
   render() {
     const {
       listName,
@@ -30,6 +35,17 @@ export class FullList extends Component {
       onNewForm
     } = this.props;
 
+    // const search = this.state.search;
+    // const myitems = { ...items };
+    // if (search != "") {
+    //   myitems = Object.keys(myitems).map((keyName, i) => {
+    //     if (myitems[i][keyName].include(search)) {
+    //       console.log(myitems[i]);
+    //     }
+    //   });
+    // }
+
+    // console.log(SearchedItems);
     const sortedItems = _.orderBy(items, [sortColumn.path], [sortColumn.order]);
     const pageItems = Paginate(sortedItems, pageSize, currentPage);
 
@@ -44,6 +60,7 @@ export class FullList extends Component {
               selectedGenre={selectedGenre}
             />
           </div> */}
+          {this.renderSearch()}
           <ListTable
             showDetailModal={onShowDetailModal}
             listName={listName}
