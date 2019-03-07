@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { Route, Switch, withRouter } from "react-router-dom";
 import Navigation from "./components/layouts/Navbar";
-import uuid from "uuid";
-import $ from "jquery";
-import Home from "./components/Home";
-import Like from "./components/table/common/like";
 import routes from "./routes";
 import { PersianNum } from "./components/table/common/persiandigit";
-import FormValidate from "./components/table/common/formValidate";
-
-import Profiles from "./views/profiles/profiles";
+import FormValidate from "./components/form/formValidate";
 
 import {
   getBusinessItems,

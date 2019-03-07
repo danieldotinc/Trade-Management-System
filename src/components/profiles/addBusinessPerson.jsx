@@ -57,7 +57,7 @@ export class AddBusinessPerson extends Component {
               rtlName="نام کسب و کار"
               value={state.addNewForm.company}
               size="3"
-              required="true"
+              required="false"
               onChange={onFormChange}
             />
             <div className="form-group m-4 col-3">
