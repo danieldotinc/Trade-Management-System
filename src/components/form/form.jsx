@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import React, { Component } from 'react';
-
-class Form extends Component {
-    state = { 
-        date:{}
-     }
-    render() { 
-        return (  );
-    }
-}
- 
-export default Form;
-=======
 import React, { Component } from "react";
 import FormValidate from "./formValidate";
 import { PersianNum } from "../table/common/persiandigit";
@@ -69,4 +55,3 @@ export default class Form extends Component {
     );
   };
 }
->>>>>>> 77bafbafd755a7f26c6abcae2e8768aba36ab043
