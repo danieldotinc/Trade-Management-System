@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import Navigation from "./components/layouts/Navbar";
 import routes from "./routes";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import http from "./services/httpService";
+import config from "./config.json";
 import { PersianNum } from "./components/table/common/persiandigit";
 import FormValidate from "./components/form/formValidate";
 
@@ -150,6 +154,7 @@ class App extends Component {
         employeeItems: getCustomerItems()
       });
     }
+    toast.success("شخص با موفقیت حذف شد.");
   };
 
   handleAddItem = item => {
@@ -220,6 +225,7 @@ class App extends Component {
 
     return (
       <React.Fragment>
+        <ToastContainer />
         <Navigation
           activePage={this.state.activePage}
           onRoute={this.handleRouteChange}
