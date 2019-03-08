@@ -16,17 +16,13 @@ export class FullList extends Component {
 
   handleSearch = search => {
     const { items } = this.props.state;
-    let myitems = { ...items };
     if (search != "") {
-      myitems = [];
-      Object.keys(items).map((keyName, i) => {
-        if (items[i]["name"].includes(search)) {
-          myitems.push(items[i]);
-        }
-      });
+      const filteredItems = items.filter(i => i.name.includes(search));
+      this.props.onPageChange(1);
+      this.setState({ items: filteredItems, search });
+    } else {
+      this.setState({ items, search });
     }
-    this.props.onPageChange(1);
-    this.setState({ items: myitems, search });
   };
 
   render() {
