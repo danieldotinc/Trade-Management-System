@@ -4,11 +4,8 @@ import Navigation from "./components/layouts/Navbar";
 import routes from "./routes";
 import { PersianNum } from "./components/table/common/persiandigit";
 import FormValidate from "./components/form/formValidate";
-<<<<<<< HEAD
-=======
 
 import Profiles from "./views/profiles/profiles";
->>>>>>> 77bafbafd755a7f26c6abcae2e8768aba36ab043
 
 import {
   getBusinessItems,

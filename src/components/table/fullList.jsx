@@ -6,16 +6,32 @@ import ListTable from "./listTable";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 import Search from "./common/search";
+import ItemsCount from "./common/itemsCount";
 
-export class FullList extends Search {
+export class FullList extends Component {
   state = {
+    items: [],
     search: ""
+  };
+
+  handleSearch = search => {
+    const { items } = this.props.state;
+    let myitems = { ...items };
+    if (search != "") {
+      myitems = [];
+      Object.keys(items).map((keyName, i) => {
+        if (items[i]["name"].includes(search)) {
+          myitems.push(items[i]);
+        }
+      });
+    }
+    this.props.onPageChange(1);
+    this.setState({ items: myitems, search });
   };
 
   render() {
     const {
       listName,
-      items,
       columns,
       sortColumn,
       currentPage,
@@ -30,23 +46,16 @@ export class FullList extends Search {
       onEditTableItem,
       onLikeItem,
       onSort,
-      onShowDetailModal,
-      onStep,
-      onNewForm
+      onShowDetailModal
     } = this.props;
 
-    // const search = this.state.search;
-    // const myitems = { ...items };
-    // if (search != "") {
-    //   myitems = Object.keys(myitems).map((keyName, i) => {
-    //     if (myitems[i][keyName].include(search)) {
-    //       console.log(myitems[i]);
-    //     }
-    //   });
-    // }
-
-    // console.log(SearchedItems);
-    const sortedItems = _.orderBy(items, [sortColumn.path], [sortColumn.order]);
+    const searchedItems =
+      this.state.search == "" ? this.props.state.items : this.state.items;
+    const sortedItems = _.orderBy(
+      searchedItems,
+      [sortColumn.path],
+      [sortColumn.order]
+    );
     const pageItems = Paginate(sortedItems, pageSize, currentPage);
 
     return (
@@ -60,12 +69,12 @@ export class FullList extends Search {
               selectedGenre={selectedGenre}
             />
           </div> */}
-          {this.renderSearch()}
+          <Search search={this.state.search} onSearch={this.handleSearch} />
+          <ItemsCount itemsCount={sortedItems.length} />
           <ListTable
             showDetailModal={onShowDetailModal}
             listName={listName}
             sortColumn={sortColumn}
-            itemsCount={items.length}
             onSort={onSort}
             pageItems={pageItems}
             columns={columns}
@@ -77,7 +86,7 @@ export class FullList extends Search {
             listName={listName}
             pageSize={pageSize}
             currentPage={currentPage}
-            itemsCount={items.length}
+            itemsCount={sortedItems.length}
             onPageChange={onPageChange}
           />
         </div>
