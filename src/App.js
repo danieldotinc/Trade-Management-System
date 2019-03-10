@@ -18,18 +18,24 @@ import {
   deleteEmployeeItem,
   getCustomerItems,
   deleteCustomerItem,
-  saveItem
+  saveBusinessItem,
+  savePersonItem,
+  getProductItems,
+  deleteProductItem,
+  saveProductItem
 } from "./services/fakeItemService";
 import {
   getBusinessTypes,
   getEmployeeTypes,
-  getCustomerTypes
+  getCustomerTypes,
+  getProductTypes
 } from "./services/fakeTypeService";
 
 import {
   getBusinessColumns,
   getCustomerColumns,
-  getEmployeeColumns
+  getEmployeeColumns,
+  getProductColumns
 } from "./services/fakeColumnService";
 
 import "./assets/css/style.css";
@@ -40,6 +46,11 @@ class App extends Component {
     items: [],
     types: [],
     columns: [],
+    identityTypes: [
+      { id: 1, name: "کسب و کار" },
+      { id: 2, name: "فرد" },
+      { id: 3, name: "کارمند" }
+    ],
     selectedGenre: "all",
     sortColumn: { path: "id", order: "asc" },
     currentPage: 1,
@@ -49,20 +60,7 @@ class App extends Component {
     activePage: "Home",
     detailedModal: {
       state: false,
-      item: {
-        name: "",
-        company: "",
-        type: "",
-        mobile: "",
-        postalCode: "",
-        telephone: "",
-        telExtention: "",
-        state: "",
-        city: "",
-        address: "",
-        credit: "",
-        identityType: ""
-      }
+      item: {}
     },
     editForm: false,
     formStep: 0
@@ -70,7 +68,15 @@ class App extends Component {
 
   handleShowDetailModal = (item, listName) => {
     this.setState({ detailedModal: { state: true, item: item } });
-    this.props.history.push("/Profiles/BusinessProfile");
+    if (
+      listName == "Business" ||
+      listName == "Person" ||
+      listName == "Employee"
+    ) {
+      this.props.history.push("/Profiles/Profile");
+    } else {
+      this.props.history.push("/Product");
+    }
   };
 
   hideDetailModal = () => {
@@ -81,34 +87,6 @@ class App extends Component {
     this.handleRouteChange(this.props.location.pathname);
   }
 
-  // handleFormSteps = formName => {
-  //   if (this.state.formValidation) {
-  //     $("#" + formName + this.state.formStep).hide();
-  //     $("#" + formName + (this.state.formStep + 1)).show();
-  //     $("#prevBtn").show();
-  //     $("#cancelBtn").hide();
-  //     this.setState({ formStep: this.state.formStep + 1 });
-  //   } else {
-  //     this.checkForm(formName);
-  //   }
-  // };
-
-  // handleFormBack = formName => {
-  //   $("#" + formName + this.state.formStep).hide();
-  //   $("#" + formName + (this.state.formStep - 1)).show();
-  //   $("#prevBtn").hide();
-  //   $("#cancelBtn").show();
-  //   this.setState({ formStep: this.state.formStep - 1 });
-  // };
-
-  // handleNewForm = formName => {
-  //   $("#" + formName + 1).show();
-  //   $("#" + formName + 2 + ",#" + formName + 3 + ",#" + formName + 4).hide();
-  //   $("#prevBtn").hide();
-  //   $("#cancelBtn").show();
-  //   this.setState({ formStep: 1 });
-  // };
-
   handleNewForm = () => {
     this.setState({ editForm: false });
   };
@@ -116,57 +94,102 @@ class App extends Component {
   handleRouteChange = Route => {
     if (Route == "/Profiles/Business")
       return this.setState({
-        listName: "business",
+        listName: "Business",
         items: getBusinessItems(),
         columns: getBusinessColumns(),
-        types: getBusinessTypes()
+        types: getBusinessTypes(),
+        currentPage: 1
       });
     if (Route == "/Profiles/Employee")
       return this.setState({
-        listName: "employee",
+        listName: "Employee",
         items: getEmployeeItems(),
         columns: getEmployeeColumns(),
-        types: getEmployeeTypes()
+        types: getEmployeeTypes(),
+        currentPage: 1
       });
-    if (Route == "/Profiles/Customer")
+    if (Route == "/Profiles/Person")
       return this.setState({
-        listName: "customer",
+        listName: "Person",
         items: getCustomerItems(),
         columns: getCustomerColumns(),
-        types: getCustomerTypes()
+        types: getCustomerTypes(),
+        currentPage: 1
+      });
+    if (Route == "/Products")
+      return this.setState({
+        listName: "Product",
+        items: getProductItems(),
+        columns: getProductColumns(),
+        types: getProductTypes(),
+        currentPage: 1
       });
   };
 
-  handleDeleteTableItem = (id, listName) => {
-    if (listName == "business") {
-      deleteBusinessItem(id);
-      this.setState({
-        businessItems: getBusinessItems()
-      });
-    } else if (listName == "employee") {
-      deleteEmployeeItem(id);
-      this.setState({
-        employeeItems: getEmployeeItems()
-      });
-    } else if (listName == "customer") {
-      deleteCustomerItem(id);
-      this.setState({
-        employeeItems: getCustomerItems()
-      });
+  handleDeleteTableItem = (item, listName) => {
+    switch (listName) {
+      case "Business":
+        deleteBusinessItem(item.id);
+        this.setState({
+          items: getBusinessItems()
+        });
+        break;
+      case "Employee":
+        deleteEmployeeItem(item.id);
+        this.setState({
+          items: getEmployeeItems()
+        });
+        break;
+      case "Person":
+        deleteCustomerItem(item.id);
+        this.setState({
+          items: getCustomerItems()
+        });
+        break;
+      case "Product":
+        deleteProductItem(item.id);
+        this.setState({
+          items: getProductItems()
+        });
     }
-    toast.success("شخص با موفقیت حذف شد.");
+
+    toast.info(item.name + " با موفقیت حذف شد.");
   };
 
   handleAddItem = item => {
-    saveItem(item);
+    switch (this.state.listName) {
+      case "Business":
+        saveBusinessItem(item);
+        break;
+      case "Person":
+        savePersonItem(item);
+        break;
+      case "Product":
+        saveProductItem(item);
+        break;
+    }
+    let msg = "";
+    if (this.state.editForm) msg = " با موفقیت به روزرسانی شد.";
+    else msg = " با موفقیت اضافه شد.";
+
+    toast.info(item.name + msg);
   };
 
   handleEditTableItem = (item, listName) => {
-    if (listName == "business") {
-      this.setState({ detailedModal: { state: false, item }, editForm: true });
-      this.props.history.push("/Profiles/addBusinessPerson");
-    } else if (listName == "employee") {
-    } else if (listName == "customer") {
+    this.setState({ detailedModal: { state: false, item }, editForm: true });
+    switch (listName) {
+      case "Business":
+        this.props.history.push("/Profiles/AddPerson");
+        break;
+      case "Employee":
+        this.props.history.push("/Profiles/AddPerson");
+        break;
+      case "Person":
+        this.props.history.push("/Profiles/AddPerson");
+        break;
+      case "Product":
+        this.props.history.push("/AddProduct");
+        break;
     }
   };
 
@@ -180,7 +203,7 @@ class App extends Component {
   };
 
   handleTypesFilter = (type, listName) => {
-    if (listName == "business") {
+    if (listName == "Business") {
       this.setState({
         items:
           type.name && type.id
@@ -189,7 +212,7 @@ class App extends Component {
         selectedGenre: type == "all" ? "all" : type.name,
         currentPage: 1
       });
-    } else if (listName == "employee") {
+    } else if (listName == "Employee") {
       this.setState({
         items:
           type.name && type.id
@@ -198,7 +221,7 @@ class App extends Component {
         selectedGenre: type == "all" ? "all" : type.name,
         currentPage: 1
       });
-    } else if (listName == "customer") {
+    } else if (listName == "Person") {
       this.setState({
         items:
           type.name && type.id
@@ -233,34 +256,32 @@ class App extends Component {
         <div className="m-3">
           <Switch>
             {routes.map((prop, key) => {
-              if (prop.layout === "/Profiles") {
-                return (
-                  <Route
-                    path={prop.layout + prop.path}
-                    key={key}
-                    render={props => (
-                      <prop.component
-                        {...props}
-                        state={this.state}
-                        listName={prop.name}
-                        onShowDetailModal={this.handleShowDetailModal}
-                        onDeleteTableItem={this.handleDeleteTableItem}
-                        onEditTableItem={this.handleEditTableItem}
-                        onLikeItem={this.handleLikeItem}
-                        onPageChange={this.handlePageChange}
-                        onGenreChange={this.handleTypesFilter}
-                        onSort={this.handleSort}
-                        onStep={this.handleFormSteps}
-                        onFormBack={this.handleFormBack}
-                        onFormChange={this.handleFormChange}
-                        onRoute={this.handleRouteChange}
-                        onAddItem={this.handleAddItem}
-                        onNewForm={this.handleNewForm}
-                      />
-                    )}
-                  />
-                );
-              }
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                  key={key}
+                  render={props => (
+                    <prop.component
+                      {...props}
+                      state={this.state}
+                      listName={prop.name}
+                      onShowDetailModal={this.handleShowDetailModal}
+                      onDeleteTableItem={this.handleDeleteTableItem}
+                      onEditTableItem={this.handleEditTableItem}
+                      onLikeItem={this.handleLikeItem}
+                      onPageChange={this.handlePageChange}
+                      onGenreChange={this.handleTypesFilter}
+                      onSort={this.handleSort}
+                      onStep={this.handleFormSteps}
+                      onFormBack={this.handleFormBack}
+                      onFormChange={this.handleFormChange}
+                      onRoute={this.handleRouteChange}
+                      onAddItem={this.handleAddItem}
+                      onNewForm={this.handleNewForm}
+                    />
+                  )}
+                />
+              );
             })}
           </Switch>
         </div>

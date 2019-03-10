@@ -8,8 +8,8 @@ const Pagination = props => {
   }
   const pages = _.range(1, pagesCount + 1);
   return (
-    <nav>
-      <ul className="pagination">
+    <nav ria-label="Page navigation example">
+      <ul className="pagination" style={{ direction: "ltr" }}>
         {pages.map(page => (
           <li
             className={

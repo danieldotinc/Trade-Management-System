@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { PersianDigit } from "../table/common/persiandigit";
 
-export class BusinessProfile extends Component {
+export class Profile extends Component {
   handleBack = () => {
-    this.props.onRoute("/Profiles/Business");
-    this.props.history.push("/Profiles/Business");
+    this.props.onRoute("/Profiles/" + this.props.state.listName);
+    this.props.history.push("/Profiles/" + this.props.state.listName);
   };
   render() {
     const { detailedModal, listName } = this.props.state;
     return (
       <React.Fragment>
         <div className="card shadow-lg p-3 mb-5 bg-white rounded">
-          <h5 className="text-center m-5 be-bold">جزئیات کسب و کارها</h5>
+          <h5 className="text-center m-3 be-bold">جزئیات کسب و کارها</h5>
           <div className="row m-2">
             <button className="btn btn-primary m-2" onClick={this.handleBack}>
               بازگشت
@@ -27,7 +27,7 @@ export class BusinessProfile extends Component {
             <button
               className="btn btn-danger m-2"
               onClick={() => {
-                this.props.onDeleteTableItem(detailedModal.item.id, listName);
+                this.props.onDeleteTableItem(detailedModal.item, listName);
                 this.props.history.push("/Profiles/Business");
               }}
             >
@@ -125,4 +125,4 @@ export class BusinessProfile extends Component {
   }
 }
 
-export default BusinessProfile;
+export default Profile;

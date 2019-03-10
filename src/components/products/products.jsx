@@ -6,7 +6,7 @@ import { types } from "util";
 import { Link } from "react-router-dom";
 import uuid from "uuid";
 
-export class BusinessProfiles extends Component {
+export class Products extends Component {
   render() {
     const {
       state,
@@ -27,7 +27,7 @@ export class BusinessProfiles extends Component {
     return (
       <React.Fragment>
         <div className="card shadow-lg p-3 mb-5 bg-white rounded">
-          <h5 className="text-center m-3 be-bold">اطلاعات کسب و کارها</h5>
+          <h5 className="text-center m-3 be-bold">اطلاعات محصولات</h5>
 
           <div className="row m-2">
             <Link
@@ -38,6 +38,7 @@ export class BusinessProfiles extends Component {
               افزودن
             </Link>
           </div>
+
           <FullList
             state={state}
             onDeleteTableItem={onDeleteTableItem}
@@ -57,4 +58,4 @@ export class BusinessProfiles extends Component {
   }
 }
 
-export default BusinessProfiles;
+export default Products;

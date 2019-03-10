@@ -256,46 +256,289 @@ const customerItems = [
   {
     id: "6",
     name: "حمید مرادی",
+    identityType: "کسب و کار",
     type: "ظروف چینی",
+    mobile: "09108290313",
+    telephone: "02191008128",
     credit: "1,546,000",
     city: "اراک"
   },
   {
     id: "5",
     name: "سالار اقبالی",
+    identityType: "کسب و کار",
     type: "جهیزیه",
+    mobile: "09108290313",
+    telephone: "02191008128",
     credit: "13,780,000",
     city: "اصفهان"
   },
   {
     id: "4",
     name: "مهدی احمدوند",
+    identityType: "کسب و کار",
     type: "ظروف مسی",
+    mobile: "09108290313",
+    telephone: "02191008128",
     credit: "850,000",
     city: "بندرعباس"
   },
   {
     id: "3",
     name: "شایان پورعماد",
+    identityType: "کسب و کار",
     type: "دکوراتیو",
+    mobile: "09108290313",
+    telephone: "02191008128",
     credit: "4,562,000",
     city: "شیراز"
   },
   {
     id: "2",
     name: "سامان شهبازپور",
+    identityType: "کسب و کار",
     type: "صنایع دستی",
+    mobile: "09108290313",
+    telephone: "02191008128",
     credit: "320,000",
     city: "کرج"
   },
   {
     id: "1",
     name: "بهمن امام",
+    identityType: "کسب و کار",
     type: "وسایل برقی",
+    mobile: "09108290313",
+    telephone: "02191008128",
     credit: "16,140,000",
     city: "تهران"
   }
 ];
+
+const productItems = [
+  {
+    id: 1,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 2,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 3,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    refPrice: 112000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 4,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 6,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 7,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 8,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 9,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 10,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 11,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  },
+  {
+    id: 12,
+    img: "sth.jpg",
+    imgs: ["sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg", "sth.jpg"],
+    category: "سرویس غذاخوری",
+    proCode: 765479,
+    diverseCode: 356,
+    name: "سرویس 11 پارچه غذاخوری لاویوا مدل تیامو",
+    brand: "لاویوا",
+    buyPrice: 85000,
+    refPrice: 112000,
+    breakEvenPrice: 132000,
+    wholePrice: 152000,
+    retailPrice: 185000,
+    marketPlacePrice: 190000,
+    retailStoreStock: 12,
+    wholeStoreStock: 52,
+    virtualStoreStock: 7,
+    boxQuantity: 4
+  }
+];
+
+export function getProductItems() {
+  return productItems;
+}
 
 export function getBusinessItems() {
   return businessItems;
@@ -313,7 +556,7 @@ export function getBusinessItem(id) {
   return businessItems.find(m => m.id === id);
 }
 
-export function saveItem(item) {
+export function saveBusinessItem(item) {
   let itemInDb = businessItems.find(m => m.id === item.id) || {};
 
   if (!itemInDb.id) {
@@ -322,6 +565,34 @@ export function saveItem(item) {
   } else {
     businessItems.splice(businessItems.indexOf(itemInDb), 1);
     businessItems.push(item);
+  }
+
+  return item;
+}
+
+export function savePersonItem(item) {
+  let itemInDb = customerItems.find(m => m.id === item.id) || {};
+
+  if (!itemInDb.id) {
+    item.id = 176;
+    customerItems.push(item);
+  } else {
+    customerItems.splice(customerItems.indexOf(itemInDb), 1);
+    customerItems.push(item);
+  }
+
+  return item;
+}
+
+export function saveProductItem(item) {
+  let itemInDb = productItems.find(m => m.id === item.id) || {};
+
+  if (!itemInDb.id) {
+    item.id = 176;
+    productItems.push(item);
+  } else {
+    productItems.splice(productItems.indexOf(itemInDb), 1);
+    productItems.push(item);
   }
 
   return item;
@@ -342,5 +613,11 @@ export function deleteEmployeeItem(id) {
 export function deleteCustomerItem(id) {
   let itemInDb = customerItems.find(m => m.id === id);
   customerItems.splice(customerItems.indexOf(itemInDb), 1);
+  return itemInDb;
+}
+
+export function deleteProductItem(id) {
+  let itemInDb = productItems.find(m => m.id === id);
+  productItems.splice(productItems.indexOf(itemInDb), 1);
   return itemInDb;
 }

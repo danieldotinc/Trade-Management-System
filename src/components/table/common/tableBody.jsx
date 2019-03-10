@@ -6,7 +6,14 @@ import PersianDigit, { PersianNum } from "./persiandigit";
 
 class TableBody extends Component {
   renderCell = (item, column) => {
-    return _.get(item, column.path);
+    if (column.path == "img")
+      return (
+        <img
+          style={{ maxHeight: "50px", maxWidth: "50px" }}
+          src={require(`../../../${_.get(item, column.path)}`)}
+        />
+      );
+    else return PersianNum(_.get(item, column.path));
   };
 
   generateKey = (item, column) => {
@@ -47,7 +54,7 @@ class TableBody extends Component {
               </button>
               <button
                 className="btn btn-danger"
-                onClick={() => onDeleteTableItem(item.id, listName)}
+                onClick={() => onDeleteTableItem(item, listName)}
               >
                 <i className="fa fa-trash-alt" />
               </button>

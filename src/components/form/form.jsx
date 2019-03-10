@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FormValidate from "./formValidate";
 import { PersianNum } from "../table/common/persiandigit";
 import Input from "./input";
+import Select from "./select";
 
 export default class Form extends Component {
   state = {
@@ -18,7 +19,10 @@ export default class Form extends Component {
 
   handleFormSubmission = e => {
     e.preventDefault();
-    const data = this.state.data;
+    const data = { ...this.state.data };
+    for (let i = 0; i < e.target.length; i++) {
+      data[e.target[i].name] = PersianNum(e.target[i].value);
+    }
     this.doSubmit(data);
   };
 
@@ -40,7 +44,7 @@ export default class Form extends Component {
     );
   };
 
-  renderInput = (name, label, size, required = false, type = "text") => {
+  renderInput = (name, label, size = "3", required = false, type = "text") => {
     const { data } = this.state;
     return (
       <Input
@@ -49,6 +53,20 @@ export default class Form extends Component {
         label={label}
         size={size}
         required={required}
+        value={data[name]}
+        onChange={this.handleFormChange}
+      />
+    );
+  };
+
+  renderSelect = (name, label, options, size = "3") => {
+    const { data } = this.state;
+    return (
+      <Select
+        name={name}
+        label={label}
+        size={size}
+        options={options}
         value={data[name]}
         onChange={this.handleFormChange}
       />

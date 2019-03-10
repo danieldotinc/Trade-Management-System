@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 const Like = props => {
-  let classes = "fa fa-heart";
-  if (!props.movie.liked) classes += "-broken";
+  let classes = "fa fa-bell";
+  if (!props.movie.liked) classes += "-slash";
   return (
     <i
       className={classes}

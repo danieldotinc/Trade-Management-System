@@ -2,51 +2,76 @@ import BusinessProfiles from "./components/profiles/businessProfiles";
 import CustomerProfiles from "./components/profiles/customerProfiles";
 import EmployeeProfiles from "./components/profiles/employeeProfiles";
 import Home from "./components/Home";
-import AddBusinessPerson from "./components/profiles/addBusinessPerson";
-import BusinessProfile from "./components/profiles/BusinessProfile";
+import AddPerson from "./components/profiles/addPerson";
+import Profile from "./components/profiles/Profile";
+import PersonProfiles from "./components/profiles/personProfiles";
+import Products from "./components/products/products";
+import Product from "./components/products/product";
+import AddProduct from "./components/products/addProduct";
 
 let dashboardRoutes = [
   {
     path: "/dashboard",
-    name: "dashboard",
+    name: "Dashboard",
     rtlName: "داشبورد",
     layout: "/admin",
     component: Home
   },
   {
     path: "/Business",
-    name: "business",
+    name: "Business",
     rtlName: "کسب و کارها",
     layout: "/Profiles",
     component: BusinessProfiles
   },
   {
-    path: "/Customer",
-    name: "customer",
-    rtlName: "مشتریان",
+    path: "/Person",
+    name: "Person",
+    rtlName: "فرد",
     layout: "/Profiles",
-    component: CustomerProfiles
+    component: PersonProfiles
   },
   {
     path: "/Employee",
-    name: "employee",
+    name: "Employee",
     rtlName: "کارمندان",
     layout: "/Profiles",
     component: EmployeeProfiles
   },
   {
-    path: "/AddBusinessPerson",
+    path: "/AddPerson",
     name: "addPerson",
     rtlName: "افزودن شخص",
     layout: "/Profiles",
-    component: AddBusinessPerson
+    component: AddPerson
   },
   {
-    path: "/BusinessProfile",
-    name: "businessProfile",
+    path: "/Profile",
+    name: "Profile",
     rtlName: "پروفایل کسب و کار",
     layout: "/Profiles",
-    component: BusinessProfile
+    component: Profile
+  },
+  {
+    path: "/Products",
+    name: "Products",
+    rtlName: "محصولات",
+    layout: "",
+    component: Products
+  },
+  {
+    path: "/Product",
+    name: "Product",
+    rtlName: "محصول",
+    layout: "",
+    component: Product
+  },
+  {
+    path: "/AddProduct",
+    name: "AddProduct",
+    rtlName: "افزودن محصول",
+    layout: "",
+    component: AddProduct
   }
 ];
 

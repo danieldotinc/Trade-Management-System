@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import _ from "lodash";
 import Search from "./common/search";
 import ItemsCount from "./common/itemsCount";
+import { PersianNum } from "./common/persiandigit";
 
 export class FullList extends Component {
   state = {
@@ -65,7 +66,10 @@ export class FullList extends Component {
               selectedGenre={selectedGenre}
             />
           </div> */}
-          <Search search={this.state.search} onSearch={this.handleSearch} />
+          <Search
+            search={PersianNum(this.state.search)}
+            onSearch={this.handleSearch}
+          />
           <ItemsCount itemsCount={sortedItems.length} />
           <ListTable
             showDetailModal={onShowDetailModal}

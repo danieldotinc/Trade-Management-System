@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button
-} from "react-bootstrap";
 
 export class Navigation extends Component {
   render() {
@@ -45,6 +37,15 @@ export class Navigation extends Component {
                 حساب کاربری
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink
+                className="nav-link"
+                to="/Products"
+                onClick={() => onRoute("/Products")}
+              >
+                محصولات
+              </NavLink>
+            </li>
             <li className="nav-item dropdown">
               <NavLink
                 className="nav-link dropdown-toggle"
@@ -70,8 +71,8 @@ export class Navigation extends Component {
                 </NavLink>
                 <NavLink
                   className="dropdown-item"
-                  to="/Profiles/Customer"
-                  onClick={() => onRoute("/Profiles/Customer")}
+                  to="/Profiles/Person"
+                  onClick={() => onRoute("/Profiles/Person")}
                 >
                   فرد
                 </NavLink>
