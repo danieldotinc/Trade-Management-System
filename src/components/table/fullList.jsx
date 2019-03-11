@@ -70,7 +70,7 @@ export class FullList extends Component {
             search={PersianNum(this.state.search)}
             onSearch={this.handleSearch}
           />
-          <ItemsCount itemsCount={sortedItems.length} />
+          <ItemsCount itemsCount={PersianNum(sortedItems.length)} />
           <ListTable
             showDetailModal={onShowDetailModal}
             listName={listName}

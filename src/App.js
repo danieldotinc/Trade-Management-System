@@ -52,7 +52,7 @@ class App extends Component {
       { id: 3, name: "کارمند" }
     ],
     selectedGenre: "all",
-    sortColumn: { path: "id", order: "asc" },
+    sortColumn: { path: "id", order: "desc" },
     currentPage: 1,
     pageSize: 5,
     personInfo: false,

@@ -9,11 +9,21 @@ class TableBody extends Component {
     if (column.path == "img")
       return (
         <img
-          style={{ maxHeight: "50px", maxWidth: "50px" }}
+          style={{ maxHeight: "50px", maxWidth: "50px", borderRadius: "10px" }}
           src={require(`../../../${_.get(item, column.path)}`)}
         />
       );
-    else return PersianNum(_.get(item, column.path));
+    else if (column.path.includes("Price"))
+      return PersianNum(_.get(item, column.path).toLocaleString());
+    else if (
+      column.path == "imgFiles" ||
+      column.path == "imgFile" ||
+      column.path == "file" ||
+      column.path == "files" ||
+      column.path == "imgs"
+    ) {
+      return;
+    } else return PersianNum(_.get(item, column.path));
   };
 
   generateKey = (item, column) => {

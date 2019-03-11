@@ -12,6 +12,10 @@ export class Product extends Component {
       "آی دی",
       "تصویر",
       "گالری",
+      "فایل",
+      "فایل",
+      "فایل",
+      "فایل",
       "دسته بندی",
       "کد محصول",
       "کد تنوع",
@@ -57,12 +61,21 @@ export class Product extends Component {
           <div className="row">
             <div className="m-2 col-5">
               <img
-                style={{ maxHeight: "500px", maxWidth: "500px" }}
+                style={{
+                  height: "500px",
+                  width: "500px",
+                  borderRadius: "10px"
+                }}
                 src={require(`../../${detailedModal.item.img}`)}
               />
+              <hr />
               {detailedModal.item.imgs.map(img => (
                 <img
-                  style={{ maxHeight: "100px", maxWidth: "100px" }}
+                  style={{
+                    maxHeight: "100px",
+                    maxWidth: "100px",
+                    borderRadius: "5px"
+                  }}
                   src={require(`../../${img}`)}
                 />
               ))}
@@ -73,7 +86,11 @@ export class Product extends Component {
                   if (
                     keyName != "id" &&
                     keyName != "img" &&
-                    keyName != "imgs"
+                    keyName != "imgs" &&
+                    keyName != "imgFile" &&
+                    keyName != "imgFiles" &&
+                    keyName != "file" &&
+                    keyName != "files"
                   ) {
                     if (
                       keyName.includes("Price") ||
