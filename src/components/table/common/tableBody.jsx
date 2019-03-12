@@ -10,6 +10,7 @@ class TableBody extends Component {
       return (
         <img
           style={{ maxHeight: "50px", maxWidth: "50px", borderRadius: "10px" }}
+          className="shadow rounded"
           src={require(`../../../${_.get(item, column.path)}`)}
         />
       );
@@ -57,13 +58,13 @@ class TableBody extends Component {
             </td>
             <td key={uuid.v4()}>
               <button
-                className="btn btn-dark ml-2"
+                className="btn btn-raised btn-dark ml-2 shadow rounded"
                 onClick={() => onEditTableItem(item, listName)}
               >
                 <i className="fa fa-wrench" />
               </button>
               <button
-                className="btn btn-danger"
+                className="btn btn-danger shadow rounded"
                 onClick={() => onDeleteTableItem(item, listName)}
               >
                 <i className="fa fa-trash-alt" />

@@ -3,7 +3,10 @@ import React from "react";
 const UploadImg = ({ name, label, size, onChange, ...rest }) => {
   return (
     <div className={`form-group m-4 col-${size}`}>
-      <label htmlFor={`${name}Input`} className="btn btn-secondary">
+      <label
+        htmlFor={`${name}Input`}
+        className="btn btn-secondary shadow-lg rounded"
+      >
         {label}
       </label>
       <input

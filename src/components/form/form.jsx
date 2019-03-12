@@ -60,16 +60,24 @@ export default class Form extends Component {
 
   renderSubmitBtn = label => {
     return (
-      <button type="submit" name="submit" className="btn btn-primary m-2">
-        ذخیره
+      <button
+        type="submit"
+        name="submit"
+        className="btn btn-lg btn-info m-2 shadow-lg rounded"
+        style={{ backgroundColor: "#e91e63", borderColor: "#e91e63" }}
+      >
+        <i className="fa fa-arrow-down" />
       </button>
     );
   };
 
   renderCancelBtn = label => {
     return (
-      <span className="btn btn-secondary m-2" onClick={this.handleBack}>
-        {label}
+      <span
+        className="btn btn-lg btn-secondary m-2 shadow-lg rounded"
+        onClick={this.handleBack}
+      >
+        <i className="fa fa-times" />
       </span>
     );
   };
@@ -121,6 +129,7 @@ export default class Form extends Component {
             maxHeight: "150px",
             borderRadius: "10px"
           }}
+          className="shadow rounded"
           src={data.imgFile}
         />
       );
@@ -133,6 +142,7 @@ export default class Form extends Component {
             height: "120px",
             width: "150px"
           }}
+          className="shadow rounded"
         />
       );
     }
@@ -172,7 +182,7 @@ export default class Form extends Component {
               maxHeight: "150px",
               borderRadius: "10px"
             }}
-            className="m-2"
+            className="m-2 shadow rounded"
             src={data.imgFiles[i]}
           />
         );
@@ -187,6 +197,7 @@ export default class Form extends Component {
             width: "150px",
             marginLeft: "5px"
           }}
+          className="m-2 shadow rounded"
         />
       );
       imgs[1] = (
@@ -198,6 +209,7 @@ export default class Form extends Component {
             width: "150px",
             marginLeft: "5px"
           }}
+          className="m-2 shadow rounded"
         />
       );
       imgs[2] = (
@@ -208,6 +220,7 @@ export default class Form extends Component {
             height: "120px",
             width: "150px"
           }}
+          className="m-2 shadow rounded"
         />
       );
     }

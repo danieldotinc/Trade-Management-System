@@ -37,6 +37,7 @@ export class FullList extends Component {
       selectedGenre
     } = this.props.state;
     const {
+      classes,
       onPageChange,
       onGenreChange,
       onDeleteTableItem,
@@ -71,6 +72,7 @@ export class FullList extends Component {
             onSearch={this.handleSearch}
           />
           <ItemsCount itemsCount={PersianNum(sortedItems.length)} />
+
           <ListTable
             showDetailModal={onShowDetailModal}
             listName={listName}

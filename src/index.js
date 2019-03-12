@@ -4,6 +4,7 @@ import App from "./App";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
+// import "bootstrap-material-design/dist/css/bootstrap-material-design.css";
 import $ from "jquery";
 import Popper from "popper.js";
 import { createBrowserHistory } from "history";
@@ -15,7 +16,6 @@ ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/" component={App} />
-      {/* <Redirect from="/" to="/Home" /> */}
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

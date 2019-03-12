@@ -8,6 +8,7 @@ import PersonProfiles from "./components/profiles/personProfiles";
 import Products from "./components/products/products";
 import Product from "./components/products/product";
 import AddProduct from "./components/products/addProduct";
+import Dashboard from "./components/dashboard/dashboard";
 
 let dashboardRoutes = [
   {
@@ -42,7 +43,7 @@ let dashboardRoutes = [
     path: "/AddPerson",
     name: "addPerson",
     rtlName: "افزودن شخص",
-    layout: "/Profiles",
+    layout: "",
     component: AddPerson
   },
   {
@@ -72,6 +73,13 @@ let dashboardRoutes = [
     rtlName: "افزودن محصول",
     layout: "",
     component: AddProduct
+  },
+  {
+    path: "/Dashboard",
+    name: "Dashboard",
+    rtlName: "داشبورد",
+    layout: "",
+    component: Dashboard
   }
 ];
 

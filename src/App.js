@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import Navigation from "./components/layouts/Navbar";
 import routes from "./routes";
 import { ToastContainer, toast } from "react-toastify";
@@ -43,6 +43,8 @@ import "./assets/css/style.css";
 class App extends Component {
   state = {
     listName: "",
+    pageName: "",
+    addLink: "",
     items: [],
     types: [],
     columns: [],
@@ -95,6 +97,8 @@ class App extends Component {
     if (Route == "/Profiles/Business")
       return this.setState({
         listName: "Business",
+        pageName: "کسب و کارها",
+        addLink: "/AddPerson",
         items: getBusinessItems(),
         columns: getBusinessColumns(),
         types: getBusinessTypes(),
@@ -103,6 +107,8 @@ class App extends Component {
     if (Route == "/Profiles/Employee")
       return this.setState({
         listName: "Employee",
+        pageName: "کارمندان",
+        addLink: "/AddPerson",
         items: getEmployeeItems(),
         columns: getEmployeeColumns(),
         types: getEmployeeTypes(),
@@ -111,18 +117,31 @@ class App extends Component {
     if (Route == "/Profiles/Person")
       return this.setState({
         listName: "Person",
+        pageName: "افراد",
+        addLink: "/AddPerson",
         items: getCustomerItems(),
         columns: getCustomerColumns(),
         types: getCustomerTypes(),
         currentPage: 1
       });
+    if (Route == "/AddPerson")
+      return this.setState({
+        pageName: "افزودن شخص"
+      });
     if (Route == "/Products")
       return this.setState({
         listName: "Product",
+        pageName: "محصولات",
+        addLink: "/AddProduct",
         items: getProductItems(),
         columns: getProductColumns(),
         types: getProductTypes(),
         currentPage: 1
+      });
+    if (Route == "/AddProduct")
+      return this.setState({
+        pageName: "افزودن محصول",
+        types: getProductTypes()
       });
   };
 
@@ -248,42 +267,45 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <ToastContainer />
-        <Navigation
-          activePage={this.state.activePage}
-          onRoute={this.handleRouteChange}
-        />
-        <div className="m-3">
-          <Switch>
-            {routes.map((prop, key) => {
-              return (
-                <Route
-                  path={prop.layout + prop.path}
-                  key={key}
-                  render={props => (
-                    <prop.component
-                      {...props}
-                      state={this.state}
-                      listName={prop.name}
-                      onShowDetailModal={this.handleShowDetailModal}
-                      onDeleteTableItem={this.handleDeleteTableItem}
-                      onEditTableItem={this.handleEditTableItem}
-                      onLikeItem={this.handleLikeItem}
-                      onPageChange={this.handlePageChange}
-                      onGenreChange={this.handleTypesFilter}
-                      onSort={this.handleSort}
-                      onStep={this.handleFormSteps}
-                      onFormBack={this.handleFormBack}
-                      onFormChange={this.handleFormChange}
-                      onRoute={this.handleRouteChange}
-                      onAddItem={this.handleAddItem}
-                      onNewForm={this.handleNewForm}
-                    />
-                  )}
-                />
-              );
-            })}
-          </Switch>
+        <div className="load">
+          <ToastContainer />
+          <Navigation
+            activePage={this.state.activePage}
+            onRoute={this.handleRouteChange}
+          />
+          <div className="m-3">
+            <Switch>
+              {routes.map((prop, key) => {
+                return (
+                  <Route
+                    path={prop.layout + prop.path}
+                    key={key}
+                    render={props => (
+                      <prop.component
+                        {...props}
+                        state={this.state}
+                        listName={prop.name}
+                        onShowDetailModal={this.handleShowDetailModal}
+                        onDeleteTableItem={this.handleDeleteTableItem}
+                        onEditTableItem={this.handleEditTableItem}
+                        onLikeItem={this.handleLikeItem}
+                        onPageChange={this.handlePageChange}
+                        onGenreChange={this.handleTypesFilter}
+                        onSort={this.handleSort}
+                        onStep={this.handleFormSteps}
+                        onFormBack={this.handleFormBack}
+                        onFormChange={this.handleFormChange}
+                        onRoute={this.handleRouteChange}
+                        onAddItem={this.handleAddItem}
+                        onNewForm={this.handleNewForm}
+                      />
+                    )}
+                  />
+                );
+              })}
+              <Redirect from="/" to="/Dashboard" />
+            </Switch>
+          </div>
         </div>
       </React.Fragment>
     );

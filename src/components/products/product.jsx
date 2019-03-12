@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import { PersianNum } from "../table/common/persiandigit";
+import GridItem from "../Grid/GridItem";
+import Card from "../Card/Card";
+import CardBody from "../Card/CardBody";
+import CardHeader from "../Card/CardHeader";
+import withStyles from "@material-ui/core/styles/withStyles";
+import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
 export class Product extends Component {
   handleBack = () => {
@@ -33,99 +39,112 @@ export class Product extends Component {
       "تعداد در جعبه"
     ];
     return (
-      <React.Fragment>
-        <div className="card shadow-lg p-3 mb-5 bg-white rounded">
-          <h5 className="text-center m-3 be-bold">جزئیات محصول</h5>
-          <div className="row m-2">
-            <button className="btn btn-primary m-2" onClick={this.handleBack}>
-              بازگشت
-            </button>
-            <button
-              className="btn btn-dark m-2"
-              onClick={() =>
-                this.props.onEditTableItem(detailedModal.item, listName)
-              }
-            >
-              ویرایش
-            </button>
-            <button
-              className="btn btn-danger m-2"
-              onClick={() => {
-                this.props.onDeleteTableItem(detailedModal.item, listName);
-                this.props.history.push("/Products");
-              }}
-            >
-              حذف
-            </button>
-          </div>
-          <div className="row">
-            <div className="m-2 col-5">
-              <img
-                style={{
-                  height: "500px",
-                  width: "500px",
-                  borderRadius: "10px"
-                }}
-                src={require(`../../${detailedModal.item.img}`)}
-              />
-              <hr />
-              {detailedModal.item.imgs.map(img => (
-                <img
-                  style={{
-                    maxHeight: "100px",
-                    maxWidth: "100px",
-                    borderRadius: "5px"
-                  }}
-                  src={require(`../../${img}`)}
-                />
-              ))}
-            </div>
-            <div className="list-group m-2 mt-5 col-5">
-              <div className="row">
-                {Object.keys(detailedModal.item).map((keyName, i) => {
-                  if (
-                    keyName != "id" &&
-                    keyName != "img" &&
-                    keyName != "imgs" &&
-                    keyName != "imgFile" &&
-                    keyName != "imgFiles" &&
-                    keyName != "file" &&
-                    keyName != "files"
-                  ) {
-                    if (
-                      keyName.includes("Price") ||
-                      keyName.includes("Stock") ||
-                      keyName.includes("Quantity")
-                    ) {
-                      return (
-                        <span className="list-group-item col-6">
-                          {head[i] + " : "}
-                          <span style={{ fontWeight: "600" }}>
-                            {PersianNum(
-                              detailedModal.item[keyName].toLocaleString()
-                            )}
-                          </span>
-                        </span>
-                      );
-                    } else {
-                      return (
-                        <span className="list-group-item col-12">
-                          {head[i] + " : "}
-                          <span style={{ fontWeight: "600" }}>
-                            {PersianNum(detailedModal.item[keyName])}
-                          </span>
-                        </span>
-                      );
-                    }
+      <GridItem xs={12} sm={12} md={12}>
+        <Card>
+          <CardHeader color="warning">
+            <h4 className={this.props.classes.cardTitleWhite}>جزئیات محصول</h4>
+            <p className={this.props.classes.cardCategoryWhite}>
+              جزئیات {detailedModal.item.name}
+            </p>
+          </CardHeader>
+          <CardBody>
+            <React.Fragment>
+              <div className="row m-2">
+                <button
+                  className="btn btn-lg btn-info m-2 shadow rounded"
+                  onClick={this.handleBack}
+                >
+                  <i className="fa fa-arrow-right" />
+                </button>
+                <button
+                  className="btn btn-lg btn-dark m-2 shadow rounded"
+                  onClick={() =>
+                    this.props.onEditTableItem(detailedModal.item, listName)
                   }
-                })}
+                >
+                  <i className="fa fa-wrench" />
+                </button>
+                <button
+                  className="btn btn-lg btn-danger m-2 shadow rounded"
+                  onClick={() => {
+                    this.props.onDeleteTableItem(detailedModal.item, listName);
+                    this.props.history.push("/Products");
+                  }}
+                >
+                  <i className="fa fa-trash-alt" />
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </React.Fragment>
+              <div className="row">
+                <div className="m-2 col-6">
+                  <img
+                    style={{
+                      height: "500px",
+                      width: "500px",
+                      borderRadius: "10px"
+                    }}
+                    src={require(`../../${detailedModal.item.img}`)}
+                  />
+                  <br />
+                  {detailedModal.item.imgs.map(img => (
+                    <img
+                      style={{
+                        maxHeight: "100px",
+                        maxWidth: "100px",
+                        borderRadius: "5px"
+                      }}
+                      className="shadow rounded m-2"
+                      src={require(`../../${img}`)}
+                    />
+                  ))}
+                </div>
+                <div className="list-group m-2 mt-5 col-5">
+                  <div className="row shadow rounded">
+                    {Object.keys(detailedModal.item).map((keyName, i) => {
+                      if (
+                        keyName != "id" &&
+                        keyName != "img" &&
+                        keyName != "imgs" &&
+                        keyName != "imgFile" &&
+                        keyName != "imgFiles" &&
+                        keyName != "file" &&
+                        keyName != "files"
+                      ) {
+                        if (
+                          keyName.includes("Price") ||
+                          keyName.includes("Stock") ||
+                          keyName.includes("Quantity")
+                        ) {
+                          return (
+                            <span className="list-group-item col-6">
+                              {head[i] + " : "}
+                              <span style={{ fontWeight: "600" }}>
+                                {PersianNum(
+                                  detailedModal.item[keyName].toLocaleString()
+                                )}
+                              </span>
+                            </span>
+                          );
+                        } else {
+                          return (
+                            <span className="list-group-item col-12">
+                              {head[i] + " : "}
+                              <span style={{ fontWeight: "600" }}>
+                                {PersianNum(detailedModal.item[keyName])}
+                              </span>
+                            </span>
+                          );
+                        }
+                      }
+                    })}
+                  </div>
+                </div>
+              </div>
+            </React.Fragment>
+          </CardBody>
+        </Card>
+      </GridItem>
     );
   }
 }
 
-export default Product;
+export default withStyles(rtlStyle)(Product);

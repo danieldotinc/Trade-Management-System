@@ -9,7 +9,7 @@ const Search = ({ search, onSearch }) => {
         style={{ fontSize: "30px" }}
       />
       <input
-        className="form-control ml-3 w-25"
+        className="form-control ml-3 w-25 shadow-sm rounded"
         value={search}
         name="search"
         type="text"

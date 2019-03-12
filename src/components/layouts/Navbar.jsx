@@ -28,7 +28,11 @@ export class Navigation extends Component {
             style={{ textAlign: "right !important" }}
           >
             <li className="nav-item">
-              <NavLink className="nav-link" to="#">
+              <NavLink
+                className="nav-link"
+                to="/Dashboard"
+                onClick={() => onRoute("/Dashboard")}
+              >
                 داشبورد <span className="sr-only">(current)</span>
               </NavLink>
             </li>
