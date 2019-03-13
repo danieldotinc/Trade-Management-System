@@ -477,7 +477,501 @@ pug, mustache, ejs ...
 
 =====================================================================================================================
 ---------------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------- Synchronous & Asynchronous --------
+
+
+- Asynchronous or Non-Blocking ==> a single waiter for multiple tables: it take one order from one table and set it 
+	on kitchen desk for chefs to prepare the order and without delay goes to another table and takes their order
+	too.
+
+- Synchronous ==> a waiter take one order from one table and set it on kitchen desk and waits until the order is ready
+	then take the order for table one, then aftar that operation goes to table two for their order!  
+
+example:
+
+	setTimeout(() => { console.log('Reading a user from db ... ') },2000)
+
+
+====================================================================================================================
+--------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------- Callback Functions -----
+
+
+- When the result of an Asynchronous operation is ready the 'Callback function' will be called with the result.
+
+	console.log('Before');
+
+	getUser(1, user => { 
+		console.log('User', user);
+	});
+
+	console.log('After');
+
+	function getUser(id, callback)
+		setTimeout(() => { 
+			console.log('Reading a user from db ... ');
+			callback({ id: id, gitHubUsername: 'Mosh' });
+		},2000);
+	}
+
+
+in the console we get:
+
+	Before
+	After
+	(witing 2 second)
+	Reading a user from db ...
+	User { id: 1, gitHubUsername: 'Mosh' }
+
+=======================================================================================================================
+-----------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------- Promises -----------
+
+
+- A Promise is an object that holds the eventual result of an asynchronous operation. When an Asychronous operation completes
+	it can either result in a value or an error. A promise basically promises you that will give you the result of an 
+	asynchronous operation.
+
+- Promise States:
+
+	- 'Pending' => initially when we create a promise object. at this point it will kik off an asynchronous 
+		operation. 
+		
+	- 'Fulfilled' or 'Resolved' ==>  when the result is ready, the promise can either be 'Fulfilled' or 'Resolved' which 
+		basically means an asynchronous operation completed successfully, so then we will have a value.
+
+	- 'Rejected' ==> otherwise if sth go wrong during the execution of that asynchronous operation, our promise will be at the
+		'Rejected' state.
+
+
+- Anywhere that you have an asynchronous operation that takes a callback, you should modify that function to return a promise.
+
+	const p = new Promise((resolve, reject) => { 
+		
+		// Kick off some async work
+
+		// ...
+
+		setTimeout( ()=>{ 
+
+			resolve({id:1, name: 'daniel'}); // pending => resolved or fulfilled
+			
+			reject(new Error('some error occurred ...')); // pending => rejected
+		
+		 }, 2000);	
+	
+	});
+
+
+	p
+	  .then(result => console.log('Result', result)); // getting the result
+
+	  .catch(err => console.log('Error', err.message)); // getting the error
+
+***************************************************************************************
+
+- Parallel Promises:
+
+	const p1 = new Promise((resolve) => {
+		
+		setTimeout(()=>{
+			cosole.log('Asyncronous operation 1 ...');
+			resolve(1);
+		},2000);
+	});
+
+	const p2 = new Promise((resolve) => {
+		
+		setTimeout(()=>{
+			cosole.log('Asyncronous operation 2 ...');
+			resolve(2);
+		},2000);
+	});
+
+
+	Promise.all([p1, p2])
+		.then(result => console.log(result))  // we get '{1, 2}'
+		.catch(err => console.log('Error', err.message));
+
+- Race Promises:
+
+	instead of Promise.all() ==> we use Promise.race() and we get the answer based on fastest successful operation // 1
+
+
+===============================================================================================================================
+-------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------- Async & Await -----------
+
+
+- Async & Await helps you write asynchronous code like synchronous code !
+
+
+	async function getRepositoris() {
+	
+		try{
+			const user = await getUser(1);
+			const repos = await getRepos(user);
+			console.log(repos);
+
+		} catch (err) {
+			console.log('Error', err.message);
+		}
+
+	}
+
+	getRepositories();
+
+
+
+===============================================================================================================================
+===============================================================================================================================
+===============================================================================================================================
+-------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------- MongoDB & Mongoose -------
+-------------------------------------------------------------------------------------------------------------------------------
+===============================================================================================================================
+===============================================================================================================================
+===============================================================================================================================
+
+
+
+- in command line:
+
+	npm i mongoose
+
+
+- To create a class we use pascal notation (first letter of first word is upercase) => const Product = ...
+
+- To create an object we use camel notation (first letter of first word is lowercase) => const product = ...
+
+
+- in api.js :
+
+	const mongoose = require("mongoose");
+
+
+	// Create a connection
+
+	mongoose
+  		.connect("mongodb://localhost/store-manager")
+  		.then(() => console.log("Connected to MongoDB ..."))
+  		.catch(err => console.error("Could not connect to MongoDB ..."));
+
+	// Create a schema for our collection
+
+	const productSchema = mongoose.Schema({
+
+  		img: String,
+
+  		imgs: [String],
+
+  		proCode: Number,
+
+  		name: String,
+
+  		created: { type: Date, default: Date.now }
+
+	});
+
+	
+	// Create a model of our schema
+
+	const Course = mongoose.model('Product', productSchema);
+
+	
+	
+
+	async function createCourse(){
+		
+		// Create an object instance of our model class for new document
+
+		const course = new Course({
+		
+			img: 'product1.jpg',
+		
+			imgs: [ 'product1-img2', 'product1-img3'],
+
+			proCode: 18654,
+	
+			name: 'Product #1'
+		
+		});
+
+		// insert our document to our collection ih database
+
+		const result = await course.save();
+
+		console.log(result);
+
+	}
+
+	createCourse();
+	
+
+
+
+- after we created a connection to our mongoDB and created a schema of our collection, then we need to compile that into 
+
+	a model which gives us a class, next we can create an object based on our class, and this object maps to a document
+
+	in a mongoDB database.
+
+
+- to 'query' products collection:
+
+	
+	async function getProducts(){
+		
+		const products = await Course
+	
+			.find({img:'product.jpg', name: 'Product #1'}) // filter them by specific details
+					
+			.limit(10)
+
+			.sort({name: -1}) // 1 => asc,  -1 => desc
+
+			.select({name: 1, img: 1}); // select specefic features
+
+		console.log(products);
+
+			
+	}
+
+
+- to use 'comparison operators' in query a collection in mongoDB:
+
+	eq => (equal)
+
+	ne => (not equal)
+
+	gt => (greater than)
+
+	gte => (greater than or equal to)
+
+	lt => (less than)
+
+	lte => (less than or equal to)
+
+	in
+	
+	nin => (not in)
+
+
+	example:
+
+		const products = new Product
+		
+			.find({ price: { $gte: 10000, $lte: 20000 } }) // find products with a price between greater than or equal 
+									// to 10000 and also less than or equal to 20000
+		or
+			
+			.find({ price: { $in: [10000,20000,30000] } }) // find products with a price either 10000,20000 or 30000
+
+
+
+- 'logical' query operators:
+
+	or
+	and
+
+
+	example:
+		
+		const products = new Product
+
+			.find()
+
+			.or( [ { name: 'Product #1' }, { img: 'sth.jpg' } ] )
+
+
+		or
+			
+			.and( [ { name: 'Product #1' }, { img: 'sth.jpg' } ] )
+
+
+
+
+
+- Regular expressions:
+
+	example:
+
+		const products = new Product
+
+			// name starts with 'product'
+
+			.find( { name: /^product/i } ) // i ==> this means case insesitive. no difference between P & p
+
+
+			// name ends with 'product'
+
+			.find( { name: /product$/i } )
+
+
+			// name contains 'product'
+
+			.find( { name: /.*product.*/i } )
+
+
+
+
+
+
+- Count => we can get the number of products in our collection instead of their property
+
+	
+	example: 
+		
+		const products = new Product
+
+			.find()
+			.count();
+
+
+
+- Pagination => get documents for a given page
+
+	example:
+
+		const pageNumber = get from api request ...
+		const pageSize = get from api request ...
+		
+		const products = await Course
+	
+			.find({ category: 'sth' }) 
+
+			.skip((pageNumber - 1) * pageSize)
+					
+			.limit(pageSize)
+
+			.sort({ name: 1 }) // we can rewrite this => .sort('name') and for desc order => .sort('-name')
+
+			.select({ name: 1, img: 1 }); // we can rewrite this => .select('name img')
+
+
+
+	
+- Updating existing documents:
+
+
+	method 1 => find the document and then update it
+
+
+		async function updateCourse(id){
+
+			const course = await Course.findById(id);
+		
+			if(!course) return;
+
+		
+			// method 1		
+
+			course.isPublished = true;
+		
+			course.author = 'Daniel Daneshi'
+
+	
+			// method 2
+
+			course.set({ 
+			
+				isPublished: true,
+
+				author: 'Daniel Daneshi'
+			
+			})
+
+			const result = await course.save();
+		
+			console.log(result);
+		}
+
+
+
+	method 2 => update the document directly
+
+
+		async function updateCourse(id){
+
+			const result = await Course.update( { _id: id }, {
+				
+				$set: {
+
+					author: 'Daniel',
+					isPublished: false
+				}
+			
+			});
+
+			console.log(result)
+
+		}
+
+
+	method 3 => update the document directly and give back the updated document
+
+	
+		
+		async function updateCourse(id){
+
+			const course = await Course.findByIdAndUpdate(id, {
+				
+				$set: {
+
+					author: 'Daniel',
+					isPublished: false
+				}
+			
+			}, { new: true});
+
+			console.log(course); 
+
+		}
+
+
+
+
+
+- Deleting documents:
+
+	
+	method 1 => delete the document and get deleted document
+
+		
+		async function removeCourse(id){
+
+			const course = await Course.findByIdAndRemove(id);
+
+			console.log(course); 
+
+		}
+	
+
+	method 2 => delete one document and return the result
+
+
+
+		async function removeCourse(id){
+
+			const result = await Course.deleteOne({ _id: id });
+
+			console.log(result); 
+
+		}
+
+
+
+	method 3 => delete many document and return the result
+
+
+
+		async function removeCourse(category){
+
+			const result = await Course.deleteMany({ category: category });
+
+			console.log(result); 
+
+		}
 
 
 
@@ -486,40 +980,9 @@ pug, mustache, ejs ...
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+===================================================================================================================================
+-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
 
 
 
