@@ -1109,7 +1109,7 @@ in the console we get:
 ------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------
 
--SchemaType Options:
+- SchemaType Options:
 		
 		const productSchema = mongoose.Schema({
 
@@ -1123,6 +1123,255 @@ in the console we get:
 						// get is called when we read this price from the database
 					       // set is called when we add new item to database
 	
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+- Modeling Relationships : It is a trade off between 'Query Performance' and 'Consistency'
+
+	
+	** method 1: Using references (Normalization) -> Consistency
+
+	
+		let author = {
+
+			name: 'Mosh'
+		}
+
+		let course = {
+	
+			author: 'id'
+		}
+
+
+
+	** method 2: Using embedded documents (Denormalization) -> Performance
+
+
+		let course = {
+
+			author: {
+				
+				name: 'Mosh Hamedani'
+			}
+		}
+
+
+
+	** method 3: Hybrid -> using a snapshot of other document inside the collection
+
+
+		let author = {
+			
+			name: 'Mosh'
+
+			// 50 other properties
+		}
+
+		let course = {
+
+			author:{
+
+				id: 'ref',
+
+				name: 'Mosh'
+			}
+		}
+
+
+
+
+
+
+- Reference example (Population):
+
+
+
+	const Course = mongoose.model('Course', new mongoose.Schema({
+
+		name: String,
+
+		author: {
+
+			type: mongoose.Schema.Types.ObjectId,
+
+			ref: 'Author'
+		},
+				
+		category: {
+			
+			type: mongoose.Schema.Types.ObjectId,
+
+			ref: 'Category'
+		
+		}
+	}));
+
+
+	async function listCourses(){
+
+		const courses = await Course
+
+			.find()
+
+			.populate('author', 'name -_id')
+
+			.populate('category', 'name')
+
+			.select('name author')
+
+	}
+
+
+
+
+- Embedding example:
+
+	
+	const authorSchema = new mongoose.Schema({ 
+
+		name: String,
+		
+		bio: String,
+
+		website: String
+
+	})
+
+
+	const Author = mongoose.model('Author', authorSchema);
+
+	const Course = mongoose.model('Course', new mongoose.Schema({
+
+		name: String,
+
+		author: authorSchema
+	
+	}))
+
+
+
+
+
+- Array of sub-documents:
+
+
+	const Course = mongoose.model('Course', new mongoose.Schema({
+
+		name: String,
+
+		authors: [authorSchema]
+	
+	}))
+
+
+
+	async function createCourse(name, authors){
+
+		const course = new Course({
+
+			name,
+			
+			authors		
+
+		});
+
+		const result = await course.save();
+
+		console.log(result)
+
+	}
+
+	
+
+	async function addAuthor( courseId, author){
+
+		const course = await Course.findById(courseId);
+
+		course.authors.push(author);
+
+		course.save();
+	}
+
+
+
+	async function removeAuthor( courseId, authorId){
+
+		const course = await Course.findById(courseId);
+
+		const author = course.authors.id(authorId);
+
+		author.remove();
+
+		course.save();
+	}
+
+
+
+
+run ->	createCourse('Node Course', [
+
+		new Author({ name: 'Mosh' }),
+
+		new Author({ name: 'John' })
+
+	]);
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+- Transaction in mongoDB by fawn
+
+
+	npm i fawn
+	...
+	
+
+	const mongoose = require('mongoose');
+
+	const Fawn = require('fawn');
+
+	Fawn.init(mongoose);
+
+	...
+
+
+	try{
+
+		new Fawn.Task()
+	
+		    .save('rentals', rental)  // first argument is the name of the collection
+
+		    .update('movies', { _id: movie._id }, {
+
+			  $inc : { numberInStock: -1}
+		    })
+
+		    .run();
+
+		
+		res.send(rental);
+
+
+	} catch(ex) {
+
+		res.status(500).send('internal server error. sth failed...');
+
+		console.log(ex.message);
+	}
+	
+	
+
 
 ===================================================================================================================================
 -----------------------------------------------------------------------------------------------------------------------------------
