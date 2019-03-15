@@ -9,10 +9,8 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    // console.log("Body", req);
-    let product = new Product({ name: req.body.name });
-
-    product = await product.save();
+    const product = new Product({ name: req.body.name });
+    await product.save();
     res.send(product);
   } catch (ex) {
     res.send(ex.message);
