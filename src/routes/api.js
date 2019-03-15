@@ -1,9 +1,9 @@
-const config = require("config");
 const express = require("express");
 const mongoose = require("mongoose");
 const products = require("./products");
 const users = require("./users");
 const auth = require("./auth");
+const config = require("config");
 
 const app = express();
 
@@ -11,7 +11,7 @@ const app = express();
 //   console.log("Fatal Error: jwtPrivateKey is not defined");
 //   process.exit(1);
 // }
-// console.log(config.get("new"));
+// console.log(app.get("dev"));
 
 mongoose
   .connect("mongodb://localhost/store-manager")
