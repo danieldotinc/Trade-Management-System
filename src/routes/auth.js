@@ -1,6 +1,4 @@
-const config = require("config");
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
@@ -14,11 +12,10 @@ router.post("/", async (req, res) => {
   let user = await User.findOne({ username: req.body.username });
   if (!user) return res.status(400).send("Invalid username or password.");
 
-  const validPassword = bcrypt.compare(req.body.password, user.password);
-  if (!validPassword)
-    return res.status(400).send("Invalid username or password.");
+  const validPass = bcrypt.compare(req.body.password, user.password);
+  if (!validPass) return res.status(400).send("Invalid username or password.");
 
-  const token = jwt.sign({ _id: user._id }, "danieldotinc");
+  const token = user.generateAuthToken();
   res.send(token);
 });
 

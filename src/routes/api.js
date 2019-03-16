@@ -1,3 +1,5 @@
+require("express-async-errors");
+const error = require("../middleware/error");
 const express = require("express");
 const mongoose = require("mongoose");
 const products = require("./products");
@@ -7,11 +9,10 @@ const config = require("config");
 
 const app = express();
 
-// if (!config.get("jwtPrivateKey")) {
-//   console.log("Fatal Error: jwtPrivateKey is not defined");
-//   process.exit(1);
-// }
-// console.log(app.get("dev"));
+if (!config.get("jwtPrivateKey")) {
+  console.log("Fatal Error: jwtPrivateKey is not defined");
+  process.exit(1);
+}
 
 mongoose
   .connect("mongodb://localhost/store-manager")
@@ -23,5 +24,7 @@ app.use(express.json());
 app.use("/api/products", products);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
+
+app.use(error);
 
 app.listen(3000);
