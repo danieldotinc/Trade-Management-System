@@ -5,7 +5,7 @@ const { Product } = require("../models/product");
 const router = express.Router();
 
 router.get("/", auth, async (req, res) => {
-  const products = await Produ.find().sort("created");
+  const products = await Product.find().sort("created");
   res.send(products);
 });
 
