@@ -338,10 +338,15 @@ in chrome Postman extension test the api:
 
 
 
-===============================================================================================================================
--------------------------------------------------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------- Confuguration ----------------------
-===============================================================================================================================
+=====================================================================================================================================
+-------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------ Confiuguration ---------------------------
+=====================================================================================================================================
+
+- You should never use your confidential information like admin passwords or JSON web token private keys in your code base, otherwise these information is visible to anyone who has access to your source code.
+
+
+- Use config module to store confidential info about your application in your environment variables.
 
 
 1- create config folder in src folder.
@@ -1370,7 +1375,24 @@ run ->	createCourse('Node Course', [
 		console.log(ex.message);
 	}
 	
-	
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+- ObjectId
+
+	const mongoose = require('mongoose');
+
+	const id = new mongoose.Types.ObjectId();
+
+	console.log(id.getTimestamp());
+
+	const isValid = mongoose.Types.ObjectId.isValid('1234');
+
+	console.log(isValid);
 
 
 ===================================================================================================================================
@@ -1382,6 +1404,215 @@ run ->	createCourse('Node Course', [
 - In order to keep our application maintainable we should ensure that each module is responsible for only one thing. That is the single responsibility principle in practice. 
 
 
+
+===================================================================================================================================
+-----------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------- Information Expert Principle ---------
+===================================================================================================================================
+
+
+- In object-oriented programming we have a principle called 'Information Expert Principle', that mean an object that has enough information and is an expert in a given area, that object should be responsible for making decisions and performin tasks.
+
+for example the user model should be responsible for generating authentication token.
+
+
+
+===================================================================================================================================
+-----------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------- Authentication & Authorization ----------
+===================================================================================================================================
+
+
+- Authentication : is the process of identifying if the user is who they claim they are. That's when we login. So we send our username and password to the server, and the server authenticate us.
+
+- Authorization : is determining if the user has the right permission to perform a given operation
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+- Hashing Passwords: to hash a password we need a 'salt'. A salt is basically a random string that is added before or after the password, so the result of hash password will be different each time based on the salt that is used.
+
+
+- hashing using bcrypt:
+	
+	npm i bcrypt
+	------------------------------------------------------------- in 'users.js' route for creating users:
+	
+	const bcrypt = require("bcrypt");
+
+	....
+
+	const salt = await bcrypt.genSalt(10);
+  	user.password = await bcrypt.hash(user.password, salt);
+	
+	-------------------------------------------------------------- in 'auth.js' for login users:
+
+	const validPassword = bcrypt.compare(req.body.password, user.password);
+  	if (!validPassword) return res.status(400).send("Invalid username or password.");
+	
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+- Adding Authentication: after we check for username and password we give the user a json web token for accessing various pages on 
+	
+	website which needs logged in user for access.
+
+
+   JSON Web Token: it is basically a long string that identifies a user;
+
+
+	npm i jsonwebtoken
+	------------------------------------------------ in auth.js for login users
+
+	const jwt = require("jsonwebtoken");
+
+	...
+
+	const token = jwt.sign({ _id: user._id }, "jwtPrivateKey"); // using config: "jwtPrivateKey" ==> config.ge("jwtPrivateKey")
+	
+	res.send(token);
+
+	----------------------------------------------------------------
+	
+
+- You should never use your confidential information like admin passwords or JSON web token private keys in your code base, otherwise these information is visible to anyone who has access to your source code.
+
+
+- Use config module to store confidential info about your application in your environment variables. see 'Confuguration' section.
+
+
+- Based on "Information Expert Principle", the user model should be responsible for generating authentication token.
+
+- Typically we use arrow functions for stand alone functions. if we want create a method that is part of an object, you should not use an arrow function.
+
+ 
+        -------------------------------------------- in user.js model:
+
+	userSchema.methods.generateAuthToken = function(){
+
+		const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+		return token;
+
+	}
+
+        ------------------------------------------- in auth.js and users.js
+
+	const token = user.generateAuthToken();
+
+	res.send(token);
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+- Adding Headers in response request:
+
+	const token = user.generateAuthToken();
+
+  	res.header("x-auth-token", token).send(_.pick(user, ["_id", "name", "username"]));
+
+
+- Getting Headers in a request:
+
+	const token = req.header('x-auth-token');
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+- Logging Out a user:
+
+	Because we are not storing the JSON Web Token for each user anywhere on the server so we don't need a seperate route handler 
+	to delete this token. so we need to implement the login out feature on the client side not on the server. So on client side 		when the user want to log out we simply delete the token.
+
+	This is a very bad practice store these tokens in database, because these tokens are like keys that give a client access
+	to protected api endpoints. If a hacker can get access to your database, they can see all these tokens for authenticated
+	users.They don't even need to know the password of a user, they simply get their authentication token and send it to the 
+	server to execute requests on behalf of a user, so you should notstore tokens in your database. But if you know what you 
+	are doing, make sure to encrypt it (hash it) before saving it into database.
+
+	So as a security best practice do not store tokens in database and whenever you sending a token from a client to a server
+	make sure you are using https protocol.
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+- Adding Authorization: Some operation like deleting an item should only be available to admin users. With Authorization we give
+
+	access to users for some endpoints.
+
+
+1- First we create a folder "middleware" and then create two files "admin.js" and "auth.js"
+
+2- in user.js model we add 'isAdmin: Boolean' to our userSchema and also to our generateAuthToken method:
+
+	-------------------------------------------------------------------
+
+	userSchema.methods.generateAuthToken = function(){
+
+		const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
+		return token;
+
+	}
+
+	-------------------------------------------------------------------
+
+
+3- in auth.js:
+
+	--------------------------------------------------------------------
+
+	const jwt = require("jsonwebtoken");
+
+	const config = require("config");
+
+	module.exports = function(req, res, next) {
+
+  		const token = req.header("x-auth-token");
+
+  		if (!token) return res.status(401).send("Access denied. No token proided.");
+
+  		try {
+    			const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
+   		 	req.user = decoded;
+    			next();
+  		} catch (ex) {
+    			return res.status(400).send("invalid token.");
+ 		 }
+	};
+
+	---------------------------------------------------------------------
+
+
+
+4- in admin.js:
+
+	---------------------------------------------------------------------
+
+	module.exports = function(req, res, next) {
+
+  		if (!req.user.isAdmin) return res.status(403).send("Access Forbidden!");
+
+  		next();
+
+	};
+
+	---------------------------------------------------------------------
+
+
+
+5- in our router apis we can use auth and admin middleware functions for authentication & authorization.
+
+	router.delete("/:id", [auth, admin], async (req, res) => {
+
+  		// delete operation
+	});
 
 
 
