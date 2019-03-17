@@ -74,7 +74,7 @@ export class AddProduct extends Form {
           <CardBody>
             <form onSubmit={this.handleFormSubmission} id="addnewform1">
               <div className="row m-2">
-                {this.renderSubmitBtn("ذخیره")}
+                {this.renderSubmitBtn()}
                 {this.renderCancelBtn("لغو")}
               </div>
               <div className="row">

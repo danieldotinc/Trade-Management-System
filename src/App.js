@@ -8,6 +8,9 @@ import http from "./services/httpService";
 import config from "./config.json";
 import { PersianNum } from "./components/table/common/persiandigit";
 import FormValidate from "./components/form/formValidate";
+import auth from "./services/authService";
+
+import axios from "axios";
 
 import Profiles from "./views/profiles/profiles";
 
@@ -19,10 +22,7 @@ import {
   getCustomerItems,
   deleteCustomerItem,
   saveBusinessItem,
-  savePersonItem,
-  getProductItems,
-  deleteProductItem,
-  saveProductItem
+  savePersonItem
 } from "./services/fakeItemService";
 import {
   getBusinessTypes,
@@ -39,6 +39,10 @@ import {
 } from "./services/fakeColumnService";
 
 import "./assets/css/style.css";
+import { getProduct } from "./services/productsServices";
+
+const authToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzhjZDllNTJhOTM4YTFmYjAzZGJkMTQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NTI4MDgzMjh9.nqzwBTXg0Xx0SL9LuXF5siUhcqXhOuNAyZihAk38hUI";
 
 class App extends Component {
   state = {
@@ -86,11 +90,70 @@ class App extends Component {
   };
 
   componentDidMount() {
+    const user = auth.getCurrentUser();
+    this.setState({ user });
     this.handleRouteChange(this.props.location.pathname);
   }
 
   handleNewForm = () => {
     this.setState({ editForm: false });
+  };
+
+  getProductItems = async () => {
+    await axios
+      .get("http://localhost:3900/api/products", {
+        headers: {
+          "x-auth-token": authToken //the token is a variable which holds the token
+        }
+      })
+      .then(res => {
+        this.setState({ items: res.data });
+      })
+      .catch(err => console.log(err));
+  };
+
+  deleteProductItem = async id => {
+    const items = [...this.state.items];
+    let itemInDb = items.find(m => m.id === id);
+    items.splice(items.indexOf(itemInDb), 1);
+    this.setState({ items });
+
+    await axios
+      .delete(`http://localhost:3900/api/products/${id}`, {
+        headers: {
+          "x-auth-token": authToken //the token is a variable which holds the token
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+
+  saveProductItem = async item => {
+    const items = [...this.state.items];
+    let itemInDb = items.find(m => m._id === item._id) || {};
+    item.imgFiles = [];
+    item.imgFile = [];
+    item.file = "";
+    item.files = [];
+    console.log(item);
+    if (!itemInDb._id) {
+      items.push(item);
+      this.setState({ items });
+      await axios
+        .post("http://localhost:3900/api/products", item, {
+          headers: {
+            "x-auth-token": authToken //the token is a variable which holds the token
+          }
+        })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => console.log(err));
+    }
+
+    return item;
   };
 
   handleRouteChange = Route => {
@@ -128,16 +191,19 @@ class App extends Component {
       return this.setState({
         pageName: "افزودن شخص"
       });
-    if (Route == "/Products")
+    if (Route == "/Products") {
+      this.getProductItems();
       return this.setState({
         listName: "Product",
         pageName: "محصولات",
         addLink: "/AddProduct",
-        items: getProductItems(),
+
         columns: getProductColumns(),
         types: getProductTypes(),
         currentPage: 1
       });
+    }
+
     if (Route == "/AddProduct")
       return this.setState({
         pageName: "افزودن محصول",
@@ -166,10 +232,8 @@ class App extends Component {
         });
         break;
       case "Product":
-        deleteProductItem(item.id);
-        this.setState({
-          items: getProductItems()
-        });
+        this.deleteProductItem(item._id);
+        this.getProductItems();
     }
 
     toast.info(item.name + " با موفقیت حذف شد.");
@@ -184,7 +248,7 @@ class App extends Component {
         savePersonItem(item);
         break;
       case "Product":
-        saveProductItem(item);
+        this.saveProductItem(item);
         break;
     }
     let msg = "";
@@ -272,6 +336,7 @@ class App extends Component {
           <Navigation
             activePage={this.state.activePage}
             onRoute={this.handleRouteChange}
+            user={this.state.user}
           />
           <div className="m-3">
             <Switch>

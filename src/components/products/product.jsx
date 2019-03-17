@@ -18,10 +18,6 @@ export class Product extends Component {
       "آی دی",
       "تصویر",
       "گالری",
-      "فایل",
-      "فایل",
-      "فایل",
-      "فایل",
       "دسته بندی",
       "کد محصول",
       "کد تنوع",
@@ -101,12 +97,13 @@ export class Product extends Component {
                   <div className="row shadow rounded">
                     {Object.keys(detailedModal.item).map((keyName, i) => {
                       if (
-                        keyName != "id" &&
+                        keyName != "_id" &&
                         keyName != "img" &&
                         keyName != "imgs" &&
                         keyName != "imgFile" &&
                         keyName != "imgFiles" &&
                         keyName != "file" &&
+                        keyName != "__v" &&
                         keyName != "files"
                       ) {
                         if (

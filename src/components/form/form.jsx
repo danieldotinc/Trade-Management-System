@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import FormValidate from "./formValidate";
-import { PersianNum } from "../table/common/persiandigit";
+import { PersianNum, EngNum } from "../table/common/persiandigit";
 import Input from "./input";
 import Select from "./select";
 import UploadImg from "./uploadImg";
@@ -46,7 +46,7 @@ export default class Form extends Component {
         e.target[i].name !== "imgs" &&
         e.target[i].name !== "submit"
       ) {
-        data[e.target[i].name] = PersianNum(e.target[i].value);
+        data[e.target[i].name] = EngNum(e.target[i].value);
       }
     }
     this.doSubmit(data);
@@ -58,15 +58,20 @@ export default class Form extends Component {
     this.setState({ data });
   };
 
-  renderSubmitBtn = label => {
+  renderSubmitBtn = (label = "", color = "info", style = false) => {
+    function getSubmitStyle(style) {
+      if (style === false)
+        return { backgroundColor: "#e91e63", borderColor: "#e91e63" };
+    }
     return (
       <button
         type="submit"
         name="submit"
-        className="btn btn-lg btn-info m-2 shadow-lg rounded"
-        style={{ backgroundColor: "#e91e63", borderColor: "#e91e63" }}
+        className={`btn btn-lg btn-${color} m-2 shadow-lg rounded`}
+        style={getSubmitStyle(style)}
       >
-        <i className="fa fa-arrow-down" />
+        {label === "" && <i className="fa fa-arrow-down" />}
+        {label !== "" && label}
       </button>
     );
   };

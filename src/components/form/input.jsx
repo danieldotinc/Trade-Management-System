@@ -7,7 +7,7 @@ const Input = ({ name, label, size, onChange, ...rest }) => {
       <input
         {...rest}
         name={name}
-        className="form-control form-control shadow rounded"
+        className="form-control shadow rounded"
         id={`${name}Input`}
         onChange={onChange}
         onInvalid={onChange}

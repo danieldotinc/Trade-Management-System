@@ -9,6 +9,9 @@ import Products from "./components/products/products";
 import Product from "./components/products/product";
 import AddProduct from "./components/products/addProduct";
 import Dashboard from "./components/dashboard/dashboard";
+import { Register } from "./components/users/register";
+import { Login } from "./components/users/login";
+import Logout from "./components/users/logout";
 
 let dashboardRoutes = [
   {
@@ -80,6 +83,27 @@ let dashboardRoutes = [
     rtlName: "داشبورد",
     layout: "",
     component: Dashboard
+  },
+  {
+    path: "/Register",
+    name: "Register",
+    rtlName: "ثبت نام",
+    layout: "",
+    component: Register
+  },
+  {
+    path: "/Login",
+    name: "Login",
+    rtlName: "ورود به حساب",
+    layout: "",
+    component: Login
+  },
+  {
+    path: "/Logout",
+    name: "Logout",
+    rtlName: "خروج از حساب",
+    layout: "",
+    component: Logout
   }
 ];
 
