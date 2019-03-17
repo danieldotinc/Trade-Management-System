@@ -1,18 +1,11 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
-import Navigation from "./components/layouts/Navbar";
-import routes from "./routes";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import http from "./services/httpService";
-import config from "./config.json";
-import { PersianNum } from "./components/table/common/persiandigit";
-import FormValidate from "./components/form/formValidate";
+import Navigation from "./components/layouts/Navbar";
+import routes from "./routes";
 import auth from "./services/authService";
-
-import axios from "axios";
-
-import Profiles from "./views/profiles/profiles";
 
 import {
   getBusinessItems,
@@ -30,16 +23,15 @@ import {
   getCustomerTypes,
   getProductTypes
 } from "./services/fakeTypeService";
-
 import {
   getBusinessColumns,
   getCustomerColumns,
   getEmployeeColumns,
   getProductColumns
 } from "./services/fakeColumnService";
+import { getProducts, deleteProduct } from "./services/productsServices";
 
 import "./assets/css/style.css";
-import { getProduct } from "./services/productsServices";
 
 const authToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzhjZDllNTJhOTM4YTFmYjAzZGJkMTQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NTI4MDgzMjh9.nqzwBTXg0Xx0SL9LuXF5siUhcqXhOuNAyZihAk38hUI";
@@ -100,34 +92,22 @@ class App extends Component {
   };
 
   getProductItems = async () => {
-    await axios
-      .get("http://localhost:3900/api/products", {
-        headers: {
-          "x-auth-token": authToken //the token is a variable which holds the token
-        }
-      })
-      .then(res => {
-        this.setState({ items: res.data });
-      })
-      .catch(err => console.log(err));
+    const { data: items } = await getProducts();
+    this.setState({ items });
   };
 
   deleteProductItem = async id => {
-    const items = [...this.state.items];
-    let itemInDb = items.find(m => m.id === id);
-    items.splice(items.indexOf(itemInDb), 1);
+    const originalProducts = [...this.state.items];
+    const items = originalProducts.filter(m => m._id !== id);
     this.setState({ items });
-
-    await axios
-      .delete(`http://localhost:3900/api/products/${id}`, {
-        headers: {
-          "x-auth-token": authToken //the token is a variable which holds the token
-        }
-      })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => console.log(err));
+    try {
+      await deleteProduct(id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        toast.error("این آیتم قبلا حذف شده است.");
+      }
+      this.setState({ items: originalProducts });
+    }
   };
 
   saveProductItem = async item => {
@@ -197,7 +177,6 @@ class App extends Component {
         listName: "Product",
         pageName: "محصولات",
         addLink: "/AddProduct",
-
         columns: getProductColumns(),
         types: getProductTypes(),
         currentPage: 1
@@ -235,8 +214,6 @@ class App extends Component {
         this.deleteProductItem(item._id);
         this.getProductItems();
     }
-
-    toast.info(item.name + " با موفقیت حذف شد.");
   };
 
   handleAddItem = item => {

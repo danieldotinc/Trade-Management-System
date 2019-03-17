@@ -1,6 +1,7 @@
 import http from "./httpService";
+import { apiUrl } from "../config.json";
 
-const apiEndPoint = "http://localhost:3900/api/users";
+const apiEndPoint = `${apiUrl}/users`;
 
 export function register(user) {
   return http.post(apiEndPoint, user);
