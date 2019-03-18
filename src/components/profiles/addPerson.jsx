@@ -12,26 +12,42 @@ import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.j
 export class AddPerson extends Form {
   state = {
     data: {
+      identity: "",
+      identityId: "",
       name: "",
       company: "",
-      type: "",
-      mobile: "",
-      postalCode: "",
+      companyId: "",
+      officeSector: "",
+      officeSectorId: "",
+      marketSector: "",
+      marketSectorId: "",
       telephone: "",
       telExtention: "",
+      mobile: "",
+      postalCode: "",
       state: "",
       city: "",
       address: "",
       credit: "",
-      identityType: ""
+      explanation: ""
     },
     errors: {}
   };
 
   componentDidMount() {
+    this.handleCleaningForm();
+
+    const emptyData = { ...this.state.data };
+    emptyData.identity = this.props.state.identities[0].name;
+    emptyData.identityId = this.props.state.identities[0]._id;
+    emptyData.marketSector = this.props.state.types[0].name;
+    emptyData.marketSectorId = this.props.state.types[0]._id;
+    emptyData.officeSector = this.props.state.sectors[0].name;
+    emptyData.officeSectorId = this.props.state.sectors[0]._id;
+
     this.props.state.editForm
       ? this.setState({ data: this.props.state.detailedModal.item })
-      : this.handleCleaningForm();
+      : this.setState({ data: emptyData });
   }
 
   handleBack = () => {
@@ -47,7 +63,7 @@ export class AddPerson extends Form {
   };
 
   render() {
-    const { pageName, types, identityTypes } = this.props.state;
+    const { pageName, types, identities, sectors } = this.props.state;
     return (
       <React.Fragment>
         <GridItem xs={12} sm={12} md={12}>
@@ -66,8 +82,9 @@ export class AddPerson extends Form {
                 </div>
                 <div className="row">
                   {this.renderInput("name", "نام و نام خانوادگی", "3", true)}
-                  {this.renderSelect("identityType", "هویت", identityTypes)}
-                  {this.renderSelect("type", "حوزه فعالیت", types)}
+                  {this.renderSelect("identity", "هویت", identities)}
+                  {this.renderSelect("officeSector", "واحد سازمانی", sectors)}
+                  {this.renderSelect("marketSector", "حوزه فعالیت", types)}
                   {this.renderInput("company", "نام کسب و کار")}
                   {this.renderInput("mobile", "شماره موبایل", "3", true)}
                   {this.renderInput("telephone", "تلفن")}

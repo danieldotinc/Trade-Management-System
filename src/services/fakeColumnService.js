@@ -21,10 +21,9 @@ export const customerColumns = [
 ];
 
 export const businessColumns = [
-  { label: "ID", path: "id" },
   { label: "نام", path: "name" },
   { label: "نام کسب وکار", path: "company" },
-  { label: "حوزه فعالیت", path: "type" },
+  { label: "حوزه فعالیت", path: "marketSector" },
   { label: "موبایل", path: "mobile" },
   { label: "تلفن", path: "telephone" },
   { label: "داخلی", path: "telExtention" },

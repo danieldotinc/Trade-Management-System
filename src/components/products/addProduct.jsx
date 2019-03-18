@@ -22,6 +22,7 @@ export class AddProduct extends Form {
       file: "",
       files: [],
       category: "",
+      categoryId: 0,
       proCode: "",
       diverseCode: "",
       name: "",
@@ -41,9 +42,13 @@ export class AddProduct extends Form {
   };
 
   componentDidMount() {
+    this.handleCleaningForm();
+    const emptyData = { ...this.state.data };
+    emptyData.category = this.props.state.types[0].name;
+    emptyData.categoryId = this.props.state.types[0]._id;
     this.props.state.editForm
       ? this.setState({ data: this.props.state.detailedModal.item })
-      : this.handleCleaningForm();
+      : this.setState({ data: emptyData });
   }
 
   handleBack = () => {

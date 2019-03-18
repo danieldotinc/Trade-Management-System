@@ -19,6 +19,7 @@ export class Product extends Component {
       "تصویر",
       "گالری",
       "دسته بندی",
+      "آی دی دسته بندی",
       "کد محصول",
       "کد تنوع",
       "عنوان",
@@ -98,6 +99,7 @@ export class Product extends Component {
                     {Object.keys(detailedModal.item).map((keyName, i) => {
                       if (
                         keyName != "_id" &&
+                        keyName != "categoryId" &&
                         keyName != "img" &&
                         keyName != "imgs" &&
                         keyName != "imgFile" &&

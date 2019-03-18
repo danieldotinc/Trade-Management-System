@@ -30,6 +30,18 @@ import {
   getProductColumns
 } from "./services/fakeColumnService";
 import { getProducts, deleteProduct } from "./services/productsServices";
+import { getCategories, deleteCategory } from "./services/categoryService";
+import { getPersons, deletePerson } from "./services/personService";
+import { getIdentities, deleteIdentity } from "./services/identityService";
+import {
+  getMarketSectors,
+  deleteMarketSector
+} from "./services/marketSectorService";
+
+import {
+  getOfficeSectors,
+  deleteOfficeSector
+} from "./services/officeSectorService";
 
 import "./assets/css/style.css";
 
@@ -43,12 +55,9 @@ class App extends Component {
     addLink: "",
     items: [],
     types: [],
+    sectors: [],
     columns: [],
-    identityTypes: [
-      { id: 1, name: "کسب و کار" },
-      { id: 2, name: "فرد" },
-      { id: 3, name: "کارمند" }
-    ],
+    identities: [],
     selectedGenre: "all",
     sortColumn: { path: "id", order: "desc" },
     currentPage: 1,
@@ -96,6 +105,31 @@ class App extends Component {
     this.setState({ items });
   };
 
+  getCategoryItems = async () => {
+    const { data: types } = await getCategories();
+    this.setState({ types });
+  };
+
+  getPersonItems = async () => {
+    const { data: items } = await getPersons();
+    this.setState({ items });
+  };
+
+  getMarketSectorItems = async () => {
+    const { data: types } = await getMarketSectors();
+    this.setState({ types });
+  };
+
+  getIdentityItems = async () => {
+    const { data: identities } = await getIdentities();
+    this.setState({ identities });
+  };
+
+  getOfficeSectorItems = async () => {
+    const { data: sectors } = await getOfficeSectors();
+    this.setState({ sectors });
+  };
+
   deleteProductItem = async id => {
     const originalProducts = [...this.state.items];
     const items = originalProducts.filter(m => m._id !== id);
@@ -137,16 +171,19 @@ class App extends Component {
   };
 
   handleRouteChange = Route => {
-    if (Route == "/Profiles/Business")
+    if (Route == "/Profiles/Business") {
+      this.getPersonItems();
+      this.getMarketSectorItems();
+      this.getIdentityItems();
+      this.getOfficeSectorItems();
       return this.setState({
         listName: "Business",
         pageName: "کسب و کارها",
         addLink: "/AddPerson",
-        items: getBusinessItems(),
         columns: getBusinessColumns(),
-        types: getBusinessTypes(),
         currentPage: 1
       });
+    }
     if (Route == "/Profiles/Employee")
       return this.setState({
         listName: "Employee",
@@ -167,18 +204,21 @@ class App extends Component {
         types: getCustomerTypes(),
         currentPage: 1
       });
-    if (Route == "/AddPerson")
+    if (Route == "/AddPerson") {
+      this.getMarketSectorItems();
+      this.getIdentityItems();
       return this.setState({
         pageName: "افزودن شخص"
       });
+    }
     if (Route == "/Products") {
       this.getProductItems();
+      this.getCategoryItems();
       return this.setState({
         listName: "Product",
         pageName: "محصولات",
         addLink: "/AddProduct",
         columns: getProductColumns(),
-        types: getProductTypes(),
         currentPage: 1
       });
     }

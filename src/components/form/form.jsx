@@ -30,6 +30,14 @@ export default class Form extends Component {
         }
         this.setState({ data });
       }
+    } else if (e.target.type === "select-one") {
+      data[e.target.name] = PersianNum(e.target.value);
+      var index = e.target.selectedIndex;
+      var optionElement = e.target.childNodes[index];
+      var optionId = optionElement.getAttribute("id");
+      data[e.target.name + "Id"] = optionId;
+      const errors = FormValidate(e);
+      this.setState({ data, errors });
     } else {
       data[e.target.name] = PersianNum(e.target.value);
       const errors = FormValidate(e);
