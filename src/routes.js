@@ -85,20 +85,6 @@ let dashboardRoutes = [
     component: Dashboard
   },
   {
-    path: "/Register",
-    name: "Register",
-    rtlName: "ثبت نام",
-    layout: "",
-    component: Register
-  },
-  {
-    path: "/Login",
-    name: "Login",
-    rtlName: "ورود به حساب",
-    layout: "",
-    component: Login
-  },
-  {
     path: "/Logout",
     name: "Logout",
     rtlName: "خروج از حساب",

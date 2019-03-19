@@ -186,7 +186,7 @@ export default class Form extends Component {
   ) => {
     const { data } = this.state;
     let imgs = [];
-    if (data.imgs[0]) {
+    if (data.imgs[0] && data.imgFiles) {
       data.imgs.map((item, i) => {
         imgs[i] = (
           <img

@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./components/layouts/Navbar";
+import ProtectedRoute from "./components/protectedRoute";
 import routes from "./routes";
 import auth from "./services/authService";
 
@@ -29,7 +30,12 @@ import {
   getEmployeeColumns,
   getProductColumns
 } from "./services/fakeColumnService";
-import { getProducts, deleteProduct } from "./services/productsServices";
+import {
+  getProducts,
+  deleteProduct,
+  saveProduct,
+  updateProduct
+} from "./services/productService";
 import { getCategories, deleteCategory } from "./services/categoryService";
 import { getPersons, deletePerson } from "./services/personService";
 import { getIdentities, deleteIdentity } from "./services/identityService";
@@ -44,9 +50,8 @@ import {
 } from "./services/officeSectorService";
 
 import "./assets/css/style.css";
-
-const authToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzhjZDllNTJhOTM4YTFmYjAzZGJkMTQiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NTI4MDgzMjh9.nqzwBTXg0Xx0SL9LuXF5siUhcqXhOuNAyZihAk38hUI";
+import { Login } from "./components/users/login";
+import { Register } from "./components/users/register";
 
 class App extends Component {
   state = {
@@ -147,27 +152,20 @@ class App extends Component {
   saveProductItem = async item => {
     const items = [...this.state.items];
     let itemInDb = items.find(m => m._id === item._id) || {};
-    item.imgFiles = [];
-    item.imgFile = [];
-    item.file = "";
-    item.files = [];
-    console.log(item);
+    delete item.imgFiles;
+    delete item.imgFile;
+    delete item.file;
+    delete item.files;
     if (!itemInDb._id) {
       items.push(item);
       this.setState({ items });
-      await axios
-        .post("http://localhost:3900/api/products", item, {
-          headers: {
-            "x-auth-token": authToken //the token is a variable which holds the token
-          }
-        })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => console.log(err));
+      await saveProduct(item);
+    } else {
+      items.splice(items.indexOf(itemInDb), 1);
+      items.push(item);
+      this.setState({ items });
+      await updateProduct(item);
     }
-
-    return item;
   };
 
   handleRouteChange = Route => {
@@ -344,47 +342,45 @@ class App extends Component {
   };
 
   render() {
-    const { products } = this.state;
+    const { user, activePage } = this.state;
 
     return (
       <React.Fragment>
         <div className="load">
           <ToastContainer />
           <Navigation
-            activePage={this.state.activePage}
+            activePage={activePage}
             onRoute={this.handleRouteChange}
-            user={this.state.user}
+            user={user}
           />
           <div className="m-3">
             <Switch>
               {routes.map((prop, key) => {
                 return (
-                  <Route
+                  <ProtectedRoute
                     path={prop.layout + prop.path}
                     key={key}
-                    render={props => (
-                      <prop.component
-                        {...props}
-                        state={this.state}
-                        listName={prop.name}
-                        onShowDetailModal={this.handleShowDetailModal}
-                        onDeleteTableItem={this.handleDeleteTableItem}
-                        onEditTableItem={this.handleEditTableItem}
-                        onLikeItem={this.handleLikeItem}
-                        onPageChange={this.handlePageChange}
-                        onGenreChange={this.handleTypesFilter}
-                        onSort={this.handleSort}
-                        onStep={this.handleFormSteps}
-                        onFormBack={this.handleFormBack}
-                        onFormChange={this.handleFormChange}
-                        onRoute={this.handleRouteChange}
-                        onAddItem={this.handleAddItem}
-                        onNewForm={this.handleNewForm}
-                      />
-                    )}
+                    component={prop.component}
+                    state={this.state}
+                    listName={prop.name}
+                    onShowDetailModal={this.handleShowDetailModal}
+                    onDeleteTableItem={this.handleDeleteTableItem}
+                    onEditTableItem={this.handleEditTableItem}
+                    onLikeItem={this.handleLikeItem}
+                    onPageChange={this.handlePageChange}
+                    onGenreChange={this.handleTypesFilter}
+                    onSort={this.handleSort}
+                    onStep={this.handleFormSteps}
+                    onFormBack={this.handleFormBack}
+                    onFormChange={this.handleFormChange}
+                    onRoute={this.handleRouteChange}
+                    onAddItem={this.handleAddItem}
+                    onNewForm={this.handleNewForm}
                   />
                 );
               })}
+              <Route path="/Login" component={Login} />
+              <Route path="/Register" component={Register} />
               <Redirect from="/" to="/Dashboard" />
             </Switch>
           </div>

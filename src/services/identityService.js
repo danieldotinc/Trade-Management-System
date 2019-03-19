@@ -1,21 +1,10 @@
 import http from "./httpService";
 import { apiUrl } from "../config.json";
 
-const authToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzhjZDllNTJhOTM4YTFmYjAzZGJkMTQiLCJuYW1lIjoiU2FyYWggU2VpZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTU1Mjg5MDUzNn0.Z4ZO88JbLyDnSoZ9lVXiKaSE2F7qZUO05sTxnzugeJQ";
-
 export async function getIdentities() {
-  return http.get(`${apiUrl}/identities`, {
-    headers: {
-      "x-auth-token": authToken //the token is a variable which holds the token
-    }
-  });
+  return http.get(`${apiUrl}/identities`);
 }
 
 export async function deleteCategory(id) {
-  return http.delete(`${apiUrl}/identities/${id}`, {
-    headers: {
-      "x-auth-token": authToken //the token is a variable which holds the token
-    }
-  });
+  return http.delete(`${apiUrl}/identities/${id}`);
 }

@@ -13,7 +13,7 @@ export class Product extends Component {
     this.props.history.push("/Products");
   };
   render() {
-    const { detailedModal, listName } = this.props.state;
+    const { user, detailedModal, listName } = this.props.state;
     const head = [
       "آی دی",
       "تصویر",
@@ -61,15 +61,20 @@ export class Product extends Component {
                 >
                   <i className="fa fa-wrench" />
                 </button>
-                <button
-                  className="btn btn-lg btn-danger m-2 shadow rounded"
-                  onClick={() => {
-                    this.props.onDeleteTableItem(detailedModal.item, listName);
-                    this.props.history.push("/Products");
-                  }}
-                >
-                  <i className="fa fa-trash-alt" />
-                </button>
+                {user.isAdmin && (
+                  <button
+                    className="btn btn-lg btn-danger m-2 shadow rounded"
+                    onClick={() => {
+                      this.props.onDeleteTableItem(
+                        detailedModal.item,
+                        listName
+                      );
+                      this.props.history.push("/Products");
+                    }}
+                  >
+                    <i className="fa fa-trash-alt" />
+                  </button>
+                )}
               </div>
               <div className="row">
                 <div className="m-2 col-6">

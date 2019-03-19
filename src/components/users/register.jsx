@@ -23,12 +23,6 @@ export class Register extends Form {
     errors: {}
   };
 
-  componentDidMount() {
-    this.props.state.editForm
-      ? this.setState({ data: this.props.state.detailedModal.item })
-      : this.handleCleaningForm();
-  }
-
   doSubmit = async data => {
     try {
       const response = await userService.register(data);
@@ -43,7 +37,6 @@ export class Register extends Form {
   };
 
   render() {
-    const { types: categories } = this.props.state;
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>

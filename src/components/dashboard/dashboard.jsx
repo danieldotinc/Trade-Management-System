@@ -23,7 +23,6 @@ import Cloud from "@material-ui/icons/Cloud";
 import Button from "../CustomButtons/Button.jsx";
 import GridItem from "../Grid/GridItem.jsx";
 import GridContainer from "../Grid/GridContainer.jsx";
-import ListTable from "../table/listTable";
 import Tasks from "../Tasks/Tasks.jsx";
 import CustomTabs from "../CustomTabs/CustomTabs.jsx";
 import Danger from "../Typography/Danger.jsx";
@@ -267,30 +266,6 @@ class Dashboard extends React.Component {
                   close
                   rtlActive
                   color="info"
-                />
-              </CardBody>
-            </Card>
-          </GridItem>
-
-          <GridItem xs={12} sm={12} md={12}>
-            <Card>
-              <CardHeader color="warning">
-                <h4 className={classes.cardTitleWhite}>آمار کارکنان</h4>
-                <p className={classes.cardCategoryWhite}>
-                  کارکنان جدید از ۱۵ آبان ۱۳۹۶
-                </p>
-              </CardHeader>
-              <CardBody>
-                <ListTable
-                  showDetailModal={onShowDetailModal}
-                  listName={state.listName}
-                  sortColumn={state.sortColumn}
-                  onSort={onSort}
-                  pageItems={state.items}
-                  columns={state.columns}
-                  onDeleteTableItem={onDeleteTableItem}
-                  onEditTableItem={onEditTableItem}
-                  onLikeItem={onLikeItem}
                 />
               </CardBody>
             </Card>

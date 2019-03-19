@@ -3,6 +3,7 @@ import TableHeader from "../table/common/tableHeader";
 import TableBody from "../table/common/tableBody";
 
 const Table = ({
+  user,
   listName,
   columns,
   sortColumn,
@@ -22,6 +23,7 @@ const Table = ({
         onSort={onSort}
       />
       <TableBody
+        user={user}
         listName={listName}
         showDetailModal={showDetailModal}
         onDeleteTableItem={onDeleteTableItem}

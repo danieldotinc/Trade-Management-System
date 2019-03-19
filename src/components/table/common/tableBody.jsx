@@ -32,6 +32,7 @@ class TableBody extends Component {
   };
   render() {
     const {
+      user,
       pageItems,
       columns,
       onDeleteTableItem,
@@ -63,12 +64,14 @@ class TableBody extends Component {
               >
                 <i className="fa fa-wrench" />
               </button>
-              <button
-                className="btn btn-danger shadow rounded"
-                onClick={() => onDeleteTableItem(item, listName)}
-              >
-                <i className="fa fa-trash-alt" />
-              </button>
+              {user.isAdmin && (
+                <button
+                  className="btn btn-danger shadow rounded"
+                  onClick={() => onDeleteTableItem(item, listName)}
+                >
+                  <i className="fa fa-trash-alt" />
+                </button>
+              )}
             </td>
           </tr>
         ))}

@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import Pagination from "./common/pagination";
 import Paginate from "./common/paginate";
 import ListItem from "./listItem";
-import ListTable from "./listTable";
-import { Link } from "react-router-dom";
+import Table from "../table/table";
 import _ from "lodash";
 import Search from "./common/search";
 import ItemsCount from "./common/itemsCount";
@@ -28,15 +27,7 @@ export class FullList extends Component {
 
   render() {
     const {
-      listName,
-      columns,
-      sortColumn,
-      currentPage,
-      pageSize,
-      types,
-      selectedGenre
-    } = this.props.state;
-    const {
+      state,
       classes,
       onPageChange,
       onGenreChange,
@@ -46,6 +37,17 @@ export class FullList extends Component {
       onSort,
       onShowDetailModal
     } = this.props;
+
+    const {
+      user,
+      listName,
+      columns,
+      sortColumn,
+      currentPage,
+      pageSize,
+      types,
+      selectedGenre
+    } = state;
 
     const searchedItems =
       this.state.search == "" ? this.props.state.items : this.state.items;
@@ -72,8 +74,8 @@ export class FullList extends Component {
             onSearch={this.handleSearch}
           />
           <ItemsCount itemsCount={PersianNum(sortedItems.length)} />
-
-          <ListTable
+          <Table
+            user={user}
             showDetailModal={onShowDetailModal}
             listName={listName}
             sortColumn={sortColumn}
