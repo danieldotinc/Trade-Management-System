@@ -13,7 +13,7 @@ export class Profile extends Component {
     this.props.history.push("/Profiles/" + this.props.state.listName);
   };
   render() {
-    const { detailedModal, listName } = this.props.state;
+    const { user, detailedModal, listName } = this.props.state;
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -27,28 +27,33 @@ export class Profile extends Component {
             <React.Fragment>
               <div className="row m-2">
                 <button
-                  className="btn btn-primary m-2"
+                  className="btn btn-lg btn-info m-2 shadow rounded"
                   onClick={this.handleBack}
                 >
-                  بازگشت
+                  <i className="fa fa-arrow-right" />
                 </button>
                 <button
-                  className="btn btn-dark m-2"
+                  className="btn btn-lg btn-dark m-2 shadow rounded"
                   onClick={() =>
                     this.props.onEditTableItem(detailedModal.item, listName)
                   }
                 >
-                  ویرایش
+                  <i className="fa fa-wrench" />
                 </button>
-                <button
-                  className="btn btn-danger m-2"
-                  onClick={() => {
-                    this.props.onDeleteTableItem(detailedModal.item, listName);
-                    this.props.history.push("/Profiles/Business");
-                  }}
-                >
-                  حذف
-                </button>
+                {user.isAdmin && (
+                  <button
+                    className="btn btn-lg btn-danger m-2 shadow rounded"
+                    onClick={() => {
+                      this.props.onDeleteTableItem(
+                        detailedModal.item,
+                        listName
+                      );
+                      this.props.history.push("/Products");
+                    }}
+                  >
+                    <i className="fa fa-trash-alt" />
+                  </button>
+                )}
               </div>
               <p className="list-group m-2">
                 <span className="list-group-item">

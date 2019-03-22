@@ -15,8 +15,7 @@ import {
   deleteEmployeeItem,
   getCustomerItems,
   deleteCustomerItem,
-  saveBusinessItem,
-  savePersonItem
+  saveBusinessItem
 } from "./services/fakeItemService";
 import {
   getBusinessTypes,
@@ -37,8 +36,14 @@ import {
   updateProduct
 } from "./services/productService";
 import { getCategories, deleteCategory } from "./services/categoryService";
-import { getPersons, deletePerson } from "./services/personService";
+import {
+  getPersons,
+  deletePerson,
+  savePerson,
+  updatePerson
+} from "./services/personService";
 import { getIdentities, deleteIdentity } from "./services/identityService";
+import { getCompanies, deleteCompany } from "./services/companyService";
 import {
   getMarketSectors,
   deleteMarketSector
@@ -63,6 +68,7 @@ class App extends Component {
     sectors: [],
     columns: [],
     identities: [],
+    companies: [],
     selectedGenre: "all",
     sortColumn: { path: "id", order: "desc" },
     currentPage: 1,
@@ -130,6 +136,11 @@ class App extends Component {
     this.setState({ identities });
   };
 
+  getCompanyItems = async () => {
+    const { data: companies } = await getCompanies();
+    this.setState({ companies });
+  };
+
   getOfficeSectorItems = async () => {
     const { data: sectors } = await getOfficeSectors();
     this.setState({ sectors });
@@ -168,11 +179,27 @@ class App extends Component {
     }
   };
 
+  savePersonItem = async item => {
+    const items = [...this.state.items];
+    let itemInDb = items.find(m => m._id === item._id) || {};
+    if (!itemInDb._id) {
+      items.push(item);
+      this.setState({ items });
+      await savePerson(item);
+    } else {
+      items.splice(items.indexOf(itemInDb), 1);
+      items.push(item);
+      this.setState({ items });
+      await updatePerson(item);
+    }
+  };
+
   handleRouteChange = Route => {
     if (Route == "/Profiles/Business") {
       this.getPersonItems();
       this.getMarketSectorItems();
       this.getIdentityItems();
+      this.getCompanyItems();
       this.getOfficeSectorItems();
       return this.setState({
         listName: "Business",
@@ -205,6 +232,7 @@ class App extends Component {
     if (Route == "/AddPerson") {
       this.getMarketSectorItems();
       this.getIdentityItems();
+      this.getCompanyItems();
       return this.setState({
         pageName: "افزودن شخص"
       });
@@ -257,10 +285,10 @@ class App extends Component {
   handleAddItem = item => {
     switch (this.state.listName) {
       case "Business":
-        saveBusinessItem(item);
+        this.savePersonItem(item);
         break;
       case "Person":
-        savePersonItem(item);
+        this.savePersonItem(item);
         break;
       case "Product":
         this.saveProductItem(item);
@@ -277,13 +305,13 @@ class App extends Component {
     this.setState({ detailedModal: { state: false, item }, editForm: true });
     switch (listName) {
       case "Business":
-        this.props.history.push("/Profiles/AddPerson");
+        this.props.history.push("/AddPerson");
         break;
       case "Employee":
-        this.props.history.push("/Profiles/AddPerson");
+        this.props.history.push("/AddPerson");
         break;
       case "Person":
-        this.props.history.push("/Profiles/AddPerson");
+        this.props.history.push("/AddPerson");
         break;
       case "Product":
         this.props.history.push("/AddProduct");

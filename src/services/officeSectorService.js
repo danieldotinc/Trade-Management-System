@@ -1,10 +1,9 @@
 import http from "./httpService";
-import { apiUrl } from "../config.json";
 
 export async function getOfficeSectors() {
-  return http.get(`${apiUrl}/officeSectors`);
+  return http.get(`/officeSectors`);
 }
 
 export async function deleteMarketSector(id) {
-  return http.delete(`${apiUrl}/officeSectors/${id}`);
+  return http.delete(`/officeSectors/${id}`);
 }

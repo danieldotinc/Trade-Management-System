@@ -33,7 +33,6 @@ export const businessColumns = [
 ];
 
 export const productColumns = [
-  { label: "ID", path: "id" },
   { label: "عکس", path: "img" },
   { label: "دسته بندی", path: "category" },
   { label: "کد محصول", path: "proCode" },
@@ -43,8 +42,6 @@ export const productColumns = [
   { label: "قیمت مرجع", path: "refPrice" },
   { label: "قیمت عمده", path: "wholePrice" },
   { label: "قیمت تکی", path: "retailPrice" },
-  // { label: "موجودی", path: "stock" },
-  // { label: "تعداد در کارتن", path: "boxQuantity" },
   { label: "", path: "" }
 ];
 

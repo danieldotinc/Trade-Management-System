@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import Form from "../form/form";
 import { EngNum } from "../table/common/persiandigit";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,7 +26,8 @@ export class Login extends Form {
     try {
       await auth.login(data);
       this.handleCleaningForm();
-      window.location = "/Dashboard";
+      const { state } = this.props.location;
+      window.location = state ? state.from.pathname : "/Dashboard";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         toast.info("نام کاربری یا رمز عبور اشتباه است.");
@@ -34,6 +36,7 @@ export class Login extends Form {
   };
 
   render() {
+    // if (auth.getCurrentUser()) return <Redirect to="/Dashboard" />;
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>

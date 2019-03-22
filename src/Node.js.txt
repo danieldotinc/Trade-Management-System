@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------------------------------------------------------------
----------Node and React Course by Mosh Hamedani--------------------------------------------------------------------------------------
+---------Node Course by Mosh Hamedani--------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------
 =====================================================================================================================================
 -------------------------------------------------------------------------------------------------------------------------------------
@@ -1617,13 +1617,325 @@ for example the user model should be responsible for generating authentication t
 
 
 
+===========================================================================================================================
+---------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------ Unit Testing -------------
+---------------------------------------------------------------------------------------------------------------------------
+===========================================================================================================================
+
+
+- what is automated testing?
+
+	The practice of writing code to test our code, and then run those tests in an automated fashion.
+
+	With automated testing our source code consist of production code (application code) and test code.
+
+	As your application grows in size and complexity the time require to manually test all the different pieces
+	
+	increases exponentially. so thats why we use automated testing.
+
+	With automated testing you write code and directly call your functions with different inputs and verify that this
+	
+	function returns the right output. Automated test are repeatable. You can rerun these tests every time you change
+	
+	your code, every time you commit your code to a repository and before deploying your application. 
+
+	You can write several hundreds or thouthands of automated tests for various parts of your application and run them
+	
+	all in just a few seconds.
+
+	
+- Benefits:
+
+	1- Test your code frequently, in less time
+
+	2- Catch the bugs before deploying
+
+	3- Deploy with confidence
+
+	4- Refactor with confidence 
+
+	5- Focus more on the quality
+
+
+- Refactoring: Changing the structure of the code without changing its behavior. If you extract a few lines of a
+		
+	method into a seperat private method. thats refactoring. if you rename a method thats refactoring too.
+	
+	you changing the structure of your code to make it cleaner and more maintainable, but you are not changing
+
+	the functionality.
+
+
+- When you don't have automated tests. Every time you refactor your code. You have to manually test every part of your 
+	
+	application that could be affected by your refactoring. This is very painfull because first of all it is time
+
+	consuming and second as your application grows. You may forget about parts that need to be tested. With automated
+
+	tests, every time you refactor your code, you run your tests and make sure you didn't break anything that use to 
+	
+	previously work.
 
 
 
+- Types of automated tests: 
+
+	1- Unit Tests
+
+	2- Integration Tests
+
+	3- End-to-End Tests
+
+
+- Unit Tests: 
+
+	Tests a unit of an application without its external dependencies, such as files, databases, message ques, web
+	services and so on. They are cheap to write and they execute fast. This way we can verify that each building block
+	in your application is working as expected. Since you are not testing these classes or components with their
+	external depencencies, you can't get a lot of confidence in the reliability of your application. Thats where 
+	integration test come to the rescue.
+
+- Integration Tests:
+
+	Tests the application (a class or a component or multiple classes) with its external dependencies. So it tests the 		integration of your application code with these concrete dependencies like files, databases and so on. These test
+	take longer to execute because they often involve reading or writing to a database. They give you more confidence
+	in the health of your application.
+
+- End-to-End Tests:
+
+	Drives an application through its user interface (UI). There are specific tools built for creating end-to-end
+	tests. One popular tool is Selenium which allows us to record the interaction of a user with our application and
+	then play it back and check if the application returning the right results or not. These tests give you the 
+	greatest amount of confidence about the health of your application, but they have two big problems. First they are
+	very slow. Because they are require the lunch of your application and testing it through the UI. So every test
+	going to lunch the application, potentially log in, navigate to an internal page, submit a form and expect a
+	result. Very slow! The second problem is that they are very brittle, because a small enhancement to the application
+	or a small change in the user interface can easily break these tests.
 
 
 
+						 /\
+						//\\
+					       //  \\
+					      //    \\
+					     //  B2B \\
+					    //========\\
+					   //          \\
+					  // Integration\\
+					 //              \\
+					//================\\
+				       //                  \\
+				      //                    \\
+				     //	     Unit Tests      \\
+				    //                        \\
+				   //                          \\
+				   ==============================
+				     
+
+-Test Pyramid => 
+
+	this pyramid argues that most of your tests should be in the category of unit tests. Because these 
+	tests are easy to write and they execute quickly. But since they don't give you much confidence about the health
+	of your application you should have a bunch of integration tests that tests the integration of your application 
+	code with its external dependencies. These tests provide many advantages of end to end tests but without the 
+	complexities of dealing with the user interface. And finally you should write few E2E tests for the key functions
+	of the application, but you should not test the H cases with these E2E tests. You only test the happy path and 
+	leave the H cases to a unit test
+
+	BUT
+
+	This is pyramid is just a guide line. It's not a hard and fast rule that you need to follow in every application.
+	The actual ratio between Unit, Integration and E2E tests depends on your project.
+
+
+	Unit tests are great for quickly testing the logic, like conditional statements and loops. If you have methods with
+	complex logic and calculations you should test them with unit tests.
+
+	Takeaways:
+	
+	1- Favour unit tests to e2e tests. because they are fastest to run and cheapest write they are very precice so
+		they can pin point exactly where sth fails.they give you rapid feedback. 
+
+	2- Cover unit test gaps with integration tests.
+
+	3- Use e2e tests sparingly. Only for thekey functions of your application
+
+
+- The number of unit tests you have for a given function should be greater than or equal to the number of execution paths.
+	With unit tests we wanna make sure that all the execution paths in a given function are covered. We are testing all
+	the logic throughlly.
+
+- Your tests should neigther be too specific, nor too general.
+
+- As a rule of thumb, use unit tests for testing functions with algorithms that have zero or minimal dependency to 		external resources. Trying to avoid making too many mocks. If you are doing too much mocking, its better to write
+	an integration test.
+
+
+- In order to unit test a function that directly or indirectly talks to an external resource we should use Integration
+	test, but if we want to test only the logic with the unit test, we can replace those references to
+ 	external functions with 'mock' functions (fake functions).
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+- Jest => a framework for unit testing.
+
+	npm i jest --save-dev
+
+
+- Go to package.json and set:
+
+	"scripts":{
+	
+		"test": "jest --watchAll"
+	}
+
+- run in terminal:
+
+	npm test
+
+
+- create a 'tests' directory and create files with the 'sth.test.js' ending name.
+
+- in sth.test.js:
+
+	const lib = require('../lib.js');
+
+
+	//Testing Numbers
+
+	describe('absolute func', () => {
+
+		// When testing floating numbers, we can not use 'toBe()' method, because of how floating numbers are
+	       //	stored in computers, instead we should use 'toBeCloseTo()'.
+	
+		it('Should return a positive number if the input is positive number', () => {
+			const result = lib.absolute(1);
+			expect(result).toBe(1);
+		});
+
+		it('Should return a positive number if the input is negative number', () => {
+			const result = lib.absolute(-1);
+			expect(result).toBe(1);
+		})
+
+		it('Should return 0 if the input is 0', () => {
+			const result = lib.absolute(0);
+			expect(result).toBe(0);
+		})
+	
+		// We also have 'toBeGreaterThan()', 'toBeLessThan()', 'toBeGreaterThanOrEqual()', 'toBeLessThanOrEqual()'
+	       //	'toEqual()', ....
+
+	})
+
+
+	// Testing Strings
+
+	describe('greet func', () => {
+
+		// When testing strings make sure your tests are not too specific.
+	
+		it('Should return the greeting message', () => {
+			const result = lib.greet('Daniel');
+			expect(result).toMatch(/Daniel/);  // Or expect(result).toContain('Daniel');
+		})
+	}
+
+
+	// Testing arrays
+
+	describe('getCurrencies func', () => {
+
+		// When testing arrays make sure your tests are neither too specific, nor too general.
+	
+		it('Should return supported currencies', () => {
+			
+			const result = lib.getCurrencies();
+
+			// Too general
+			
+			expect(result).toBeDefined();
+			expect(result).not.toBeNull();
+
+
+			// Too specific
+			
+			expect(result[0]).toBe('USD');
+			expect(result[1]).toBe('AUD');
+			expect(result[2]).toBe('EUR');
+			expect(result.length).toBe(3);
+
+
+			// Prper way
+
+			expect(result).toContain('USD');
+			expect(result).toContain('AUD');
+			expect(result).toContain('EUR');
+			
+
+			// Ideal Way
+
+			expect(result).toEqual(expect.arrayContaining(['USD', 'AUD', 'EUR']));
+		})
+	}
 
 
 
+	// Testing objects
 
+	describe('getProduct func', () => {
+
+		// When testing Objects make sure your tests are neither too specific, nor too general.
+
+		it('Should return the product with the given id', () => {
+			
+			const result = lib.getProduct(1);
+			
+			// Too specific
+	
+			expect(result).toEqual({ id: 1, price: 10}); //This works for objects with exact of 2 properties.
+			
+			// Proper way
+
+			expect(result).toMatchObject({ id: 1, price: 10}); //This works for objects with more than 2 props.
+
+			expect(result).toHaveProperty('id', 1);
+		
+		});
+	}
+
+
+	// Testing Exceptions
+
+	describe('registerUser func', () => {
+
+		// When testing Exceptions put your function inside the expect method with an arrow function.
+
+		it('Should throw if user is falsy', () => {
+			
+			// Null, undefined, NaN,  '', 0, false ===> these are all falsy in javascript
+		
+			const falsyArgs = [null, undefined, NaN, '', 0, false];
+
+			falsyArgs.forEach(a => {
+
+				expect(() => { lib.registerUser(a) }).toThrow();
+			})
+		
+		});
+
+		it('Should return a user object if valid username is passed', () => {
+
+			const result = lib.registerUser('mosh');
+			
+			expect(result).toMatchObject({ username: 'mosh'});
+
+			expect(result.id).toBeGreaterThan(0);
+		})
+	}
+
+	
+
+ 

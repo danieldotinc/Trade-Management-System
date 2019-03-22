@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import auth from "../../../services/authService";
 import uuid from "uuid";
 import Like from "./like";
 import _ from "lodash";
-import PersianDigit, { PersianNum } from "./persiandigit";
+import { PersianNum } from "./persiandigit";
 
 class TableBody extends Component {
   renderCell = (item, column) => {
@@ -31,8 +32,8 @@ class TableBody extends Component {
     return item._id + (column.path || column.key);
   };
   render() {
+    const user = auth.getCurrentUser();
     const {
-      user,
       pageItems,
       columns,
       onDeleteTableItem,
@@ -54,9 +55,9 @@ class TableBody extends Component {
                 {this.renderCell(item, column)}
               </td>
             ))}
-            <td key={uuid.v4()}>
+            {/* <td key={uuid.v4()}>
               <Like movie={item} onClick={() => onLikeItem(item, listName)} />
-            </td>
+            </td> */}
             <td key={uuid.v4()}>
               <button
                 className="btn btn-raised btn-dark ml-2 shadow rounded"

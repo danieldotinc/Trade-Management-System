@@ -1,10 +1,19 @@
 import http from "./httpService";
-import { apiUrl } from "../config.json";
 
 export async function getPersons() {
-  return http.get(`${apiUrl}/persons`);
+  return http.get(`/persons`);
 }
 
 export async function deletePerson(id) {
-  return http.delete(`${apiUrl}/persons/${id}`);
+  return http.delete(`/persons/${id}`);
+}
+
+export async function savePerson(item) {
+  return http.post(`/persons`, item);
+}
+
+export async function updatePerson(item) {
+  const body = { ...item };
+  delete body._id;
+  return http.put(`/persons/${item._id}`, body);
 }

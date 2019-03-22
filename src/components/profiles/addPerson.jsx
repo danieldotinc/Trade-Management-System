@@ -40,6 +40,8 @@ export class AddPerson extends Form {
     const emptyData = { ...this.state.data };
     emptyData.identity = this.props.state.identities[0].name;
     emptyData.identityId = this.props.state.identities[0]._id;
+    emptyData.company = this.props.state.companies[0].name;
+    emptyData.companyId = this.props.state.companies[0]._id;
     emptyData.marketSector = this.props.state.types[0].name;
     emptyData.marketSectorId = this.props.state.types[0]._id;
     emptyData.officeSector = this.props.state.sectors[0].name;
@@ -63,7 +65,13 @@ export class AddPerson extends Form {
   };
 
   render() {
-    const { pageName, types, identities, sectors } = this.props.state;
+    const {
+      pageName,
+      types,
+      identities,
+      companies,
+      sectors
+    } = this.props.state;
     return (
       <React.Fragment>
         <GridItem xs={12} sm={12} md={12}>
@@ -77,7 +85,7 @@ export class AddPerson extends Form {
             <CardBody>
               <form onSubmit={this.handleFormSubmission} id="addnewform1">
                 <div className="row m-2">
-                  {this.renderSubmitBtn("ذخیره")}
+                  {this.renderSubmitBtn("")}
                   {this.renderCancelBtn("لغو")}
                 </div>
                 <div className="row">
@@ -85,7 +93,7 @@ export class AddPerson extends Form {
                   {this.renderSelect("identity", "هویت", identities)}
                   {this.renderSelect("officeSector", "واحد سازمانی", sectors)}
                   {this.renderSelect("marketSector", "حوزه فعالیت", types)}
-                  {this.renderInput("company", "نام کسب و کار")}
+                  {this.renderSelect("company", "نام کسب و کار", companies)}
                   {this.renderInput("mobile", "شماره موبایل", "3", true)}
                   {this.renderInput("telephone", "تلفن")}
                   {this.renderInput("telExtention", "تلفن داخلی")}

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import auth from "../../services/authService";
 import { PersianNum } from "../table/common/persiandigit";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
@@ -13,7 +14,8 @@ export class Product extends Component {
     this.props.history.push("/Products");
   };
   render() {
-    const { user, detailedModal, listName } = this.props.state;
+    const user = auth.getCurrentUser();
+    const { detailedModal, listName } = this.props.state;
     const head = [
       "آی دی",
       "تصویر",

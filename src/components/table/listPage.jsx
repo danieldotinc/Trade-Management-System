@@ -4,7 +4,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
@@ -12,7 +12,7 @@ import Button from "../../components/CustomButtons/Button.jsx";
 
 export class ListPage extends Component {
   render() {
-    const { classes, onNewForm, ...rest } = this.props;
+    const { classes, onNewForm, onRoute, ...rest } = this.props;
     const { addLink, pageName } = this.props.state;
     return (
       <GridItem xs={12} sm={12} md={12}>
@@ -20,8 +20,29 @@ export class ListPage extends Component {
           <CardHeader color="info">
             <h4 className={classes.cardTitleWhite}>{pageName}</h4>
             <p className={classes.cardCategoryWhite}>
-              {pageName} جدید از ۱۵ آبان ۱۳۹۶
+              <NavLink
+                className="btn btn-info m-1"
+                to="/Profiles/Business"
+                onClick={() => onRoute("/Profiles/Business")}
+              >
+                کسب و کار
+              </NavLink>
+              <NavLink
+                className="btn btn-info m-1"
+                to="/Profiles/Person"
+                onClick={() => onRoute("/Profiles/Person")}
+              >
+                فرد
+              </NavLink>
+              <NavLink
+                className="btn btn-info m-1"
+                to="/Profiles/Employee"
+                onClick={() => onRoute("/Profiles/Employee")}
+              >
+                کارمند
+              </NavLink>
             </p>
+            <div />
           </CardHeader>
           <CardBody>
             <div className="row m-2">
