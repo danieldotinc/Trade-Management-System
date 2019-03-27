@@ -20,7 +20,7 @@ export class ListPage extends Component {
           <CardHeader color="info">
             <h4 className={classes.cardTitleWhite}>{pageName}</h4>
             <p className={classes.cardCategoryWhite}>
-              <NavLink
+              {/* <NavLink
                 className="btn btn-info m-1"
                 to="/Profiles/Business"
                 onClick={() => onRoute("/Profiles/Business")}
@@ -40,7 +40,7 @@ export class ListPage extends Component {
                 onClick={() => onRoute("/Profiles/Employee")}
               >
                 کارمند
-              </NavLink>
+              </NavLink> */}
             </p>
             <div />
           </CardHeader>
