@@ -95,7 +95,7 @@ class App extends Component {
   }
 
   handleShowDetailModal = (item, listName) => {
-    // this.setState({ detailedModal: { state: true, item: item } });
+    this.setState({ detailedModal: { state: true, item: item } });
     if (
       listName == "Business" ||
       listName == "Person" ||

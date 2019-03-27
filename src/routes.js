@@ -64,10 +64,10 @@ let dashboardRoutes = [
     component: Products
   },
   {
-    path: "/Product/:id",
+    path: "/:id",
     name: "Product",
     rtlName: "محصول",
-    layout: "",
+    layout: "/Product",
     component: Product
   },
   {

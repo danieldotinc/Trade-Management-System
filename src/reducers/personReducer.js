@@ -1,18 +1,25 @@
 import {
+  PERSON_LOADING,
   GET_PERSONS,
   GET_PERSON,
   DELETE_PERSON,
   ADD_PERSON
 } from "../actions/types";
 
-const initialState = {};
+const initialState = {
+  person: null,
+  persons: null,
+  loading: false
+};
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case PERSON_LOADING:
+      return { ...state, loading: true };
     case GET_PERSON:
-      return { ...state, persons: action.payload };
+      return { ...state, person: action.payload, loading: false };
     case GET_PERSONS:
-      return { ...state, persons: action.payload };
+      return { ...state, persons: action.payload, loading: false };
     case ADD_PERSON:
       return { ...state, persons: [action.payload, ...state.persons] };
     case DELETE_PERSON:

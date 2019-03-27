@@ -1,4 +1,7 @@
 import {
+  GET_ERRORS,
+  CLEAR_CURRENT_PRODUCT,
+  PRODUCT_LOADING,
   GET_PRODUCT,
   GET_PRODUCTS,
   ADD_PRODUCT,
@@ -13,7 +16,20 @@ import {
 } from "../services/productService";
 import { ToastContainer, toast } from "react-toastify";
 
+export const setProductLoading = () => {
+  return {
+    type: PRODUCT_LOADING
+  };
+};
+
+export const clearCurrentProduct = () => {
+  return {
+    type: CLEAR_CURRENT_PRODUCT
+  };
+};
+
 export const getProductItem = id => async dispatch => {
+  dispatch(setProductLoading());
   const { data } = await getProduct(id);
   dispatch({
     type: GET_PRODUCT,
@@ -22,6 +38,7 @@ export const getProductItem = id => async dispatch => {
 };
 
 export const getProductItems = () => async dispatch => {
+  dispatch(setProductLoading());
   const { data } = await getProducts();
   dispatch({
     type: GET_PRODUCTS,

@@ -24,7 +24,9 @@ class Profile extends Component {
   render() {
     const user = auth.getCurrentUser();
     const { listName } = this.props.state;
-    const { persons: person } = this.props;
+    const { person, loading } = this.props;
+
+    if (loading || !person) return <h1>Loading ...</h1>;
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -147,7 +149,8 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => ({
-  persons: state.person.persons
+  person: state.person.person,
+  loading: state.person.loading
 });
 
 export default connect(

@@ -1,7 +1,11 @@
-import { GET_PERSONS } from "./types";
-import { GET_PERSON } from "./types";
-import { ADD_PERSON } from "./types";
-import { DELETE_PERSON } from "./types";
+import {
+  PERSON_LOADING,
+  GET_PERSON,
+  GET_PERSONS,
+  ADD_PERSON,
+  DELETE_PERSON
+} from "./types";
+
 import {
   getPerson,
   getPersons,
@@ -11,7 +15,12 @@ import {
 } from "../services/personService";
 import { ToastContainer, toast } from "react-toastify";
 
+export const setCurrentPerson = () => {
+  return { type: PERSON_LOADING };
+};
+
 export const getPersonItems = () => async dispatch => {
+  dispatch(setCurrentPerson());
   const { data } = await getPersons();
   dispatch({
     type: GET_PERSONS,
@@ -20,6 +29,7 @@ export const getPersonItems = () => async dispatch => {
 };
 
 export const getPersonItem = id => async dispatch => {
+  dispatch(setCurrentPerson());
   try {
     const { data } = await getPerson(id);
     dispatch({

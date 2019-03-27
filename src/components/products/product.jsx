@@ -25,7 +25,7 @@ export class Product extends Component {
   render() {
     const user = auth.getCurrentUser();
     const { listName } = this.props.state;
-    const { product } = this.props;
+    const { product, loading } = this.props;
     const head = [
       "آی دی",
       "تصویر",
@@ -47,6 +47,7 @@ export class Product extends Component {
       "موجودی انبار مجازی دیجیکالا",
       "تعداد در جعبه"
     ];
+    if (loading || !product) return <h1>Loading ...</h1>;
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -91,7 +92,7 @@ export class Product extends Component {
                       width: "500px",
                       borderRadius: "10px"
                     }}
-                    // src={require(`../../${product.img}`)}
+                    src={require(`../../${product.img}`)}
                   />
                   <br />
                   {product.imgs.map(img => (
@@ -102,7 +103,7 @@ export class Product extends Component {
                         borderRadius: "5px"
                       }}
                       className="shadow rounded m-2"
-                      // src={require(`../../${img}`)}
+                      src={require(`../../${img}`)}
                     />
                   ))}
                 </div>
@@ -157,7 +158,8 @@ export class Product extends Component {
 }
 
 const mapStateToProps = state => ({
-  product: state.product.products
+  product: state.product.product,
+  loading: state.product.loading
 });
 
 export default connect(
