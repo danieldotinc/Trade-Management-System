@@ -7,6 +7,8 @@ import "bootstrap/dist/js/bootstrap.js";
 // import "bootstrap-material-design/dist/css/bootstrap-material-design.css";
 import $ from "jquery";
 import Popper from "popper.js";
+import { Provider } from "react-redux";
+import store from "./store";
 import { createBrowserHistory } from "history";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
@@ -15,7 +17,9 @@ const hist = createBrowserHistory();
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/" component={App} />
+      <Provider store={store}>
+        <Route path="/" component={App} />
+      </Provider>
     </Switch>
   </BrowserRouter>,
   document.getElementById("root")

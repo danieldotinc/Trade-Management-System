@@ -14,7 +14,6 @@ import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.j
 export class AddProduct extends Form {
   state = {
     data: {
-      id: "",
       img: "",
       imgs: [],
       imgFile: [],
@@ -57,8 +56,10 @@ export class AddProduct extends Form {
   };
 
   doSubmit = data => {
-    data.breakEvenPrice =
-      parseInt(EngNum(data.buyPrice)) + parseInt(EngNum(data.buyPrice)) * 0.2;
+    data.breakEvenPrice = (
+      parseInt(EngNum(data.buyPrice)) +
+      parseInt(EngNum(data.buyPrice)) * 0.2
+    ).toString();
     this.props.onAddItem(data);
     this.props.onRoute("/Products");
     this.props.history.push("/Products");

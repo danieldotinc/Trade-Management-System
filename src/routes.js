@@ -50,7 +50,7 @@ let dashboardRoutes = [
     component: AddPerson
   },
   {
-    path: "/Profile",
+    path: "/:id",
     name: "Profile",
     rtlName: "پروفایل کسب و کار",
     layout: "/Profiles",

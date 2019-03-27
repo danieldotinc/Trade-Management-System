@@ -31,7 +31,6 @@ import {
 } from "./services/fakeColumnService";
 import {
   getProducts,
-  deleteProduct,
   saveProduct,
   updateProduct
 } from "./services/productService";
@@ -54,6 +53,10 @@ import {
   deleteOfficeSector
 } from "./services/officeSectorService";
 
+import { connect } from "react-redux";
+import { deleteProductItem, addProductItem } from "./actions/productActions";
+import { deletePersonItem, addPersonItem } from "./actions/personActions";
+
 import "./assets/css/style.css";
 import { Login } from "./components/users/login";
 import { Register } from "./components/users/register";
@@ -69,6 +72,7 @@ class App extends Component {
     columns: [],
     identities: [],
     companies: [],
+    links: [],
     selectedGenre: "all",
     sortColumn: { path: "id", order: "desc" },
     currentPage: 1,
@@ -84,14 +88,20 @@ class App extends Component {
     formStep: 0
   };
 
+  componentDidMount() {
+    const user = auth.getCurrentUser();
+    this.setState({ user });
+    this.handleRouteChange(this.props.location.pathname);
+  }
+
   handleShowDetailModal = (item, listName) => {
-    this.setState({ detailedModal: { state: true, item: item } });
+    // this.setState({ detailedModal: { state: true, item: item } });
     if (
       listName == "Business" ||
       listName == "Person" ||
       listName == "Employee"
     ) {
-      this.props.history.push("/Profiles/Profile");
+      this.props.history.push(`/Profiles/${item._id}`);
     } else {
       this.props.history.push("/Product");
     }
@@ -101,30 +111,24 @@ class App extends Component {
     this.setState({ detailedModal: { state: false, item: {} } });
   };
 
-  componentDidMount() {
-    const user = auth.getCurrentUser();
-    this.setState({ user });
-    this.handleRouteChange(this.props.location.pathname);
-  }
-
   handleNewForm = () => {
     this.setState({ editForm: false });
   };
 
-  getProductItems = async () => {
-    const { data: items } = await getProducts();
-    this.setState({ items });
-  };
+  // getProductItems = async () => {
+  //   const { data: items } = await getProducts();
+  //   this.setState({ items });
+  // };
 
   getCategoryItems = async () => {
     const { data: types } = await getCategories();
     this.setState({ types });
   };
 
-  getPersonItems = async () => {
-    const { data: items } = await getPersons();
-    this.setState({ items });
-  };
+  // getPersonItems = async () => {
+  //   const { data: items } = await getPersons();
+  //   this.setState({ items });
+  // };
 
   getMarketSectorItems = async () => {
     const { data: types } = await getMarketSectors();
@@ -146,37 +150,24 @@ class App extends Component {
     this.setState({ sectors });
   };
 
-  deleteProductItem = async id => {
-    const originalProducts = [...this.state.items];
-    const items = originalProducts.filter(m => m._id !== id);
-    this.setState({ items });
-    try {
-      await deleteProduct(id);
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404) {
-        toast.error("این آیتم قبلا حذف شده است.");
-      }
-      this.setState({ items: originalProducts });
-    }
-  };
-
   saveProductItem = async item => {
-    const items = [...this.state.items];
-    let itemInDb = items.find(m => m._id === item._id) || {};
+    // const items = [...this.state.items];
+    // let itemInDb = items.find(m => m._id === item._id) || {};
     delete item.imgFiles;
     delete item.imgFile;
     delete item.file;
     delete item.files;
-    if (!itemInDb._id) {
-      items.push(item);
-      this.setState({ items });
-      await saveProduct(item);
-    } else {
-      items.splice(items.indexOf(itemInDb), 1);
-      items.push(item);
-      this.setState({ items });
-      await updateProduct(item);
-    }
+    this.props.addProductItem(item);
+    // if (!itemInDb._id) {
+    //   items.push(item);
+    //   this.setState({ items });
+    //   await saveProduct(item);
+    // } else {
+    //   items.splice(items.indexOf(itemInDb), 1);
+    //   items.push(item);
+    //   this.setState({ items });
+    //   await updateProduct(item);
+    // }
   };
 
   savePersonItem = async item => {
@@ -194,9 +185,17 @@ class App extends Component {
     }
   };
 
+  getBusinessLinks = () => {
+    const links = [
+      { label: "کسب و کار", link: "/Profiles/Business" },
+      { label: "فرد", link: "/Profiles/Person" },
+      { label: "کارمند", link: "/Profiles/Employee" }
+    ];
+    this.setState({ links });
+  };
+
   handleRouteChange = Route => {
     if (Route == "/Profiles/Business") {
-      this.getPersonItems();
       this.getMarketSectorItems();
       this.getIdentityItems();
       this.getCompanyItems();
@@ -209,26 +208,7 @@ class App extends Component {
         currentPage: 1
       });
     }
-    if (Route == "/Profiles/Employee")
-      return this.setState({
-        listName: "Employee",
-        pageName: "کارمندان",
-        addLink: "/AddPerson",
-        items: getEmployeeItems(),
-        columns: getEmployeeColumns(),
-        types: getEmployeeTypes(),
-        currentPage: 1
-      });
-    if (Route == "/Profiles/Person")
-      return this.setState({
-        listName: "Person",
-        pageName: "افراد",
-        addLink: "/AddPerson",
-        items: getCustomerItems(),
-        columns: getCustomerColumns(),
-        types: getCustomerTypes(),
-        currentPage: 1
-      });
+
     if (Route == "/AddPerson") {
       this.getMarketSectorItems();
       this.getIdentityItems();
@@ -238,7 +218,6 @@ class App extends Component {
       });
     }
     if (Route == "/Products") {
-      this.getProductItems();
       this.getCategoryItems();
       return this.setState({
         listName: "Product",
@@ -259,26 +238,11 @@ class App extends Component {
   handleDeleteTableItem = (item, listName) => {
     switch (listName) {
       case "Business":
-        deleteBusinessItem(item.id);
-        this.setState({
-          items: getBusinessItems()
-        });
-        break;
-      case "Employee":
-        deleteEmployeeItem(item.id);
-        this.setState({
-          items: getEmployeeItems()
-        });
-        break;
-      case "Person":
-        deleteCustomerItem(item.id);
-        this.setState({
-          items: getCustomerItems()
-        });
+        this.props.deletePersonItem(item._id);
         break;
       case "Product":
-        this.deleteProductItem(item._id);
-        this.getProductItems();
+        this.props.deleteProductItem(item._id);
+        break;
     }
   };
 
@@ -373,49 +337,50 @@ class App extends Component {
     const { user, activePage } = this.state;
 
     return (
-      <React.Fragment>
-        <div className="load">
-          <ToastContainer />
-          <Navigation
-            activePage={activePage}
-            onRoute={this.handleRouteChange}
-            user={user}
-          />
-          <div className="m-3">
-            <Switch>
-              {routes.map((prop, key) => {
-                return (
-                  <ProtectedRoute
-                    path={prop.layout + prop.path}
-                    key={key}
-                    component={prop.component}
-                    state={this.state}
-                    listName={prop.name}
-                    onShowDetailModal={this.handleShowDetailModal}
-                    onDeleteTableItem={this.handleDeleteTableItem}
-                    onEditTableItem={this.handleEditTableItem}
-                    onLikeItem={this.handleLikeItem}
-                    onPageChange={this.handlePageChange}
-                    onGenreChange={this.handleTypesFilter}
-                    onSort={this.handleSort}
-                    onStep={this.handleFormSteps}
-                    onFormBack={this.handleFormBack}
-                    onFormChange={this.handleFormChange}
-                    onRoute={this.handleRouteChange}
-                    onAddItem={this.handleAddItem}
-                    onNewForm={this.handleNewForm}
-                  />
-                );
-              })}
-              <Route path="/Login" component={Login} />
-              <Route path="/Register" component={Register} />
-              <Redirect from="/" to="/Dashboard" />
-            </Switch>
-          </div>
+      <div className="load">
+        <ToastContainer />
+        <Navigation
+          activePage={activePage}
+          onRoute={this.handleRouteChange}
+          user={user}
+        />
+        <div className="m-3">
+          <Switch>
+            {routes.map((prop, key) => {
+              return (
+                <ProtectedRoute
+                  path={prop.layout + prop.path}
+                  key={key}
+                  component={prop.component}
+                  state={this.state}
+                  listName={prop.name}
+                  onShowDetailModal={this.handleShowDetailModal}
+                  onDeleteTableItem={this.handleDeleteTableItem}
+                  onEditTableItem={this.handleEditTableItem}
+                  onLikeItem={this.handleLikeItem}
+                  onPageChange={this.handlePageChange}
+                  onGenreChange={this.handleTypesFilter}
+                  onSort={this.handleSort}
+                  onStep={this.handleFormSteps}
+                  onFormBack={this.handleFormBack}
+                  onFormChange={this.handleFormChange}
+                  onRoute={this.handleRouteChange}
+                  onAddItem={this.handleAddItem}
+                  onNewForm={this.handleNewForm}
+                />
+              );
+            })}
+            <Route path="/Login" component={Login} />
+            <Route path="/Register" component={Register} />
+            <Redirect from="/" to="/Dashboard" />
+          </Switch>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
 
-export default withRouter(App);
+export default connect(
+  null,
+  { deleteProductItem, deletePersonItem, addProductItem }
+)(withRouter(App));

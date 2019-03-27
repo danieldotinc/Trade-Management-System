@@ -13,34 +13,24 @@ import Button from "../../components/CustomButtons/Button.jsx";
 export class ListPage extends Component {
   render() {
     const { classes, onNewForm, onRoute, ...rest } = this.props;
-    const { addLink, pageName } = this.props.state;
+    const { addLink, pageName, links } = this.props.state;
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="info">
             <h4 className={classes.cardTitleWhite}>{pageName}</h4>
             <p className={classes.cardCategoryWhite}>
-              <NavLink
-                className="btn btn-info m-1"
-                to="/Profiles/Business"
-                onClick={() => onRoute("/Profiles/Business")}
-              >
-                کسب و کار
-              </NavLink>
-              <NavLink
-                className="btn btn-info m-1"
-                to="/Profiles/Person"
-                onClick={() => onRoute("/Profiles/Person")}
-              >
-                فرد
-              </NavLink>
-              <NavLink
-                className="btn btn-info m-1"
-                to="/Profiles/Employee"
-                onClick={() => onRoute("/Profiles/Employee")}
-              >
-                کارمند
-              </NavLink>
+              {links.map(link => {
+                return (
+                  <NavLink
+                    className="btn btn-info m-1"
+                    to={link.link}
+                    onClick={() => onRoute(link.link)}
+                  >
+                    {link.label}
+                  </NavLink>
+                );
+              })}
             </p>
             <div />
           </CardHeader>

@@ -22,9 +22,12 @@
     "react-chartist": "^0.13.3",
     "react-dom": "^16.8.3",
     "react-persian": "^1.1.1",
+    "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "react-toastify": "^4.5.2",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2"
   },
   "scripts": {
@@ -41,8 +44,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "jest": "^24.5.0"
-  }
+  ]
 }

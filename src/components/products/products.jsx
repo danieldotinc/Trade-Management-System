@@ -1,14 +1,26 @@
 import React, { Component } from "react";
 import ListPage from "../table/listPage";
 import withStyles from "@material-ui/core/styles/withStyles";
+import { connect } from "react-redux";
+import { getProductItems } from "../../actions/productActions";
 
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
-export class Products extends Component {
+class Products extends Component {
+  componentDidMount() {
+    this.props.getProductItems();
+  }
   render() {
     const { ...rest } = this.props;
-    return <ListPage {...rest} />;
+    return <ListPage items={this.props.products} {...rest} />;
   }
 }
 
-export default withStyles(rtlStyle)(Products);
+const mapStateToProps = state => ({
+  products: state.product.products
+});
+
+export default connect(
+  mapStateToProps,
+  { getProductItems }
+)(withStyles(rtlStyle)(Products));

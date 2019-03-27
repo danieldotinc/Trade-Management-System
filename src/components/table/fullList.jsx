@@ -50,7 +50,7 @@ export class FullList extends Component {
     } = state;
 
     const searchedItems =
-      this.state.search == "" ? this.props.state.items : this.state.items;
+      this.state.search == "" ? this.props.items : this.state.items;
     const sortedItems = _.orderBy(
       searchedItems,
       [sortColumn.path],
