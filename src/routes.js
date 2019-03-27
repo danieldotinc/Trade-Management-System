@@ -64,7 +64,7 @@ let dashboardRoutes = [
     component: Products
   },
   {
-    path: "/Product",
+    path: "/Product/:id",
     name: "Product",
     rtlName: "محصول",
     layout: "",

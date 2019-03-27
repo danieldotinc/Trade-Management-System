@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import auth from "../../services/authService";
 import { connect } from "react-redux";
 import { getPersonItem, deletePersonItem } from "../../actions/personActions";
 import { PersianDigit } from "../table/common/persiandigit";
@@ -15,13 +16,14 @@ class Profile extends Component {
     this.props.getPersonItem(personId);
   }
 
-  // handleBack = () => {
-  //   this.props.onRoute("/Profiles/" + this.props.state.listName);
-  //   this.props.history.push("/Profiles/" + this.props.state.listName);
-  // };
+  handleBack = () => {
+    this.props.onRoute("/Profiles/" + this.props.state.listName);
+    this.props.history.push("/Profiles/" + this.props.state.listName);
+  };
 
   render() {
-    // const { user, listName } = this.props.state;
+    const user = auth.getCurrentUser();
+    const { listName } = this.props.state;
     const { persons: person } = this.props;
     return (
       <GridItem xs={12} sm={12} md={12}>
@@ -37,27 +39,27 @@ class Profile extends Component {
               <div className="row m-2">
                 <button
                   className="btn btn-lg btn-info m-2 shadow rounded"
-                  // onClick={this.handleBack}
+                  onClick={this.handleBack}
                 >
                   <i className="fa fa-arrow-right" />
                 </button>
                 <button
                   className="btn btn-lg btn-dark m-2 shadow rounded"
-                  // onClick={() => this.props.onEditTableItem(person, listName)}
+                  onClick={() => this.props.onEditTableItem(person, listName)}
                 >
                   <i className="fa fa-wrench" />
                 </button>
-                {/* {user.isAdmin && (
+                {user.isAdmin && (
                   <button
                     className="btn btn-lg btn-danger m-2 shadow rounded"
-                    // onClick={() => {
-                    //   this.props.onDeleteTableItem(person, listName);
-                    //   this.props.history.push("/Products");
-                    // }}
+                    onClick={() => {
+                      this.props.onDeleteTableItem(person, listName);
+                      this.props.history.push("/Products");
+                    }}
                   >
                     <i className="fa fa-trash-alt" />
                   </button>
-                )} */}
+                )}
               </div>
               <p className="list-group m-2">
                 <span className="list-group-item">

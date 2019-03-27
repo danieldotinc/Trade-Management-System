@@ -103,7 +103,7 @@ class App extends Component {
     ) {
       this.props.history.push(`/Profiles/${item._id}`);
     } else {
-      this.props.history.push("/Product");
+      this.props.history.push(`/Product/${item._id}`);
     }
   };
 

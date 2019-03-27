@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import auth from "../../services/authService";
+import { connect } from "react-redux";
+import {
+  getProductItem,
+  deleteProductItem
+} from "../../actions/productActions";
 import { PersianNum } from "../table/common/persiandigit";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
@@ -9,13 +14,18 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
 export class Product extends Component {
+  componentDidMount() {
+    const productId = this.props.match.params.id;
+    this.props.getProductItem(productId);
+  }
   handleBack = () => {
     this.props.onRoute("/Products");
     this.props.history.push("/Products");
   };
   render() {
     const user = auth.getCurrentUser();
-    const { detailedModal, listName } = this.props.state;
+    const { listName } = this.props.state;
+    const { product } = this.props;
     const head = [
       "آی دی",
       "تصویر",
@@ -43,7 +53,7 @@ export class Product extends Component {
           <CardHeader color="warning">
             <h4 className={this.props.classes.cardTitleWhite}>جزئیات محصول</h4>
             <p className={this.props.classes.cardCategoryWhite}>
-              جزئیات {detailedModal.item.name}
+              جزئیات {product.name}
             </p>
           </CardHeader>
           <CardBody>
@@ -57,9 +67,7 @@ export class Product extends Component {
                 </button>
                 <button
                   className="btn btn-lg btn-dark m-2 shadow rounded"
-                  onClick={() =>
-                    this.props.onEditTableItem(detailedModal.item, listName)
-                  }
+                  onClick={() => this.props.onEditTableItem(product, listName)}
                 >
                   <i className="fa fa-wrench" />
                 </button>
@@ -67,10 +75,7 @@ export class Product extends Component {
                   <button
                     className="btn btn-lg btn-danger m-2 shadow rounded"
                     onClick={() => {
-                      this.props.onDeleteTableItem(
-                        detailedModal.item,
-                        listName
-                      );
+                      this.props.onDeleteTableItem(product, listName);
                       this.props.history.push("/Products");
                     }}
                   >
@@ -86,10 +91,10 @@ export class Product extends Component {
                       width: "500px",
                       borderRadius: "10px"
                     }}
-                    src={require(`../../${detailedModal.item.img}`)}
+                    // src={require(`../../${product.img}`)}
                   />
                   <br />
-                  {detailedModal.item.imgs.map(img => (
+                  {product.imgs.map(img => (
                     <img
                       style={{
                         maxHeight: "100px",
@@ -97,13 +102,13 @@ export class Product extends Component {
                         borderRadius: "5px"
                       }}
                       className="shadow rounded m-2"
-                      src={require(`../../${img}`)}
+                      // src={require(`../../${img}`)}
                     />
                   ))}
                 </div>
                 <div className="list-group m-2 mt-5 col-5">
                   <div className="row shadow rounded">
-                    {Object.keys(detailedModal.item).map((keyName, i) => {
+                    {Object.keys(product).map((keyName, i) => {
                       if (
                         keyName != "_id" &&
                         keyName != "categoryId" &&
@@ -124,9 +129,7 @@ export class Product extends Component {
                             <span className="list-group-item col-6">
                               {head[i] + " : "}
                               <span style={{ fontWeight: "600" }}>
-                                {PersianNum(
-                                  detailedModal.item[keyName].toLocaleString()
-                                )}
+                                {PersianNum(product[keyName].toLocaleString())}
                               </span>
                             </span>
                           );
@@ -135,7 +138,7 @@ export class Product extends Component {
                             <span className="list-group-item col-12">
                               {head[i] + " : "}
                               <span style={{ fontWeight: "600" }}>
-                                {PersianNum(detailedModal.item[keyName])}
+                                {PersianNum(product[keyName])}
                               </span>
                             </span>
                           );
@@ -153,4 +156,11 @@ export class Product extends Component {
   }
 }
 
-export default withStyles(rtlStyle)(Product);
+const mapStateToProps = state => ({
+  product: state.product.products
+});
+
+export default connect(
+  mapStateToProps,
+  { getProductItem }
+)(withStyles(rtlStyle)(Product));

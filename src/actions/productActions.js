@@ -1,13 +1,25 @@
-import { GET_PRODUCTS } from "./types";
-import { ADD_PRODUCT } from "./types";
-import { DELETE_PRODUCT } from "./types";
 import {
+  GET_PRODUCT,
+  GET_PRODUCTS,
+  ADD_PRODUCT,
+  DELETE_PRODUCT
+} from "./types";
+import {
+  getProduct,
   getProducts,
   deleteProduct,
   saveProduct,
   updateProduct
 } from "../services/productService";
 import { ToastContainer, toast } from "react-toastify";
+
+export const getProductItem = id => async dispatch => {
+  const { data } = await getProduct(id);
+  dispatch({
+    type: GET_PRODUCT,
+    payload: data
+  });
+};
 
 export const getProductItems = () => async dispatch => {
   const { data } = await getProducts();
