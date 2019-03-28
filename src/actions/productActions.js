@@ -5,7 +5,8 @@ import {
   GET_PRODUCT,
   GET_PRODUCTS,
   ADD_PRODUCT,
-  DELETE_PRODUCT
+  DELETE_PRODUCT,
+  UPDATE_PRODUCT
 } from "./types";
 import {
   getProduct,
@@ -14,7 +15,7 @@ import {
   saveProduct,
   updateProduct
 } from "../services/productService";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export const setProductLoading = () => {
   return {
@@ -51,6 +52,20 @@ export const addProductItem = product => async dispatch => {
     await saveProduct(product);
     dispatch({
       type: ADD_PRODUCT,
+      payload: product
+    });
+  } catch (ex) {
+    if (ex.response && ex.response.status === 404) {
+      toast.error("Error!");
+    }
+  }
+};
+
+export const updateProductItem = product => async dispatch => {
+  try {
+    await updateProduct(product);
+    dispatch({
+      type: UPDATE_PRODUCT,
       payload: product
     });
   } catch (ex) {

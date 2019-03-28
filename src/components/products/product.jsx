@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { toast } from "react-toastify";
 import auth from "../../services/authService";
 import { connect } from "react-redux";
 import {
@@ -15,13 +16,25 @@ import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.j
 
 export class Product extends Component {
   componentDidMount() {
-    const productId = this.props.match.params.id;
-    this.props.getProductItem(productId);
+    const { id } = this.props.match.params;
+    this.props.getProductItem(id);
   }
+
+  onDelete = item => {
+    this.props.deleteProductItem(item._id);
+    this.props.history.push("/Products");
+    toast.info(`${item.name} با موفقیت حذف شد.`);
+  };
+
+  onEdit = item => {
+    this.props.history.push(`/EditProduct/${item._id}`);
+  };
+
   handleBack = () => {
     this.props.onRoute("/Products");
     this.props.history.push("/Products");
   };
+
   render() {
     const user = auth.getCurrentUser();
     const { listName } = this.props.state;
@@ -68,7 +81,7 @@ export class Product extends Component {
                 </button>
                 <button
                   className="btn btn-lg btn-dark m-2 shadow rounded"
-                  onClick={() => this.props.onEditTableItem(product, listName)}
+                  onClick={() => this.onEdit(product)}
                 >
                   <i className="fa fa-wrench" />
                 </button>
@@ -76,8 +89,7 @@ export class Product extends Component {
                   <button
                     className="btn btn-lg btn-danger m-2 shadow rounded"
                     onClick={() => {
-                      this.props.onDeleteTableItem(product, listName);
-                      this.props.history.push("/Products");
+                      this.onDelete(product);
                     }}
                   >
                     <i className="fa fa-trash-alt" />
@@ -164,5 +176,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductItem }
+  { getProductItem, deleteProductItem }
 )(withStyles(rtlStyle)(Product));

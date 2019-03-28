@@ -3,7 +3,8 @@ import {
   GET_PERSON,
   GET_PERSONS,
   ADD_PERSON,
-  DELETE_PERSON
+  DELETE_PERSON,
+  UPDATE_PERSON
 } from "./types";
 
 import {
@@ -13,7 +14,7 @@ import {
   savePerson,
   updatePerson
 } from "../services/personService";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export const setCurrentPerson = () => {
   return { type: PERSON_LOADING };
@@ -48,6 +49,20 @@ export const addPersonItem = person => async dispatch => {
     await savePerson(person);
     dispatch({
       type: ADD_PERSON,
+      payload: person
+    });
+  } catch (ex) {
+    if (ex.response && ex.response.status === 404) {
+      toast.error("Error!");
+    }
+  }
+};
+
+export const updatePersonItem = person => async dispatch => {
+  try {
+    await updatePerson(person);
+    dispatch({
+      type: UPDATE_PERSON,
       payload: person
     });
   } catch (ex) {

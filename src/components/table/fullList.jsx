@@ -15,7 +15,7 @@ export class FullList extends Component {
   };
 
   handleSearch = search => {
-    const { items } = this.props.state;
+    const { items } = this.props;
     if (search != "") {
       const filteredItems = items.filter(i => i.name.includes(search));
       this.props.onPageChange(1);
@@ -31,11 +31,11 @@ export class FullList extends Component {
       classes,
       onPageChange,
       onGenreChange,
-      onDeleteTableItem,
-      onEditTableItem,
+      onDelete,
+      onEdit,
       onLikeItem,
       onSort,
-      onShowDetailModal
+      onDetail
     } = this.props;
 
     const {
@@ -76,14 +76,14 @@ export class FullList extends Component {
           <ItemsCount itemsCount={PersianNum(sortedItems.length)} />
           <Table
             user={user}
-            showDetailModal={onShowDetailModal}
+            onDetail={onDetail}
             listName={listName}
             sortColumn={sortColumn}
             onSort={onSort}
             pageItems={pageItems}
             columns={columns}
-            onDeleteTableItem={onDeleteTableItem}
-            onEditTableItem={onEditTableItem}
+            onDelete={onDelete}
+            onEdit={onEdit}
             onLikeItem={onLikeItem}
           />
           <Pagination

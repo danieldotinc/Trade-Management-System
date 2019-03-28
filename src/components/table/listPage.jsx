@@ -39,7 +39,6 @@ export class ListPage extends Component {
               <Link
                 to={addLink}
                 className="btn btn-lg btn-info m-2 shadow-lg rounded"
-                onClick={() => onNewForm()}
               >
                 <i className="fa fa-plus" />
               </Link>

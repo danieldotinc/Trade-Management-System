@@ -78,6 +78,20 @@ let dashboardRoutes = [
     component: AddProduct
   },
   {
+    path: "/EditProduct/:id",
+    name: "EitProduct",
+    rtlName: "ویرایش محصول",
+    layout: "",
+    component: AddProduct
+  },
+  {
+    path: "/EditPerson/:id",
+    name: "EitPerson",
+    rtlName: "ویرایش شخص",
+    layout: "",
+    component: AddPerson
+  },
+  {
     path: "/Dashboard",
     name: "Dashboard",
     rtlName: "داشبورد",

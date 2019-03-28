@@ -8,11 +8,11 @@ const Table = ({
   columns,
   sortColumn,
   onSort,
-  onDeleteTableItem,
-  onEditTableItem,
+  onDelete,
+  onEdit,
   onLikeItem,
   pageItems,
-  showDetailModal
+  onDetail
 }) => {
   return (
     <table className="table table-hover">
@@ -25,9 +25,9 @@ const Table = ({
       <TableBody
         user={user}
         listName={listName}
-        showDetailModal={showDetailModal}
-        onDeleteTableItem={onDeleteTableItem}
-        onEditTableItem={onEditTableItem}
+        onDetail={onDetail}
+        onDelete={onDelete}
+        onEdit={onEdit}
         onLikeItem={onLikeItem}
         pageItems={pageItems}
         columns={columns}

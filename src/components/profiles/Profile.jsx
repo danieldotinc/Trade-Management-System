@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { toast } from "react-toastify";
 import auth from "../../services/authService";
 import { connect } from "react-redux";
 import { getPersonItem, deletePersonItem } from "../../actions/personActions";
@@ -16,6 +17,16 @@ class Profile extends Component {
     this.props.getPersonItem(personId);
   }
 
+  onDelete = item => {
+    this.props.deletePersonItem(item._id);
+    this.handleBack();
+    toast.info(`${item.name} با موفقیت حذف شد.`);
+  };
+
+  onEdit = item => {
+    this.props.history.push(`/EditPerson/${item._id}`);
+  };
+
   handleBack = () => {
     this.props.onRoute("/Profiles/" + this.props.state.listName);
     this.props.history.push("/Profiles/" + this.props.state.listName);
@@ -23,7 +34,6 @@ class Profile extends Component {
 
   render() {
     const user = auth.getCurrentUser();
-    const { listName } = this.props.state;
     const { person, loading } = this.props;
 
     if (loading || !person) return <h1>Loading ...</h1>;
@@ -47,7 +57,7 @@ class Profile extends Component {
                 </button>
                 <button
                   className="btn btn-lg btn-dark m-2 shadow rounded"
-                  onClick={() => this.props.onEditTableItem(person, listName)}
+                  onClick={() => this.onEdit(person)}
                 >
                   <i className="fa fa-wrench" />
                 </button>
@@ -55,8 +65,7 @@ class Profile extends Component {
                   <button
                     className="btn btn-lg btn-danger m-2 shadow rounded"
                     onClick={() => {
-                      this.props.onDeleteTableItem(person, listName);
-                      this.props.history.push("/Products");
+                      this.onDelete(person);
                     }}
                   >
                     <i className="fa fa-trash-alt" />
@@ -66,9 +75,7 @@ class Profile extends Component {
               <p className="list-group m-2">
                 <span className="list-group-item">
                   هویت :
-                  <span style={{ fontWeight: "600" }}>
-                    {person.identityType}
-                  </span>
+                  <span style={{ fontWeight: "600" }}>{person.identity}</span>
                 </span>
                 <span className="list-group-item">
                   نام و نام خانوادگی :
@@ -82,7 +89,9 @@ class Profile extends Component {
 
                 <span className="list-group-item">
                   حوزه فعالیت :
-                  <span style={{ fontWeight: "600" }}>{person.type}</span>
+                  <span style={{ fontWeight: "600" }}>
+                    {person.marketSector}
+                  </span>
                 </span>
 
                 <span className="list-group-item">
@@ -155,5 +164,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getPersonItem }
+  { getPersonItem, deletePersonItem }
 )(withStyles(rtlStyle)(Profile));
