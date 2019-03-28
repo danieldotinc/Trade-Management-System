@@ -50,7 +50,7 @@ let dashboardRoutes = [
     component: AddPerson
   },
   {
-    path: "/Profile",
+    path: "/:id",
     name: "Profile",
     rtlName: "پروفایل کسب و کار",
     layout: "/Profiles",
@@ -64,10 +64,10 @@ let dashboardRoutes = [
     component: Products
   },
   {
-    path: "/Product",
+    path: "/:id",
     name: "Product",
     rtlName: "محصول",
-    layout: "",
+    layout: "/Product",
     component: Product
   },
   {
@@ -76,6 +76,20 @@ let dashboardRoutes = [
     rtlName: "افزودن محصول",
     layout: "",
     component: AddProduct
+  },
+  {
+    path: "/EditProduct/:id",
+    name: "EitProduct",
+    rtlName: "ویرایش محصول",
+    layout: "",
+    component: AddProduct
+  },
+  {
+    path: "/EditPerson/:id",
+    name: "EitPerson",
+    rtlName: "ویرایش شخص",
+    layout: "",
+    component: AddPerson
   },
   {
     path: "/Dashboard",

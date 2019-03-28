@@ -36,11 +36,11 @@ class TableBody extends Component {
     const {
       pageItems,
       columns,
-      onDeleteTableItem,
-      onEditTableItem,
+      onDelete,
+      onEdit,
       onLikeItem,
       listName,
-      showDetailModal
+      onDetail
     } = this.props;
     return (
       <tbody>
@@ -48,7 +48,7 @@ class TableBody extends Component {
           <tr key={uuid.v4()}>
             {columns.map(column => (
               <td
-                onClick={() => showDetailModal(item, listName)}
+                onClick={() => onDetail(item)}
                 style={{ cursor: "pointer" }}
                 key={uuid.v4()}
               >
@@ -61,14 +61,14 @@ class TableBody extends Component {
             <td key={uuid.v4()}>
               <button
                 className="btn btn-raised btn-dark ml-2 shadow rounded"
-                onClick={() => onEditTableItem(item, listName)}
+                onClick={() => onEdit(item)}
               >
                 <i className="fa fa-wrench" />
               </button>
               {user.isAdmin && (
                 <button
                   className="btn btn-danger shadow rounded"
-                  onClick={() => onDeleteTableItem(item, listName)}
+                  onClick={() => onDelete(item)}
                 >
                   <i className="fa fa-trash-alt" />
                 </button>

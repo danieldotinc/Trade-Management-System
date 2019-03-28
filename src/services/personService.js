@@ -1,5 +1,9 @@
 import http from "./httpService";
 
+export async function getPerson(id) {
+  return http.get(`/persons/${id}`);
+}
+
 export async function getPersons() {
   return http.get(`/persons`);
 }

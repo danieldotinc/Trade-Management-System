@@ -1,6 +1,12 @@
-import React, { Component } from "react";
-import $ from "jquery";
-import uuid from "uuid";
+import React from "react";
+import { connect } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  getProductItem,
+  addProductItem,
+  updateProductItem
+} from "../../actions/productActions";
+import { getCategoryItems } from "../../actions/categoryActions";
 import Form from "../form/form";
 import { EngNum } from "../table/common/persiandigit";
 
@@ -14,7 +20,6 @@ import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.j
 export class AddProduct extends Form {
   state = {
     data: {
-      id: "",
       img: "",
       imgs: [],
       imgFile: [],
@@ -42,14 +47,48 @@ export class AddProduct extends Form {
   };
 
   componentDidMount() {
+    this.props.getCategoryItems();
     this.handleCleaningForm();
-    const emptyData = { ...this.state.data };
-    emptyData.category = this.props.state.types[0].name;
-    emptyData.categoryId = this.props.state.types[0]._id;
-    this.props.state.editForm
-      ? this.setState({ data: this.props.state.detailedModal.item })
-      : this.setState({ data: emptyData });
+    this.handleEditForm();
   }
+
+  componentWillReceiveProps(nextProps, nextState) {
+    if (this.props.match.params.id) {
+      const { product, loadingProduct } = nextProps;
+      if (loadingProduct || !product) return <h1>Loading...</h1>;
+      this.setState({ data: product });
+    }
+  }
+
+  handlePreparingForm = data => {
+    const { categories } = this.props;
+    if (!data.categoryId) {
+      data.category = categories[0].name;
+      data.categoryId = categories[0]._id;
+    }
+    return data;
+  };
+
+  handleNotify = name => {
+    let msg = "";
+    this.props.match.params.id
+      ? (msg = " با موفقیت به روزرسانی شد.")
+      : (msg = " با موفقیت اضافه شد.");
+    toast.info(name + msg);
+  };
+
+  handleEditForm = () => {
+    const id = this.props.match.params.id;
+    id && this.props.getProductItem(id);
+  };
+
+  handleCalculatingData = data => {
+    data.breakEvenPrice = (
+      parseInt(EngNum(data.buyPrice)) +
+      parseInt(EngNum(data.buyPrice)) * 0.2
+    ).toString();
+    return data;
+  };
 
   handleBack = () => {
     this.props.onRoute("/Products");
@@ -57,16 +96,21 @@ export class AddProduct extends Form {
   };
 
   doSubmit = data => {
-    data.breakEvenPrice =
-      parseInt(EngNum(data.buyPrice)) + parseInt(EngNum(data.buyPrice)) * 0.2;
-    this.props.onAddItem(data);
+    const newData = this.handleCalculatingData(data);
+    const result = this.handlePreparingForm(newData);
+
+    this.props.match.params.id
+      ? this.props.updateProductItem(result)
+      : this.props.addProductItem(result);
+
     this.props.onRoute("/Products");
     this.props.history.push("/Products");
-    this.handleCleaningForm();
+    this.handleNotify(result.name);
   };
 
   render() {
-    const { types: categories } = this.props.state;
+    const { categories, loadingCategories } = this.props;
+    if (!categories || loadingCategories) return <h1>Loading...</h1>;
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -121,4 +165,14 @@ export class AddProduct extends Form {
   }
 }
 
-export default withStyles(rtlStyle)(AddProduct);
+const mapStateToProduct = state => ({
+  categories: state.category.categories,
+  loadingCategories: state.category.loading,
+  product: state.product.product,
+  loadingProduct: state.product.loading
+});
+
+export default connect(
+  mapStateToProduct,
+  { getProductItem, getCategoryItems, addProductItem, updateProductItem }
+)(withStyles(rtlStyle)(AddProduct));

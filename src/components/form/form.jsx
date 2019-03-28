@@ -62,7 +62,7 @@ export default class Form extends Component {
 
   handleCleaningForm = () => {
     const data = { ...this.state.data };
-    Object.keys(data).map((keyName, i) => (data[keyName] = ""));
+    for (let key in data) data[key] = "";
     this.setState({ data });
   };
 
