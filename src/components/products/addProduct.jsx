@@ -30,9 +30,18 @@ export class AddProduct extends Form {
       categoryId: 0,
       proCode: "",
       diverseCode: "",
+      myKitchenCode: "",
+      myKitchenPlusCode: "",
+      nikradCode: "",
+      nikradText: "",
       name: "",
       brand: "",
-      buyPrice: "",
+      tradeListPrice: "",
+      tradeBuyingPrice: "",
+      buyingPriceHistory: "",
+      valueAdded: "",
+      commission: "",
+      shippingCosts: "",
       refPrice: "",
       breakEvenPrice: "",
       wholePrice: "",
@@ -41,7 +50,11 @@ export class AddProduct extends Form {
       retailStoreStock: "",
       wholeStoreStock: "",
       virtualStoreStock: "",
-      boxQuantity: ""
+      boxQuantity: "",
+      width: "",
+      length: "",
+      height: "",
+      weight: ""
     },
     errors: {}
   };
@@ -84,8 +97,8 @@ export class AddProduct extends Form {
 
   handleCalculatingData = data => {
     data.breakEvenPrice = (
-      parseInt(EngNum(data.buyPrice)) +
-      parseInt(EngNum(data.buyPrice)) * 0.2
+      parseInt(EngNum(data.tradeBuyingPrice)) +
+      parseInt(EngNum(data.tradeBuyingPrice)) * 0.2
     ).toString();
     return data;
   };
@@ -127,13 +140,21 @@ export class AddProduct extends Form {
                 {this.renderCancelBtn("لغو")}
               </div>
               <div className="row">
-                {this.renderSelect("category", "دسته بندی", categories, "3")}
-                {this.renderInput("proCode", "کد محصول", "3")}
-                {this.renderInput("diverseCode", "کد تنوع", "3")}
-                {this.renderInput("name", "عنوان", "5", true)}
+                {this.renderInput("proCode", "کد محصول")}
+                {this.renderInput("diverseCode", "کد تنوع")}
+                {this.renderInput("myKitchenCode", "کد مای کیچن")}
+                {this.renderInput("myKitchenPlusCode", "کد مای کیچن پلاس")}
+                {this.renderInput("nikradCode", "کد نیکراد")}
+                {this.renderSelect("category", "دسته بندی", categories, "4")}
+                {this.renderInput("name", "عنوان", "6", true)}
                 {this.renderInput("brand", "برند")}
-                {this.renderInput("buyPrice", "قیمت خرید")}
-                {this.renderInput("refPrice", "قیمت مرجع")}
+                {this.renderInput("weight", "وزن")}
+                {this.renderInput("width", "عرض")}
+                {this.renderInput("length", "طول")}
+                {this.renderInput("height", "ارتفاع")}
+                {this.renderInput("tradeListPrice", "قیمت لیست")}
+                {this.renderInput("tradeBuyingPrice", "قیمت خرید")}
+                {this.renderInput("commission", "کمیسیون")}
                 {this.renderInput("wholePrice", "قیمت عمده فروشی")}
                 {this.renderInput("retailPrice", "قیمت خرده فروشی")}
                 {this.renderInput("marketPlacePrice", "قیمت مارکت پلیس")}
@@ -153,8 +174,12 @@ export class AddProduct extends Form {
                   "2"
                 )}
                 {this.renderInput("boxQuantity", "تعداد در جعبه")}
+                {this.renderInput(
+                  "buyingPriceHistory",
+                  "قیمت خرید های قبلی",
+                  "11"
+                )}
                 {this.renderImage("img", " انتخاب عکس اصلی")}
-
                 {this.renderGallery("imgs", "انتخاب عکس گالری")}
               </div>
             </form>

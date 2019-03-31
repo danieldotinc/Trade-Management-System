@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import routes from "./routes";
 import Navigation from "./components/layouts/Navbar";
 import ProtectedRoute from "./components/protectedRoute";
 import { Login } from "./components/users/login";
 import { Register } from "./components/users/register";
+
 import {
   getBusinessColumns,
   getProductColumns
 } from "./services/fakeColumnService";
+
+import "react-toastify/dist/ReactToastify.css";
 import "./assets/css/style.css";
 
 class App extends Component {

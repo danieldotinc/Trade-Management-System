@@ -48,8 +48,9 @@ export default class Form extends Component {
   handleFormSubmission = e => {
     e.preventDefault();
     let data = { ...this.state.data };
-    for (let i = 0; i < e.target.length; i++) {
+    for (let i = 0; i < Object.keys(e.target).length; i++) {
       if (
+        e.target[i] &&
         e.target[i].name !== "img" &&
         e.target[i].name !== "imgs" &&
         e.target[i].name !== "submit"

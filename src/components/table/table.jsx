@@ -23,7 +23,6 @@ const Table = ({
         onSort={onSort}
       />
       <TableBody
-        user={user}
         listName={listName}
         onDetail={onDetail}
         onDelete={onDelete}

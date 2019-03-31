@@ -3,7 +3,7 @@ import uuid from "uuid";
 
 const Select = ({ name, label, value, options, size, onChange }) => {
   return (
-    <div className={`form-group m-4 col-${size}`}>
+    <div className={`form-group m-3 col-${size}`}>
       <label htmlFor={`${name}Input`}>{label}</label>
       <select
         className="form-control form-control-lg shadow rounded"

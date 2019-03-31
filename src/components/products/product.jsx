@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../services/authService";
 import { connect } from "react-redux";
@@ -7,6 +8,7 @@ import {
   deleteProductItem
 } from "../../actions/productActions";
 import { PersianNum } from "../table/common/persiandigit";
+import ListGroupItem from "../listGroup/listGroupItem";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
@@ -30,6 +32,10 @@ export class Product extends Component {
     this.props.history.push(`/EditProduct/${item._id}`);
   };
 
+  onProcess = item => {
+    this.props.history.push(`/Process/${item._id}`);
+  };
+
   handleBack = () => {
     this.props.onRoute("/Products");
     this.props.history.push("/Products");
@@ -37,29 +43,7 @@ export class Product extends Component {
 
   render() {
     const user = auth.getCurrentUser();
-    const { listName } = this.props.state;
     const { product, loading } = this.props;
-    const head = [
-      "آی دی",
-      "تصویر",
-      "گالری",
-      "دسته بندی",
-      "آی دی دسته بندی",
-      "کد محصول",
-      "کد تنوع",
-      "عنوان",
-      "برند",
-      "قیمت خرید",
-      "قیمت مرجع",
-      "قیمت سر به سر",
-      "قیمت عمده فروشی",
-      "قیمت خرده فروشی",
-      "قیمت مارکت پلیس",
-      "موجودی انبار خرده فروشی",
-      "موجودی انبار عمده فروشی",
-      "موجودی انبار مجازی دیجیکالا",
-      "تعداد در جعبه"
-    ];
     if (loading || !product) return <h1>Loading ...</h1>;
     return (
       <GridItem xs={12} sm={12} md={12}>
@@ -79,6 +63,15 @@ export class Product extends Component {
                 >
                   <i className="fa fa-arrow-right" />
                 </button>
+
+                <button
+                  className="btn btn-lg btn-success m-2 shadow rounded"
+                  style={{ backgroundColor: "#9c27b0", borderColor: "#9c27b0" }}
+                  onClick={() => this.onProcess(product)}
+                >
+                  <i className="fa fa-sync" />
+                </button>
+
                 <button
                   className="btn btn-lg btn-dark m-2 shadow rounded"
                   onClick={() => this.onEdit(product)}
@@ -121,43 +114,65 @@ export class Product extends Component {
                 </div>
                 <div className="list-group m-2 mt-5 col-5">
                   <div className="row shadow rounded">
-                    {Object.keys(product).map((keyName, i) => {
-                      if (
-                        keyName != "_id" &&
-                        keyName != "categoryId" &&
-                        keyName != "img" &&
-                        keyName != "imgs" &&
-                        keyName != "imgFile" &&
-                        keyName != "imgFiles" &&
-                        keyName != "file" &&
-                        keyName != "__v" &&
-                        keyName != "files"
-                      ) {
-                        if (
-                          keyName.includes("Price") ||
-                          keyName.includes("Stock") ||
-                          keyName.includes("Quantity")
-                        ) {
-                          return (
-                            <span className="list-group-item col-6">
-                              {head[i] + " : "}
-                              <span style={{ fontWeight: "600" }}>
-                                {PersianNum(product[keyName].toLocaleString())}
-                              </span>
-                            </span>
-                          );
-                        } else {
-                          return (
-                            <span className="list-group-item col-12">
-                              {head[i] + " : "}
-                              <span style={{ fontWeight: "600" }}>
-                                {PersianNum(product[keyName])}
-                              </span>
-                            </span>
-                          );
-                        }
-                      }
-                    })}
+                    <ListGroupItem
+                      label="عنوان"
+                      value={product.name}
+                      size="12"
+                      float=""
+                    />
+                    <ListGroupItem
+                      label="دسته بندی"
+                      value={product.category}
+                      size="12"
+                      float=""
+                    />
+                    <ListGroupItem
+                      label="برند"
+                      value={product.brand}
+                      size="12"
+                      float=""
+                    />
+                    <ListGroupItem label="کد محصول" value={product.proCode} />
+                    <ListGroupItem
+                      label="کد تنوع"
+                      value={parseInt(product.diverseCode)}
+                    />
+                    <ListGroupItem
+                      label="قیمت لیست"
+                      value={parseInt(product.tradeListPrice)}
+                    />
+                    <ListGroupItem
+                      label="قیمت خرید"
+                      value={parseInt(product.tradeBuyingPrice)}
+                    />
+                    <ListGroupItem
+                      label="قیمت عمده فروشی"
+                      value={parseInt(product.wholePrice)}
+                    />
+                    <ListGroupItem
+                      label="قیمت خرده فروشی"
+                      value={parseInt(product.retailPrice)}
+                    />
+                    <ListGroupItem
+                      label="قیمت مارکت پلیس"
+                      value={parseInt(product.marketPlacePrice)}
+                    />
+                    <ListGroupItem
+                      label="تعداد در جعبه"
+                      value={parseInt(product.boxQuantity)}
+                    />
+                    <ListGroupItem
+                      label="موجودی انبار خرده فروشی"
+                      value={parseInt(product.retailStoreStock)}
+                    />
+                    <ListGroupItem
+                      label="موجودی انبار عمده فروشی"
+                      value={parseInt(product.wholeStoreStock)}
+                    />
+                    <ListGroupItem
+                      label="موجودی انبار مارکت پلیس"
+                      value={parseInt(product.wholeStoreStock)}
+                    />
                   </div>
                 </div>
               </div>

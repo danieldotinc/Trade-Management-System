@@ -32,6 +32,9 @@ export class ListPage extends Component {
                 );
               })}
             </p>
+            <p className={this.props.classes.cardCategoryWhite}>
+              لیست جدیدترین {pageName}
+            </p>
             <div />
           </CardHeader>
           <CardBody>

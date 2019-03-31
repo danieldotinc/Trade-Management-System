@@ -12,6 +12,7 @@ import Dashboard from "./components/dashboard/dashboard";
 import { Register } from "./components/users/register";
 import { Login } from "./components/users/login";
 import Logout from "./components/users/logout";
+import Process from "./components/products/process";
 
 let dashboardRoutes = [
   {
@@ -69,6 +70,13 @@ let dashboardRoutes = [
     rtlName: "محصول",
     layout: "/Product",
     component: Product
+  },
+  {
+    path: "/:id",
+    name: "Process",
+    rtlName: "پردازش محصول",
+    layout: "/Process",
+    component: Process
   },
   {
     path: "/AddProduct",
