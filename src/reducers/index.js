@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import settingReducer from "./settingReducer";
 import productReducer from "./productReducer";
 import personReducer from "./personReducer";
 import categoryReducer from "./categoryReducer";
@@ -8,6 +9,7 @@ import marketSectorReducer from "./marketSectorReducer";
 import officeSectorReducer from "./officeSectorReducer";
 
 export default combineReducers({
+  setting: settingReducer,
   product: productReducer,
   person: personReducer,
   company: companyReducer,
