@@ -98,37 +98,60 @@ export class AddProduct extends Form {
     id && this.props.getProductItem(id);
   };
 
-  getCostAndTax = () => {
+  getCostAndTax = data => {
     if (!this.props.settings) return 0;
-    return (
-      parseInt(this.props.settings[1].set) +
-      (this.props.product.tradeBuyingPrice * this.props.settings[0].set) / 100
-    );
+    return parseInt(this.props.settings[1].set);
   };
 
   getMarketPlaceCosts = data => {
     const { length, width, height, weight } = data;
+    const shipCost = getDigiKalaShipping(length, width, height, weight);
     return (
-      getDigiKalaShipping(length, width, height, weight) + this.getCostAndTax()
+      shipCost +
+      this.getMarketPlaceAddedValue(shipCost) +
+      this.getCostAndTax(data)
     );
   };
 
-  getWholePrice = buyPrice =>
-    buyPrice +
-    (this.props.settings[2].set / 100) * buyPrice +
-    this.getCostAndTax();
+  getMarketPlaceAddedValue = shipCost => shipCost * 0.09;
 
-  getRetailPrice = buyPrice =>
-    buyPrice +
-    (this.props.settings[3].set / 100) * buyPrice +
-    this.getCostAndTax();
+  getMarketPlaceCommission = () => 0.1;
+
+  getShipping = data => {
+    const { length, width, height, weight } = data;
+    return getDigiKalaShipping(length, width, height, weight);
+  };
+
+  getAddedValue = () => 0.09;
+
+  getWholePrice = data =>
+    Math.round(
+      (parseInt(EngNum(data.tradeBuyingPrice)) + this.getShipping(data) * 2) /
+        (1 -
+          parseInt(this.props.settings[2].set) / 100 -
+          this.getAddedValue()) /
+        10
+    ) * 10;
+
+  getRetailPrice = data =>
+    Math.round(
+      (parseInt(EngNum(data.tradeBuyingPrice)) + this.getShipping(data) * 2) /
+        (1 -
+          parseInt(this.props.settings[3].set) / 100 -
+          this.getAddedValue()) /
+        10
+    ) * 10;
 
   getMarketPlacePrice = data =>
-    parseInt(EngNum(data.tradeBuyingPrice)) +
-    (this.props.settings[4].set / 100) *
-      parseInt(EngNum(data.tradeBuyingPrice)) +
-    this.getCostAndTax() +
-    this.getMarketPlaceCosts(data);
+    Math.round(
+      (parseInt(EngNum(data.tradeBuyingPrice)) +
+        this.getMarketPlaceCosts(data)) /
+        (1 -
+          parseInt(this.props.settings[4].set) / 100 -
+          this.getAddedValue() -
+          this.getMarketPlaceCommission()) /
+        10
+    ) * 10;
 
   handleCalculatingData = data => {
     data.breakEvenPrice = (
@@ -138,13 +161,9 @@ export class AddProduct extends Form {
     for (let key of Object.keys(data)) {
       console.log(data[key]);
       if (!data[key] && key === "wholePrice")
-        data.wholePrice = this.getWholePrice(
-          parseInt(EngNum(data.tradeBuyingPrice))
-        );
+        data.wholePrice = this.getWholePrice(data);
       if (!data[key] && key === "retailPrice")
-        data.retailPrice = this.getRetailPrice(
-          parseInt(EngNum(data.tradeBuyingPrice))
-        );
+        data.retailPrice = this.getRetailPrice(data);
       if (!data[key] && key === "marketPlacePrice")
         data.marketPlacePrice = this.getMarketPlacePrice(data);
     }

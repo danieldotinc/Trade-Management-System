@@ -50,32 +50,46 @@ class Process extends Component {
     const value = EngNum(clearValue);
     data[e.target.name] = parseInt(value);
     if (value && e.target.name.includes("Percent")) {
-      data.marketPlaceProfitDiffPrice = getProfitByPercent(
-        this.props.product.tradeBuyingPrice,
-        value
-      );
       data.marketPlacePrice =
-        getPriceByPercent(this.props.product.tradeBuyingPrice, value) +
-        this.getMarketPlaceCosts() +
-        this.getAddedValue();
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) +
+            this.getMarketPlaceCosts()) /
+            (1 -
+              parseInt(value) / 100 -
+              this.getAddedValue() -
+              this.getMarketPlaceCommission()) /
+            10
+        ) * 10;
+      data.marketPlaceProfitDiffPrice =
+        Math.round(getProfitByPercent(data.marketPlacePrice, value) / 10) * 10;
     } else if (value && e.target.name.includes("Profit")) {
+      data.marketPlacePrice =
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) +
+            parseInt(value) +
+            this.getMarketPlaceCosts()) /
+            (1 - this.getMarketPlaceCommission() - this.getAddedValue()) /
+            10
+        ) * 10;
+
       data.marketPlaceProfitPercent = getPercentByProfit(
-        this.props.product.tradeBuyingPrice,
+        data.marketPlacePrice,
         value
       );
-      data.marketPlacePrice =
-        getPriceByProfit(this.props.product.tradeBuyingPrice, value) +
-        this.getMarketPlaceCosts() +
-        this.getAddedValue();
     } else if (value && e.target.name.includes("Price")) {
-      data.marketPlaceProfitPercent = getPercentByPrice(
-        this.props.product.tradeBuyingPrice,
-        value - this.getMarketPlaceCosts() - this.getAddedValue()
-      );
-      data.marketPlaceProfitDiffPrice = getProfitByPrice(
-        this.props.product.tradeBuyingPrice,
-        value - this.getMarketPlaceCosts() - this.getAddedValue()
-      );
+      data.marketPlaceProfitDiffPrice =
+        Math.round(
+          (parseInt(value) *
+            (1 - this.getMarketPlaceCommission() - this.getAddedValue()) -
+            parseInt(this.props.product.tradeBuyingPrice) -
+            this.getMarketPlaceCosts()) /
+            10
+        ) * 10;
+
+      data.marketPlaceProfitPercent =
+        Math.round(
+          (data.marketPlaceProfitDiffPrice * 10000) / parseInt(value)
+        ) / 100;
     } else {
       data.marketPlaceProfitPercent = "";
       data.marketPlaceProfitDiffPrice = "";
@@ -90,30 +104,37 @@ class Process extends Component {
     const value = EngNum(clearValue);
     data[e.target.name] = parseInt(value);
     if (value && e.target.name.includes("Percent")) {
-      data.wholeProfitDiffPrice = getProfitByPercent(
-        this.props.product.tradeBuyingPrice,
-        value
-      );
       data.wholePrice =
-        getPriceByPercent(this.props.product.tradeBuyingPrice, value) +
-        this.getCostAndTax();
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) +
+            this.getShipping() * 2) /
+            (1 - parseInt(value) / 100 - this.getAddedValue()) /
+            10
+        ) * 10;
+      data.wholeProfitDiffPrice =
+        Math.round(getProfitByPercent(data.wholePrice, value) / 10) * 10;
     } else if (value && e.target.name.includes("Profit")) {
-      data.wholeProfitPercent = getPercentByProfit(
-        this.props.product.tradeBuyingPrice,
-        value
-      );
       data.wholePrice =
-        getPriceByProfit(this.props.product.tradeBuyingPrice, value) +
-        this.getCostAndTax();
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) +
+            parseInt(value) +
+            this.getShipping() * 2) /
+            (1 - this.getAddedValue()) /
+            10
+        ) * 10;
+
+      data.wholeProfitPercent = getPercentByProfit(data.wholePrice, value);
     } else if (value && e.target.name.includes("Price")) {
-      data.wholeProfitPercent = getPercentByPrice(
-        this.props.product.tradeBuyingPrice,
-        value - this.getCostAndTax()
-      );
-      data.wholeProfitDiffPrice = getProfitByPrice(
-        this.props.product.tradeBuyingPrice,
-        value - this.getCostAndTax()
-      );
+      data.wholeProfitDiffPrice =
+        Math.round(
+          (parseInt(value) * (1 - this.getAddedValue()) -
+            parseInt(this.props.product.tradeBuyingPrice) -
+            this.getShipping() * 2) /
+            10
+        ) * 10;
+
+      data.wholeProfitPercent =
+        Math.round((data.wholeProfitDiffPrice * 10000) / parseInt(value)) / 100;
     } else {
       data.wholeProfitPercent = "";
       data.wholeProfitDiffPrice = "";
@@ -134,27 +155,26 @@ class Process extends Component {
 
   getCostAndTax = () => {
     if (!this.props.settings) return 0;
-    return (
-      parseInt(this.props.settings[1].set) +
-      (this.props.product.tradeBuyingPrice * this.props.settings[0].set) / 100
-    );
+    return parseInt(this.props.settings[1].set);
   };
 
-  getAddedValue = () => this.props.product.marketPlacePrice * 0.09;
+  getAddedValue = () => 0.09;
 
   getMarketPlaceAddedValue = shipCost => shipCost * 0.09;
 
-  getMarcetPlaceCommission = () => this.props.product.marketPlacePrice * 0.1;
+  getMarketPlaceCommission = () => 0.1;
 
   getMarketPlaceCosts = () => {
     const { length, width, height, weight } = this.props.product;
     const shipCost = getDigiKalaShipping(length, width, height, weight);
     return (
-      shipCost +
-      this.getMarketPlaceAddedValue(shipCost) +
-      this.getMarcetPlaceCommission() +
-      this.getCostAndTax()
+      shipCost + this.getMarketPlaceAddedValue(shipCost) + this.getCostAndTax()
     );
+  };
+
+  getShipping = () => {
+    const { length, width, height, weight } = this.props.product;
+    return getDigiKalaShipping(length, width, height, weight);
   };
 
   render() {
@@ -172,33 +192,52 @@ class Process extends Component {
       product.tradeListPrice
     );
 
-    const wholeProfitPercent = getPercent(
-      product.tradeBuyingPrice,
-      parseInt(product.wholePrice) - this.getCostAndTax()
-    );
+    const wholeProfitDiffPrice =
+      Math.round(
+        (parseInt(product.wholePrice) * (1 - this.getAddedValue()) -
+          parseInt(product.tradeBuyingPrice) -
+          this.getShipping() * 2) /
+          10
+      ) * 10;
 
-    const wholeProfitDiffPrice = getDiffPrice(
-      product.tradeBuyingPrice,
-      product.wholePrice - this.getCostAndTax()
-    );
+    const wholeProfitPercent =
+      Math.round(
+        (wholeProfitDiffPrice * 10000) / parseInt(product.wholePrice)
+      ) /
+        100 +
+      " %";
 
-    const retailProfitPercent = getPercent(
-      product.tradeBuyingPrice,
-      product.retailPrice - this.getCostAndTax()
-    );
-    const retailProfitDiffPrice = getDiffPrice(
-      product.tradeBuyingPrice,
-      product.retailPrice - this.getCostAndTax()
-    );
+    const retailProfitDiffPrice =
+      Math.round(
+        (parseInt(product.retailPrice) * (1 - this.getAddedValue()) -
+          parseInt(product.tradeBuyingPrice) -
+          this.getShipping() * 2) /
+          10
+      ) * 10;
 
-    const marketPlaceProfitPercent = getPercent(
-      product.tradeBuyingPrice,
-      product.marketPlacePrice - this.getMarketPlaceCosts()
-    );
-    const marketPlaceProfitDiffPrice = getDiffPrice(
-      product.tradeBuyingPrice,
-      product.marketPlacePrice - this.getMarketPlaceCosts()
-    );
+    const retailProfitPercent =
+      Math.round(
+        (retailProfitDiffPrice * 10000) / parseInt(product.retailPrice)
+      ) /
+        100 +
+      " %";
+
+    const marketPlaceProfitDiffPrice =
+      Math.round(
+        (parseInt(product.marketPlacePrice) *
+          (1 - this.getMarketPlaceCommission() - this.getAddedValue()) -
+          parseInt(product.tradeBuyingPrice) -
+          this.getMarketPlaceCosts()) /
+          10
+      ) * 10;
+
+    const marketPlaceProfitPercent =
+      Math.round(
+        (marketPlaceProfitDiffPrice * 10000) /
+          parseInt(product.marketPlacePrice)
+      ) /
+        100 +
+      " %";
 
     const shippingPrice = getDigiKalaShipping(
       product.length,
@@ -392,23 +431,33 @@ class Process extends Component {
                       <ListGroupItem
                         label="مبلغ ارزش افزوده عمده فروشی"
                         value={
-                          (parseInt(settings[0].set) / 100) * product.wholePrice
+                          Math.round(
+                            ((parseInt(settings[0].set) / 100) *
+                              product.wholePrice) /
+                              10
+                          ) * 10
                         }
                         size="12"
                       />
                       <ListGroupItem
                         label="مبلغ ارزش افزوده خرده فروشی"
                         value={
-                          (parseInt(settings[0].set) / 100) *
-                          product.retailPrice
+                          Math.round(
+                            ((parseInt(settings[0].set) / 100) *
+                              product.retailPrice) /
+                              10
+                          ) * 10
                         }
                         size="12"
                       />
                       <ListGroupItem
                         label="مبلغ ارزش افزوده مارکت پلیس"
                         value={
-                          (parseInt(settings[0].set) / 100) *
-                          product.marketPlacePrice
+                          Math.round(
+                            ((parseInt(settings[0].set) / 100) *
+                              product.marketPlacePrice) /
+                              10
+                          ) * 10
                         }
                         size="12"
                       />
