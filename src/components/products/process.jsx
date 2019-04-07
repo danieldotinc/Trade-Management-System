@@ -1,9 +1,6 @@
-import React, { Component, Fragment } from "react";
-import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import auth from "../../services/authService";
-import Form from "../form/form";
 import Input from "../form/input";
 import { getProductItem } from "../../actions/productActions";
 import { getSettingItems } from "../../actions/settingActions";

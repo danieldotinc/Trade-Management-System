@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import FormValidate from "./formValidate";
 import { PersianNum, EngNum } from "../table/common/persiandigit";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faImages,
+  faImage,
+  faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
 import Input from "./input";
 import Select from "./select";
 import UploadImg from "./uploadImg";
@@ -23,10 +29,10 @@ export default class Form extends Component {
         data.imgs = [];
         data.imgFiles = [];
         data.files = [];
-        for (let i = 0; i < e.target.files.length; i++) {
-          data.imgs[i] = e.target.files[i].name;
-          data.files[i] = e.target.files[i];
-          data.imgFiles[i] = [URL.createObjectURL(e.target.files[i])];
+        for (let file of e.target.files) {
+          data.imgs.push(file.name);
+          data.files.push(file);
+          data.imgFiles.push([URL.createObjectURL(file)]);
         }
         this.setState({ data });
       }
@@ -36,6 +42,12 @@ export default class Form extends Component {
       var optionElement = e.target.childNodes[index];
       var optionId = optionElement.getAttribute("id");
       data[e.target.name + "Id"] = optionId;
+      const errors = FormValidate(e);
+      this.setState({ data, errors });
+    } else if (e.target.value && e.target.name.includes("Price")) {
+      const clearValue = e.target.value.replace(/,/g, "");
+      const value = EngNum(clearValue);
+      data[e.target.name] = PersianNum(parseInt(value).toLocaleString());
       const errors = FormValidate(e);
       this.setState({ data, errors });
     } else {
@@ -55,6 +67,9 @@ export default class Form extends Component {
         e.target[i].name !== "imgs" &&
         e.target[i].name !== "submit"
       ) {
+        if (e.target[i].name.includes("Price")) {
+          e.target[i].value = e.target[i].value.replace(/,/g, "");
+        }
         data[e.target[i].name] = EngNum(e.target[i].value);
       }
     }
@@ -137,27 +152,37 @@ export default class Form extends Component {
     let img = null;
     if (data.img) {
       img = (
-        <img
-          style={{
-            maxWidth: "150px",
-            maxHeight: "150px",
-            borderRadius: "10px"
-          }}
-          className="shadow rounded"
-          src={data.imgFile}
-        />
+        <div className="fadein">
+          <div
+            onClick={() => {
+              data.img = "";
+              data.imgFile = [];
+              data.file = null;
+              this.setState({ data });
+            }}
+            className="delete"
+          >
+            <FontAwesomeIcon icon={faTimesCircle} size="2x" />
+            <div className="clearfix"> </div>
+            <img
+              style={{
+                maxWidth: "150px",
+                maxHeight: "130px",
+                borderRadius: "50%"
+              }}
+              className="shadow rounded"
+              src={data.imgFile}
+            />
+          </div>
+        </div>
       );
     } else {
       img = (
-        <div
-          style={{
-            border: "1px solid black",
-            borderRadius: "10px",
-            height: "120px",
-            width: "150px"
-          }}
-          className="shadow rounded"
-        />
+        <div className="button">
+          <label htmlFor="single">
+            <FontAwesomeIcon icon={faImage} color="#3B5998" size="10x" />
+          </label>
+        </div>
       );
     }
     return (
@@ -190,52 +215,38 @@ export default class Form extends Component {
     if (data.imgs[0] && data.imgFiles) {
       data.imgs.map((item, i) => {
         imgs[i] = (
-          <img
-            style={{
-              maxWidth: "150px",
-              maxHeight: "150px",
-              borderRadius: "10px"
-            }}
-            className="m-2 shadow rounded"
-            src={data.imgFiles[i]}
-          />
+          <div className="fadein">
+            <div
+              onClick={() => {
+                data.imgs.splice(i, 1);
+                data.imgFiles.splice(i, 1);
+                data.files.splice(i, 1);
+                this.setState({ data });
+              }}
+              className="delete"
+            >
+              <FontAwesomeIcon icon={faTimesCircle} size="2x" />
+              <div className="clearfix"> </div>
+              <img
+                style={{
+                  maxWidth: "150px",
+                  maxHeight: "130px",
+                  borderRadius: "50%"
+                }}
+                className="m-2 shadow rounded"
+                src={data.imgFiles[i]}
+              />
+            </div>
+          </div>
         );
       });
     } else {
       imgs[0] = (
-        <div
-          style={{
-            border: "1px solid black",
-            borderRadius: "10px",
-            height: "120px",
-            width: "150px",
-            marginLeft: "5px"
-          }}
-          className="m-2 shadow rounded"
-        />
-      );
-      imgs[1] = (
-        <div
-          style={{
-            border: "1px solid black",
-            borderRadius: "10px",
-            height: "120px",
-            width: "150px",
-            marginLeft: "5px"
-          }}
-          className="m-2 shadow rounded"
-        />
-      );
-      imgs[2] = (
-        <div
-          style={{
-            border: "1px solid black",
-            borderRadius: "10px",
-            height: "120px",
-            width: "150px"
-          }}
-          className="m-2 shadow rounded"
-        />
+        <div className="button">
+          <label htmlFor="multi">
+            <FontAwesomeIcon icon={faImages} color="#6d84b4" size="10x" />
+          </label>
+        </div>
       );
     }
     return (

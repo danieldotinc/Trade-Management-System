@@ -1,4 +1,7 @@
 import React from "react";
+import Spinner from "../form/spinner";
+import Images from "../form/images";
+import Buttons from "../form/buttons";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -23,11 +26,12 @@ import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.j
 export class AddProduct extends Form {
   state = {
     data: {
+      uploading: true,
       img: "",
       imgs: [],
       imgFile: [],
       imgFiles: [],
-      file: "",
+      file: null,
       files: [],
       category: "",
       categoryId: 0,
@@ -159,7 +163,6 @@ export class AddProduct extends Form {
       parseInt(EngNum(data.tradeBuyingPrice)) * 0.2
     ).toString();
     for (let key of Object.keys(data)) {
-      console.log(data[key]);
       if (!data[key] && key === "wholePrice")
         data.wholePrice = this.getWholePrice(data);
       if (!data[key] && key === "retailPrice")

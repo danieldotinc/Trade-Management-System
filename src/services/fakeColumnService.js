@@ -22,8 +22,8 @@ export const customerColumns = [
 
 export const businessColumns = [
   { label: "نام", path: "name" },
+  { label: "هویت", path: "identity" },
   { label: "نام کسب وکار", path: "company" },
-  { label: "حوزه فعالیت", path: "marketSector" },
   { label: "موبایل", path: "mobile" },
   { label: "تلفن", path: "telephone" },
   { label: "داخلی", path: "telExtention" },
@@ -39,10 +39,9 @@ export const productColumns = [
   { label: "کد تنوع", path: "diverseCode" },
   { label: "عنوان", path: "name" },
   { label: "برند", path: "brand" },
-  { label: "قیمت مرجع", path: "refPrice" },
-  { label: "قیمت عمده", path: "wholePrice" },
-  { label: "قیمت تکی", path: "retailPrice" },
-  { label: "", path: "" }
+  { label: "عمده", path: "wholePrice" },
+  { label: "تکی", path: "retailPrice" },
+  { label: "دیجیکالا", path: "marketPlacePrice" }
 ];
 
 export function getBusinessColumns() {

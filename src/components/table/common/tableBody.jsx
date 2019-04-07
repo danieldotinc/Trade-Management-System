@@ -3,7 +3,7 @@ import auth from "../../../services/authService";
 import uuid from "uuid";
 import Like from "./like";
 import _ from "lodash";
-import { PersianNum } from "./persiandigit";
+import { PersianNum, EngNum } from "./persiandigit";
 
 class TableBody extends Component {
   renderCell = (item, column) => {
@@ -16,7 +16,7 @@ class TableBody extends Component {
         />
       );
     else if (column.path.includes("Price"))
-      return PersianNum(_.get(item, column.path).toLocaleString());
+      return PersianNum(parseInt(_.get(item, column.path)).toLocaleString());
     else if (
       column.path == "imgFiles" ||
       column.path == "imgFile" ||
