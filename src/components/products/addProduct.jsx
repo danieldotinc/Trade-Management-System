@@ -31,7 +31,7 @@ export class AddProduct extends Form {
       imgs: [],
       imgFile: [],
       imgFiles: [],
-      file: null,
+      file: "",
       files: [],
       category: "",
       categoryId: 0,
@@ -158,10 +158,6 @@ export class AddProduct extends Form {
     ) * 10;
 
   handleCalculatingData = data => {
-    data.breakEvenPrice = (
-      parseInt(EngNum(data.tradeBuyingPrice)) +
-      parseInt(EngNum(data.tradeBuyingPrice)) * 0.2
-    ).toString();
     for (let key of Object.keys(data)) {
       if (!data[key] && key === "wholePrice")
         data.wholePrice = this.getWholePrice(data);
@@ -181,10 +177,14 @@ export class AddProduct extends Form {
   doSubmit = data => {
     const newData = this.handleCalculatingData(data);
     const result = this.handlePreparingForm(newData);
+    const finaldata = new FormData();
+    for (let key in result) finaldata.append(key, result[key]);
+    if (result.files)
+      for (let img of result.files) finaldata.append("file", img);
 
     this.props.match.params.id
-      ? this.props.updateProductItem(result)
-      : this.props.addProductItem(result);
+      ? this.props.updateProductItem({ item: finaldata, id: result._id })
+      : this.props.addProductItem(finaldata);
 
     this.props.onRoute("/Products");
     this.props.history.push("/Products");

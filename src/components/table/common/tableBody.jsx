@@ -12,7 +12,10 @@ class TableBody extends Component {
         <img
           style={{ maxHeight: "50px", maxWidth: "50px", borderRadius: "10px" }}
           className="shadow rounded"
-          src={require(`../../../${_.get(item, column.path)}`)}
+          src={
+            _.get(item, column.path) &&
+            require(`../../../${_.get(item, column.path)}`)
+          }
         />
       );
     else if (column.path.includes("Price"))

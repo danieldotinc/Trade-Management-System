@@ -97,20 +97,21 @@ export class Product extends Component {
                       width: "500px",
                       borderRadius: "10px"
                     }}
-                    src={require(`../../${product.img}`)}
+                    src={product.img && require(`../../${product.img}`)}
                   />
                   <br />
-                  {product.imgs.map(img => (
-                    <img
-                      style={{
-                        maxHeight: "100px",
-                        maxWidth: "100px",
-                        borderRadius: "5px"
-                      }}
-                      className="shadow rounded m-2"
-                      src={require(`../../${img}`)}
-                    />
-                  ))}
+                  {product.imgs &&
+                    product.imgs.map(img => (
+                      <img
+                        style={{
+                          maxHeight: "100px",
+                          maxWidth: "100px",
+                          borderRadius: "5px"
+                        }}
+                        className="shadow rounded m-2"
+                        src={require(`../../${img}`)}
+                      />
+                    ))}
                 </div>
                 <div className="list-group m-2 mt-5 col-5">
                   <div className="row shadow rounded">

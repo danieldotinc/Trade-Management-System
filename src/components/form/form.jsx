@@ -64,6 +64,7 @@ export default class Form extends Component {
       if (
         e.target[i] &&
         e.target[i].name !== "img" &&
+        e.target[i].name !== "file" &&
         e.target[i].name !== "imgs" &&
         e.target[i].name !== "submit"
       ) {
@@ -171,7 +172,7 @@ export default class Form extends Component {
                 borderRadius: "50%"
               }}
               className="shadow rounded"
-              src={data.imgFile}
+              src={data.imgFile || `../${data.img}`}
             />
           </div>
         </div>
@@ -212,15 +213,15 @@ export default class Form extends Component {
   ) => {
     const { data } = this.state;
     let imgs = [];
-    if (data.imgs[0] && data.imgFiles) {
+    if (data.imgs[0]) {
       data.imgs.map((item, i) => {
         imgs[i] = (
           <div className="fadein">
             <div
               onClick={() => {
                 data.imgs.splice(i, 1);
-                data.imgFiles.splice(i, 1);
-                data.files.splice(i, 1);
+                data.imgFiles && data.imgFiles.splice(i, 1);
+                data.files && data.files.splice(i, 1);
                 this.setState({ data });
               }}
               className="delete"
@@ -234,7 +235,7 @@ export default class Form extends Component {
                   borderRadius: "50%"
                 }}
                 className="m-2 shadow rounded"
-                src={data.imgFiles[i]}
+                src={data.imgFiles ? data.imgFiles[i] : `../${item}`}
               />
             </div>
           </div>

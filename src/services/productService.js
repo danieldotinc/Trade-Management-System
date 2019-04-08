@@ -17,7 +17,5 @@ export async function saveProduct(item) {
 }
 
 export async function updateProduct(item) {
-  const body = { ...item };
-  delete body._id;
-  return http.put(`/products/${item._id}`, body);
+  return http.put(`/products/${item.id}`, item.item);
 }

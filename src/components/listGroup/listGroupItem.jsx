@@ -6,7 +6,7 @@ const ListGroupItem = ({ label, value, size = 6, float = "left" }) => {
     <span className={`list-group-item col-${size}`}>
       {label} :
       <span style={{ fontWeight: "600", float: float }}>
-        {" " + PersianNum(value.toLocaleString())}
+        {value && " " + PersianNum(value.toLocaleString())}
       </span>
     </span>
   );
