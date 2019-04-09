@@ -8,6 +8,7 @@ import {
   deleteProductItem
 } from "../../actions/productActions";
 import { PersianNum } from "../table/common/persiandigit";
+import Delete from "../Modal/delete";
 import ListGroupItem from "../listGroup/listGroupItem";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
@@ -79,14 +80,11 @@ export class Product extends Component {
                   <i className="fa fa-wrench" />
                 </button>
                 {user.isAdmin && (
-                  <button
-                    className="btn btn-lg btn-danger m-2 shadow rounded"
-                    onClick={() => {
-                      this.onDelete(product);
-                    }}
-                  >
-                    <i className="fa fa-trash-alt" />
-                  </button>
+                  <Delete
+                    onDelete={this.onDelete}
+                    item={product}
+                    classes="btn-lg m-2"
+                  />
                 )}
               </div>
               <div className="row">

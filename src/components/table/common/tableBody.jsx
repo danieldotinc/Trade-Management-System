@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import auth from "../../../services/authService";
 import uuid from "uuid";
+import Delete from "../../Modal/delete";
 import Like from "./like";
 import _ from "lodash";
 import { PersianNum, EngNum } from "./persiandigit";
@@ -68,14 +69,7 @@ class TableBody extends Component {
               >
                 <i className="fa fa-wrench" />
               </button>
-              {user.isAdmin && (
-                <button
-                  className="btn btn-danger shadow rounded"
-                  onClick={() => onDelete(item)}
-                >
-                  <i className="fa fa-trash-alt" />
-                </button>
-              )}
+              {user.isAdmin && <Delete onDelete={onDelete} item={item} />}
             </td>
           </tr>
         ))}

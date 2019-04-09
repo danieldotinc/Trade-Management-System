@@ -4,6 +4,7 @@ import auth from "../../services/authService";
 import { connect } from "react-redux";
 import { getPersonItem, deletePersonItem } from "../../actions/personActions";
 import { PersianDigit } from "../table/common/persiandigit";
+import Delete from "../Modal/delete";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
@@ -62,14 +63,11 @@ class Profile extends Component {
                   <i className="fa fa-wrench" />
                 </button>
                 {user.isAdmin && (
-                  <button
-                    className="btn btn-lg btn-danger m-2 shadow rounded"
-                    onClick={() => {
-                      this.onDelete(person);
-                    }}
-                  >
-                    <i className="fa fa-trash-alt" />
-                  </button>
+                  <Delete
+                    onDelete={this.onDelete}
+                    item={person}
+                    classes="btn-lg m-2"
+                  />
                 )}
               </div>
               <p className="list-group m-2">
