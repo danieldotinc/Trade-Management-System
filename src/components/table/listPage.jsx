@@ -12,13 +12,13 @@ import Button from "../../components/CustomButtons/Button.jsx";
 
 export class ListPage extends Component {
   render() {
-    const { classes, onNewForm, onRoute, ...rest } = this.props;
-    const { addLink, pageName, links } = this.props.state;
+    const { classes, onNewForm, onRoute, properties, ...rest } = this.props;
+    const { addLink, links } = this.props.state;
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="info">
-            <h4 className={classes.cardTitleWhite}>{pageName}</h4>
+            <h4 className={classes.cardTitleWhite}>{properties.rtlName}</h4>
             <p className={classes.cardCategoryWhite}>
               {links.map(link => {
                 return (
@@ -33,7 +33,7 @@ export class ListPage extends Component {
               })}
             </p>
             <p className={this.props.classes.cardCategoryWhite}>
-              لیست جدیدترین {pageName}
+              لیست جدیدترین {properties.rtlName}
             </p>
             <div />
           </CardHeader>

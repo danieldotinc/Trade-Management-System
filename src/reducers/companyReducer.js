@@ -3,6 +3,7 @@ import {
   GET_COMPANIES,
   GET_COMPANY,
   DELETE_COMPANY,
+  UPDATE_COMPANY,
   ADD_COMPANY
 } from "../actions/types";
 
@@ -22,6 +23,8 @@ export default function(state = initialState, action) {
       return { ...state, companies: action.payload, loading: false };
     case ADD_COMPANY:
       return { ...state, companies: [action.payload, ...state.companies] };
+    case UPDATE_COMPANY:
+      return { ...state, company: action.payload };
     case DELETE_COMPANY:
       return {
         ...state,

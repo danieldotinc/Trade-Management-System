@@ -44,7 +44,11 @@ export default class Form extends Component {
       data[e.target.name + "Id"] = optionId;
       const errors = FormValidate(e);
       this.setState({ data, errors });
-    } else if (e.target.value && e.target.name.includes("Price")) {
+    } else if (
+      e.target.value &&
+      e.target.name.includes("Price") &&
+      e.target.name !== "buyingPriceHistory"
+    ) {
       const clearValue = e.target.value.replace(/,/g, "");
       const value = EngNum(clearValue);
       data[e.target.name] = PersianNum(parseInt(value).toLocaleString());

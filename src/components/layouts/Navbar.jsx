@@ -42,6 +42,15 @@ export class Navigation extends Component {
                   </NavLink>
                 </li>
                 <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to="/Profiles/Company"
+                    onClick={() => onRoute("/Profiles/Company")}
+                  >
+                    شرکت ها
+                  </NavLink>
+                </li>
+                <li className="nav-item">
                   <NavLink className="nav-link" to="#">
                     {user.name}
                   </NavLink>

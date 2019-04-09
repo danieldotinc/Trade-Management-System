@@ -32,6 +32,15 @@ export const businessColumns = [
   { label: "", path: "" }
 ];
 
+export const companyColumns = [
+  { label: "نام", path: "name" },
+  { label: "شهر", path: "city" },
+  { label: "حوزه فعالیت", path: "marketSector" },
+  { label: "تلفن 1", path: "telephone1" },
+  { label: "تلفن 2", path: "telephone2" },
+  { label: "آدرس", path: "address" }
+];
+
 export const productColumns = [
   { label: "عکس", path: "img" },
   { label: "دسته بندی", path: "category" },
@@ -46,6 +55,10 @@ export const productColumns = [
 
 export function getBusinessColumns() {
   return businessColumns.filter(g => g);
+}
+
+export function getCompanyColumns() {
+  return companyColumns.filter(g => g);
 }
 
 export function getEmployeeColumns() {

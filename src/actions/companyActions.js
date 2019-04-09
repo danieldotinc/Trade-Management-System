@@ -5,6 +5,7 @@ import {
   GET_COMPANY,
   GET_COMPANIES,
   ADD_COMPANY,
+  UPDATE_COMPANY,
   DELETE_COMPANY
 } from "./types";
 import {
@@ -51,6 +52,20 @@ export const addCompanyItem = company => async dispatch => {
     await saveCompany(company);
     dispatch({
       type: ADD_COMPANY,
+      payload: company
+    });
+  } catch (ex) {
+    if (ex.response && ex.response.status === 404) {
+      toast.error("Error!");
+    }
+  }
+};
+
+export const updateCompanyItem = company => async dispatch => {
+  try {
+    await updateCompany(company);
+    dispatch({
+      type: UPDATE_COMPANY,
       payload: company
     });
   } catch (ex) {

@@ -9,6 +9,7 @@ import { Register } from "./components/users/register";
 
 import {
   getBusinessColumns,
+  getCompanyColumns,
   getProductColumns
 } from "./services/fakeColumnService";
 
@@ -49,9 +50,17 @@ class App extends Component {
     if (Route == "/Profiles/Business") {
       return this.setState({
         listName: "Business",
-        pageName: "کسب و کارها",
+        pageName: "اشخاص",
         addLink: "/AddPerson",
         columns: getBusinessColumns(),
+        currentPage: 1
+      });
+    }
+    if (Route == "/Profiles/Company") {
+      return this.setState({
+        listName: "Company",
+        addLink: "/AddCompany",
+        columns: getCompanyColumns(),
         currentPage: 1
       });
     }
@@ -95,7 +104,7 @@ class App extends Component {
                   key={key}
                   component={prop.component}
                   state={this.state}
-                  listName={prop.name}
+                  properties={prop}
                   onPageChange={this.handlePageChange}
                   onSort={this.handleSort}
                   onRoute={this.handleRouteChange}

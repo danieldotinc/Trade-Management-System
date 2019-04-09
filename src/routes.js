@@ -1,8 +1,10 @@
 import BusinessProfiles from "./components/profiles/businessProfiles";
+import Companies from "./components/profiles/companies";
 import CustomerProfiles from "./components/profiles/customerProfiles";
 import EmployeeProfiles from "./components/profiles/employeeProfiles";
 import Home from "./components/Home";
 import AddPerson from "./components/profiles/addPerson";
+import AddCompany from "./components/profiles/addCompany";
 import Profile from "./components/profiles/Profile";
 import PersonProfiles from "./components/profiles/personProfiles";
 import Products from "./components/products/products";
@@ -25,9 +27,16 @@ let dashboardRoutes = [
   {
     path: "/Business",
     name: "Business",
-    rtlName: "کسب و کارها",
+    rtlName: "اشخاص",
     layout: "/Profiles",
     component: BusinessProfiles
+  },
+  {
+    path: "/Company",
+    name: "Company",
+    rtlName: "شرکت ها",
+    layout: "/Profiles",
+    component: Companies
   },
   {
     path: "/Person",
@@ -51,9 +60,23 @@ let dashboardRoutes = [
     component: AddPerson
   },
   {
+    path: "/AddCompany",
+    name: "AddCompany",
+    rtlName: "افزودن شرکت",
+    layout: "",
+    component: AddCompany
+  },
+  {
+    path: "/EditCompany/:id",
+    name: "EitCompany",
+    rtlName: "ویرایش شرکت",
+    layout: "",
+    component: AddCompany
+  },
+  {
     path: "/:id",
     name: "Profile",
-    rtlName: "پروفایل کسب و کار",
+    rtlName: "پروفایل اشخاص",
     layout: "/Profiles",
     component: Profile
   },

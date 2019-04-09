@@ -15,3 +15,9 @@ export async function saveCompany(item) {
 export async function deleteCompany(id) {
   return http.delete(`/companies/${id}`);
 }
+
+export async function updateCompany(item) {
+  const body = { ...item };
+  delete body._id;
+  return http.put(`/companies/${item._id}`, body);
+}
