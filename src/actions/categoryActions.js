@@ -5,6 +5,7 @@ import {
   GET_CATEGORY,
   GET_CATEGORIES,
   ADD_CATEGORY,
+  UPDATE_CATEGORY,
   DELETE_CATEGORY
 } from "./types";
 import {
@@ -48,9 +49,23 @@ export const getCategoryItems = () => async dispatch => {
 
 export const addCategoryItem = category => async dispatch => {
   try {
-    await saveCategory(category);
+    const { data } = await saveCategory(category);
     dispatch({
       type: ADD_CATEGORY,
+      payload: data
+    });
+  } catch (ex) {
+    if (ex.response && ex.response.status === 404) {
+      toast.error("Error!");
+    }
+  }
+};
+
+export const updateCategoryItem = category => async dispatch => {
+  try {
+    await updateCategory(category);
+    dispatch({
+      type: UPDATE_CATEGORY,
       payload: category
     });
   } catch (ex) {

@@ -10,12 +10,17 @@ import {
   updateProductItem
 } from "../../actions/productActions";
 import { getSettingItems } from "../../actions/settingActions";
-import { getCategoryItems } from "../../actions/categoryActions";
+import {
+  getCategoryItems,
+  addCategoryItem,
+  updateCategoryItem,
+  deleteCategoryItem
+} from "../../actions/categoryActions";
 import { getDigiKalaShipping } from "../../handlers/digikala";
 
 import Form from "../form/form";
 import { EngNum } from "../table/common/persiandigit";
-
+import ItemsModalView from "../Modal/itemsModalView";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
@@ -95,6 +100,21 @@ export class AddProduct extends Form {
       ? " با موفقیت به روزرسانی شد."
       : " با موفقیت اضافه شد.";
     toast.info(name + msg);
+  };
+
+  onAddItem = name => {
+    this.props.addCategoryItem({ name });
+    name && toast.info(name + " با موفقیت اضافه شد.");
+  };
+
+  onDeleteItem = item => {
+    this.props.deleteCategoryItem(item._id);
+    toast.info(item.name + " با موفقیت حذف شد.");
+  };
+
+  onEditItem = item => {
+    this.props.updateCategoryItem(item);
+    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   handleEditForm = () => {
@@ -208,6 +228,14 @@ export class AddProduct extends Form {
               <div className="row m-2">
                 {this.renderSubmitBtn()}
                 {this.renderCancelBtn("لغو")}
+                <ItemsModalView
+                  title="دسته بندی ها"
+                  items={categories}
+                  onAdd={this.onAddItem}
+                  onEdit={this.onEditItem}
+                  onDelete={this.onDeleteItem}
+                  classes="btn-lg m-2"
+                />
               </div>
               <div className="row">
                 {this.renderInput("proCode", "کد محصول")}
@@ -273,6 +301,9 @@ export default connect(
   {
     getProductItem,
     getCategoryItems,
+    addCategoryItem,
+    updateCategoryItem,
+    deleteCategoryItem,
     addProductItem,
     updateProductItem,
     getSettingItems

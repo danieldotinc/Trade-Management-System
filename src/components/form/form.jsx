@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FormValidate from "./formValidate";
+import uuid from "uuid";
 import { PersianNum, EngNum } from "../table/common/persiandigit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -247,7 +248,7 @@ export default class Form extends Component {
       });
     } else {
       imgs[0] = (
-        <div className="button">
+        <div className="button" key={uuid.v4()}>
           <label htmlFor="multi">
             <FontAwesomeIcon icon={faImages} color="#6d84b4" size="10x" />
           </label>
