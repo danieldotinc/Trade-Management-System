@@ -10,11 +10,6 @@ class ItemsModalView extends Form {
     edit: false
   };
 
-  select = item => {
-    console.log(item);
-    this.setState({ selectedItem: item });
-  };
-
   addItem = () => {
     const { name } = this.state.data;
     this.state.edit
@@ -70,7 +65,7 @@ class ItemsModalView extends Form {
                     <label
                       key={`label${item._id}`}
                       className="btn btn-outline-info m-1"
-                      onClick={() => this.select(item)}
+                      onClick={() => this.setState({ selectedItem: item })}
                     >
                       <input
                         type="radio"

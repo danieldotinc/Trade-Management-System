@@ -5,6 +5,7 @@ import {
   GET_OFFICESECTOR,
   GET_OFFICESECTORS,
   ADD_OFFICESECTOR,
+  UPDATE_OFFICESECTOR,
   DELETE_OFFICESECTOR
 } from "./types";
 import {
@@ -48,9 +49,23 @@ export const getOfficeSectorItems = () => async dispatch => {
 
 export const addOfficeSectorItem = officeSector => async dispatch => {
   try {
-    await saveOfficeSector(officeSector);
+    const { data } = await saveOfficeSector(officeSector);
     dispatch({
       type: ADD_OFFICESECTOR,
+      payload: data
+    });
+  } catch (ex) {
+    if (ex.response && ex.response.status === 404) {
+      toast.error("Error!");
+    }
+  }
+};
+
+export const updateOfficeSectorItem = officeSector => async dispatch => {
+  try {
+    await updateOfficeSector(officeSector);
+    dispatch({
+      type: UPDATE_OFFICESECTOR,
       payload: officeSector
     });
   } catch (ex) {

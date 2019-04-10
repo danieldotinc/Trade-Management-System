@@ -7,9 +7,20 @@ import {
   updatePersonItem
 } from "../../actions/personActions";
 import { getIdentityItems } from "../../actions/identityActions";
-import { getMarketSectorItems } from "../../actions/marketSectorActions";
-import { getOfficeSectorItems } from "../../actions/officeSectorActions";
+import {
+  getMarketSectorItems,
+  addMarketSectorItem,
+  deleteMarketSectorItem,
+  updateMarketSectorItem
+} from "../../actions/marketSectorActions";
+import {
+  getOfficeSectorItems,
+  addOfficeSectorItem,
+  deleteOfficeSectorItem,
+  updateOfficeSectorItem
+} from "../../actions/officeSectorActions";
 import { getCompanyItems } from "../../actions/companyActions";
+import ItemsModalView from "../Modal/itemsModalView";
 import Form from "../form/form";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
@@ -90,6 +101,35 @@ export class AddPerson extends Form {
       : (msg = " با موفقیت اضافه شد.");
     toast.info(name + msg);
   };
+  onAddMarketSectorItem = name => {
+    this.props.addMarketSectorItem({ name });
+    name && toast.info(name + " با موفقیت اضافه شد.");
+  };
+
+  onDeleteMarketSectorItem = item => {
+    this.props.deleteMarketSectorItem(item._id);
+    toast.info(item.name + " با موفقیت حذف شد.");
+  };
+
+  onEditMarketSectorItem = item => {
+    this.props.updateMarketSectorItem(item);
+    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+  };
+
+  onAddOfficeSectorItem = name => {
+    this.props.addOfficeSectorItem({ name });
+    name && toast.info(name + " با موفقیت اضافه شد.");
+  };
+
+  onDeleteOfficeSectorItem = item => {
+    this.props.deleteOfficeSectorItem(item._id);
+    toast.info(item.name + " با موفقیت حذف شد.");
+  };
+
+  onEditOfficeSectorItem = item => {
+    this.props.updateOfficeSectorItem(item);
+    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+  };
 
   handleEditForm = () => {
     const id = this.props.match.params.id;
@@ -152,6 +192,22 @@ export class AddPerson extends Form {
                 <div className="row m-2">
                   {this.renderSubmitBtn("")}
                   {this.renderCancelBtn("لغو")}
+                  <ItemsModalView
+                    title="واحدهای سازمان"
+                    items={officeSectors}
+                    onAdd={this.onAddOfficeSectorItem}
+                    onEdit={this.onEditOfficeSectorItem}
+                    onDelete={this.onDeleteOfficeSectorItem}
+                    classes="btn-lg m-2"
+                  />
+                  <ItemsModalView
+                    title="حوزه های فعالیت"
+                    items={marketSectors}
+                    onAdd={this.onAddMarketSectorItem}
+                    onEdit={this.onEditMarketSectorItem}
+                    onDelete={this.onDeleteMarketSectorItem}
+                    classes="btn-lg m-2"
+                  />
                 </div>
                 <div className="row">
                   {this.renderInput("name", "نام و نام خانوادگی", "3", true)}
@@ -207,6 +263,12 @@ export default connect(
     getCompanyItems,
     getIdentityItems,
     getMarketSectorItems,
-    getOfficeSectorItems
+    addMarketSectorItem,
+    deleteMarketSectorItem,
+    updateMarketSectorItem,
+    getOfficeSectorItems,
+    addOfficeSectorItem,
+    deleteOfficeSectorItem,
+    updateOfficeSectorItem
   }
 )(withStyles(rtlStyle)(AddPerson));

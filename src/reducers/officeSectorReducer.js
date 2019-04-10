@@ -5,6 +5,7 @@ import {
   GET_OFFICESECTOR,
   GET_OFFICESECTORS,
   ADD_OFFICESECTOR,
+  UPDATE_OFFICESECTOR,
   DELETE_OFFICESECTOR
 } from "../actions/types";
 
@@ -27,6 +28,13 @@ export default function(state = initialState, action) {
         ...state,
         officeSectors: [action.payload, ...state.officeSectors]
       };
+    case UPDATE_OFFICESECTOR:
+      const newOfficeSectors = [...state.officeSectors];
+      const index = newOfficeSectors.findIndex(
+        i => i._id === action.payload._id
+      );
+      newOfficeSectors.splice(index, 1, action.payload);
+      return { ...state, officeSectors: newOfficeSectors };
     case DELETE_OFFICESECTOR:
       return {
         ...state,

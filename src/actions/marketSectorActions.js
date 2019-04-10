@@ -5,6 +5,7 @@ import {
   GET_MARKETSECTOR,
   GET_MARKETSECTORS,
   ADD_MARKETSECTOR,
+  UPDATE_MARKETSECTOR,
   DELETE_MARKETSECTOR
 } from "./types";
 import {
@@ -48,9 +49,23 @@ export const getMarketSectorItems = () => async dispatch => {
 
 export const addMarketSectorItem = marketSector => async dispatch => {
   try {
-    await saveMarketSector(marketSector);
+    const { data } = await saveMarketSector(marketSector);
     dispatch({
       type: ADD_MARKETSECTOR,
+      payload: data
+    });
+  } catch (ex) {
+    if (ex.response && ex.response.status === 404) {
+      toast.error("Error!");
+    }
+  }
+};
+
+export const updateMarketSectorItem = marketSector => async dispatch => {
+  try {
+    await updateMarketSector(marketSector);
+    dispatch({
+      type: UPDATE_MARKETSECTOR,
       payload: marketSector
     });
   } catch (ex) {

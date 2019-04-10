@@ -12,6 +12,10 @@ export async function saveOfficeSector(item) {
   return http.post(`/officeSectors`, item);
 }
 
+export async function updateOfficeSector(item) {
+  return http.put(`/officeSectors/${item._id}`, item);
+}
+
 export async function deleteOfficeSector(id) {
   return http.delete(`/officeSectors/${id}`);
 }

@@ -5,6 +5,7 @@ import {
   GET_MARKETSECTOR,
   GET_MARKETSECTORS,
   ADD_MARKETSECTOR,
+  UPDATE_MARKETSECTOR,
   DELETE_MARKETSECTOR
 } from "../actions/types";
 
@@ -27,6 +28,13 @@ export default function(state = initialState, action) {
         ...state,
         marketSectors: [action.payload, ...state.marketSectors]
       };
+    case UPDATE_MARKETSECTOR:
+      const newMarketSectors = [...state.marketSectors];
+      const index = newMarketSectors.findIndex(
+        i => i._id === action.payload._id
+      );
+      newMarketSectors.splice(index, 1, action.payload);
+      return { ...state, marketSectors: newMarketSectors };
     case DELETE_MARKETSECTOR:
       return {
         ...state,
