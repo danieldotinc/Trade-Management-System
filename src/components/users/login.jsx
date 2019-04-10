@@ -66,7 +66,7 @@ export class Login extends Form {
                 </div>
 
                 <div className="col-5 mt-5 mr-5">
-                  <img src="../../1616-info.png" style={{ width: "300px" }} />
+                  <img src="../../2.2.jpg" style={{ width: "300px" }} />
                 </div>
               </div>
             </form>

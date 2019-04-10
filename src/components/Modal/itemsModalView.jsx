@@ -23,23 +23,14 @@ class ItemsModalView extends Form {
   };
 
   render() {
-    const { title, items, onDelete, onEdit, classes = "" } = this.props;
+    const { id, title, items, onDelete, onEdit, classes = "" } = this.props;
     const { selectedItem } = this.state;
     const modalId = uuid.v4();
     return (
       <React.Fragment>
-        <button
-          type="button"
-          className={`btn btn-info shadow rounded ${classes}`}
-          data-toggle="modal"
-          data-target={"#a" + modalId}
-        >
-          {title}
-        </button>
-
         <div
           className="modal fade"
-          id={"a" + modalId}
+          id={id}
           tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalCenterTitle"
@@ -77,7 +68,7 @@ class ItemsModalView extends Form {
                     </label>
                   ))}
                 </div>
-                {this.renderInput("name", "نام آیتم", "4", true)}
+                {this.renderInput("name", "نام آیتم", "4")}
               </div>
               <div className="modal-footer">
                 <button

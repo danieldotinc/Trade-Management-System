@@ -13,6 +13,8 @@ import AddProduct from "./components/products/addProduct";
 import Dashboard from "./components/dashboard/dashboard";
 import { Register } from "./components/users/register";
 import { Login } from "./components/users/login";
+import Settings from "./components/settings/settings";
+import EditSettings from "./components/settings/editSettings";
 import Logout from "./components/users/logout";
 import Process from "./components/products/process";
 
@@ -86,6 +88,20 @@ let dashboardRoutes = [
     rtlName: "محصولات",
     layout: "",
     component: Products
+  },
+  {
+    path: "/Settings",
+    name: "Settings",
+    rtlName: "تنظیمات",
+    layout: "",
+    component: Settings
+  },
+  {
+    path: "/EditSettings",
+    name: "EditSettings",
+    rtlName: "ویرایش تنظیمات",
+    layout: "",
+    component: EditSettings
   },
   {
     path: "/:id",

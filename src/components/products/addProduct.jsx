@@ -68,7 +68,8 @@ export class AddProduct extends Form {
       height: "",
       weight: ""
     },
-    errors: {}
+    errors: {},
+    modal: false
   };
 
   componentDidMount() {
@@ -124,7 +125,7 @@ export class AddProduct extends Form {
 
   getCostAndTax = data => {
     if (!this.props.settings) return 0;
-    return parseInt(this.props.settings[1].set);
+    return parseInt(this.props.settings[0].valueAdded);
   };
 
   getMarketPlaceCosts = data => {
@@ -152,7 +153,7 @@ export class AddProduct extends Form {
     Math.round(
       (parseInt(EngNum(data.tradeBuyingPrice)) + this.getShipping(data) * 2) /
         (1 -
-          parseInt(this.props.settings[2].set) / 100 -
+          parseInt(this.props.settings[0].wholeProfit.set) / 100 -
           this.getAddedValue()) /
         10
     ) * 10;
@@ -161,7 +162,7 @@ export class AddProduct extends Form {
     Math.round(
       (parseInt(EngNum(data.tradeBuyingPrice)) + this.getShipping(data) * 2) /
         (1 -
-          parseInt(this.props.settings[3].set) / 100 -
+          parseInt(this.props.settings[0].retailProfit) / 100 -
           this.getAddedValue()) /
         10
     ) * 10;
@@ -171,7 +172,7 @@ export class AddProduct extends Form {
       (parseInt(EngNum(data.tradeBuyingPrice)) +
         this.getMarketPlaceCosts(data)) /
         (1 -
-          parseInt(this.props.settings[4].set) / 100 -
+          parseInt(this.props.settings[0].marketPlaceProfit) / 100 -
           this.getAddedValue() -
           this.getMarketPlaceCommission()) /
         10
@@ -228,14 +229,26 @@ export class AddProduct extends Form {
               <div className="row m-2">
                 {this.renderSubmitBtn()}
                 {this.renderCancelBtn("لغو")}
-                <ItemsModalView
-                  title="دسته بندی ها"
-                  items={categories}
-                  onAdd={this.onAddItem}
-                  onEdit={this.onEditItem}
-                  onDelete={this.onDeleteItem}
-                  classes="btn-lg m-2"
-                />
+                <button
+                  type="button"
+                  className={`btn btn-dark shadow rounded btn-lg m-2`}
+                  onClick={() => this.setState({ modal: true })}
+                  data-toggle="modal"
+                  data-target={"#abc"}
+                >
+                  دسته بندی ها
+                </button>
+                {this.state.modal && (
+                  <ItemsModalView
+                    id="abc"
+                    title="دسته بندی ها"
+                    items={categories}
+                    onAdd={this.onAddItem}
+                    onEdit={this.onEditItem}
+                    onDelete={this.onDeleteItem}
+                    classes="btn-lg m-2"
+                  />
+                )}
               </div>
               <div className="row">
                 {this.renderInput("proCode", "کد محصول")}

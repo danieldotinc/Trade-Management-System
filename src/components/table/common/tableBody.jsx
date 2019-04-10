@@ -15,7 +15,7 @@ class TableBody extends Component {
           className="shadow rounded"
           src={
             _.get(item, column.path) &&
-            require(`../../../${_.get(item, column.path)}`)
+            require(`../../../../public/${_.get(item, column.path)}`)
           }
         />
       );

@@ -95,7 +95,9 @@ export class Product extends Component {
                       width: "500px",
                       borderRadius: "10px"
                     }}
-                    src={product.img && require(`../../${product.img}`)}
+                    src={
+                      product.img && require(`../../../public/${product.img}`)
+                    }
                   />
                   <br />
                   {product.imgs &&
@@ -107,7 +109,7 @@ export class Product extends Component {
                           borderRadius: "5px"
                         }}
                         className="shadow rounded m-2"
-                        src={require(`../../${img}`)}
+                        src={require(`../../../public/${img}`)}
                       />
                     ))}
                 </div>
