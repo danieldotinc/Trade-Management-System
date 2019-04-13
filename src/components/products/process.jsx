@@ -30,9 +30,21 @@ class Process extends Component {
       wholePrice: "",
       wholeProfitPercent: "",
       wholeProfitDiffPrice: "",
+      wholePriceWithoutValueAdded: "",
+      wholeProfitPercentWithoutValueAdded: "",
+      wholeProfitDiffPriceWithoutValueAdded: "",
+      retailPrice: "",
+      retailProfitPercent: "",
+      retailProfitDiffPrice: "",
+      retailPriceWithoutValueAdded: "",
+      retailProfitPercentWithoutValueAdded: "",
+      retailProfitDiffPriceWithoutValueAdded: "",
       marketPlacePrice: "",
       marketPlaceProfitPercent: "",
-      marketPlaceProfitDiffPrice: ""
+      marketPlaceProfitDiffPrice: "",
+      marketPlacePriceWithoutValueAdded: "",
+      marketPlaceProfitPercentWithoutValueAdded: "",
+      marketPlaceProfitDiffPriceWithoutValueAdded: ""
     }
   };
   componentDidMount = () => {
@@ -50,11 +62,12 @@ class Process extends Component {
       data.marketPlacePrice =
         Math.round(
           (parseInt(this.props.product.tradeBuyingPrice) +
-            this.getMarketPlaceCosts()) /
+            this.getMarketPlaceCosts() +
+            this.getCostAndTax()) /
             (1 -
               parseInt(value) / 100 -
-              this.getAddedValue() -
-              this.getMarketPlaceCommission()) /
+              this.getMarketPlaceCommission() -
+              this.getAddedValue()) /
             10
         ) * 10;
       data.marketPlaceProfitDiffPrice =
@@ -64,7 +77,8 @@ class Process extends Component {
         Math.round(
           (parseInt(this.props.product.tradeBuyingPrice) +
             parseInt(value) +
-            this.getMarketPlaceCosts()) /
+            this.getMarketPlaceCosts() +
+            this.getCostAndTax()) /
             (1 - this.getMarketPlaceCommission() - this.getAddedValue()) /
             10
         ) * 10;
@@ -79,7 +93,8 @@ class Process extends Component {
           (parseInt(value) *
             (1 - this.getMarketPlaceCommission() - this.getAddedValue()) -
             parseInt(this.props.product.tradeBuyingPrice) -
-            this.getMarketPlaceCosts()) /
+            this.getMarketPlaceCosts() -
+            this.getCostAndTax()) /
             10
         ) * 10;
 
@@ -95,7 +110,77 @@ class Process extends Component {
     this.setState({ data });
   };
 
-  handleProfitChange = e => {
+  handleMarketPlaceProfitChangeWithoutValueAdded = e => {
+    const data = { ...this.state.data };
+    const clearValue = e.target.value.replace(/,/g, "");
+    const value = EngNum(clearValue);
+    data[e.target.name] = parseInt(value);
+    if (value && e.target.name.includes("Percent")) {
+      data.marketPlacePriceWithoutValueAdded =
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) +
+            this.getMarketPlaceCosts() +
+            this.getCostAndTax() +
+            this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
+            (1 -
+              parseInt(value) / 100 -
+              this.getMarketPlaceCommission() -
+              this.getMarketPlaceCommission() *
+                this.getMarketPlaceAddedValue()) /
+            10
+        ) * 10;
+      data.marketPlaceProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          getProfitByPercent(data.marketPlacePriceWithoutValueAdded, value) / 10
+        ) * 10;
+    } else if (value && e.target.name.includes("Profit")) {
+      data.marketPlacePriceWithoutValueAdded =
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) +
+            parseInt(value) +
+            this.getMarketPlaceCosts() +
+            this.getCostAndTax() +
+            this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
+            (1 -
+              this.getMarketPlaceCommission() -
+              this.getMarketPlaceCommission() *
+                this.getMarketPlaceAddedValue()) /
+            10
+        ) * 10;
+
+      data.marketPlaceProfitPercentWithoutValueAdded = getPercentByProfit(
+        data.marketPlacePriceWithoutValueAdded,
+        value
+      );
+    } else if (value && e.target.name.includes("Price")) {
+      data.marketPlaceProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          (parseInt(value) *
+            (1 -
+              this.getMarketPlaceCommission() -
+              this.getMarketPlaceCommission() *
+                this.getMarketPlaceAddedValue()) -
+            parseInt(this.props.product.tradeBuyingPrice) -
+            this.getMarketPlaceCosts() -
+            this.getCostAndTax() -
+            this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
+            10
+        ) * 10;
+
+      data.marketPlaceProfitPercentWithoutValueAdded =
+        Math.round(
+          (data.marketPlaceProfitDiffPriceWithoutValueAdded * 10000) /
+            parseInt(value)
+        ) / 100;
+    } else {
+      data.marketPlaceProfitPercentWithoutValueAdded = "";
+      data.marketPlaceProfitDiffPriceWithoutValueAdded = "";
+      data.marketPlacePriceWithoutValueAdded = "";
+    }
+    this.setState({ data });
+  };
+
+  handleProfitChangeWholePrice = e => {
     const data = { ...this.state.data };
     const clearValue = e.target.value.replace(/,/g, "");
     const value = EngNum(clearValue);
@@ -103,9 +188,11 @@ class Process extends Component {
     if (value && e.target.name.includes("Percent")) {
       data.wholePrice =
         Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) +
-            this.getShipping() * 2) /
-            (1 - parseInt(value) / 100 - this.getAddedValue()) /
+          parseInt(this.props.product.tradeBuyingPrice) /
+            (1 -
+              parseInt(value) / 100 -
+              this.getAddedValue() -
+              this.getWholeShipping()) /
             10
         ) * 10;
       data.wholeProfitDiffPrice =
@@ -113,10 +200,8 @@ class Process extends Component {
     } else if (value && e.target.name.includes("Profit")) {
       data.wholePrice =
         Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) +
-            parseInt(value) +
-            this.getShipping() * 2) /
-            (1 - this.getAddedValue()) /
+          (parseInt(this.props.product.tradeBuyingPrice) + parseInt(value)) /
+            (1 - this.getAddedValue() - this.getWholeShipping()) /
             10
         ) * 10;
 
@@ -124,9 +209,9 @@ class Process extends Component {
     } else if (value && e.target.name.includes("Price")) {
       data.wholeProfitDiffPrice =
         Math.round(
-          (parseInt(value) * (1 - this.getAddedValue()) -
-            parseInt(this.props.product.tradeBuyingPrice) -
-            this.getShipping() * 2) /
+          (parseInt(value) *
+            (1 - this.getAddedValue() - this.getWholeShipping()) -
+            parseInt(this.props.product.tradeBuyingPrice)) /
             10
         ) * 10;
 
@@ -136,6 +221,151 @@ class Process extends Component {
       data.wholeProfitPercent = "";
       data.wholeProfitDiffPrice = "";
       data.wholePrice = "";
+    }
+    this.setState({ data });
+  };
+
+  handleProfitChangeWholePriceWithoutValueAdded = e => {
+    const data = { ...this.state.data };
+    const clearValue = e.target.value.replace(/,/g, "");
+    const value = EngNum(clearValue);
+    data[e.target.name] = parseInt(value);
+    if (value && e.target.name.includes("Percent")) {
+      data.wholePriceWithoutValueAdded =
+        Math.round(
+          parseInt(this.props.product.tradeBuyingPrice) /
+            (1 - parseInt(value) / 100 - this.getWholeShipping()) /
+            10
+        ) * 10;
+      data.wholeProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          getProfitByPercent(data.wholePriceWithoutValueAdded, value) / 10
+        ) * 10;
+    } else if (value && e.target.name.includes("Profit")) {
+      data.wholePriceWithoutValueAdded =
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) + parseInt(value)) /
+            (1 - this.getWholeShipping()) /
+            10
+        ) * 10;
+
+      data.wholeProfitPercentWithoutValueAdded = getPercentByProfit(
+        data.wholePriceWithoutValueAdded,
+        value
+      );
+    } else if (value && e.target.name.includes("Price")) {
+      data.wholeProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          (parseInt(value) * (1 - this.getWholeShipping()) -
+            parseInt(this.props.product.tradeBuyingPrice)) /
+            10
+        ) * 10;
+
+      data.wholeProfitPercentWithoutValueAdded =
+        Math.round(
+          (data.wholeProfitDiffPriceWithoutValueAdded * 10000) / parseInt(value)
+        ) / 100;
+    } else {
+      data.wholeProfitPercentWithoutValueAdded = "";
+      data.wholeProfitDiffPriceWithoutValueAdded = "";
+      data.wholePriceWithoutValueAdded = "";
+    }
+    this.setState({ data });
+  };
+
+  handleProfitChangeRetailPrice = e => {
+    const data = { ...this.state.data };
+    const clearValue = e.target.value.replace(/,/g, "");
+    const value = EngNum(clearValue);
+    data[e.target.name] = parseInt(value);
+    if (value && e.target.name.includes("Percent")) {
+      data.retailPrice =
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) + this.getShipping()) /
+            (1 - parseInt(value) / 100 - this.getAddedValue()) /
+            10
+        ) * 10;
+      data.retailProfitDiffPrice =
+        Math.round(getProfitByPercent(data.retailPrice, value) / 10) * 10;
+    } else if (value && e.target.name.includes("Profit")) {
+      data.retailPrice =
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) +
+            parseInt(value) +
+            this.getShipping()) /
+            (1 - this.getAddedValue()) /
+            10
+        ) * 10;
+
+      data.retailProfitPercent = getPercentByProfit(data.retailPrice, value);
+    } else if (value && e.target.name.includes("Price")) {
+      data.retailProfitDiffPrice =
+        Math.round(
+          (parseInt(value) * (1 - this.getAddedValue()) -
+            parseInt(this.props.product.tradeBuyingPrice) -
+            this.getShipping()) /
+            10
+        ) * 10;
+
+      data.retailProfitPercent =
+        Math.round((data.retailProfitDiffPrice * 10000) / parseInt(value)) /
+        100;
+    } else {
+      data.retailProfitPercent = "";
+      data.retailProfitDiffPrice = "";
+      data.retailPrice = "";
+    }
+    this.setState({ data });
+  };
+
+  handleProfitChangeRetailPriceWithoutValueAdded = e => {
+    const data = { ...this.state.data };
+    const clearValue = e.target.value.replace(/,/g, "");
+    const value = EngNum(clearValue);
+    data[e.target.name] = parseInt(value);
+    if (value && e.target.name.includes("Percent")) {
+      data.retailPriceWithoutValueAdded =
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) + this.getShipping()) /
+            (1 - parseInt(value) / 100) /
+            10
+        ) * 10;
+      data.retailProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          getProfitByPercent(data.retailPriceWithoutValueAdded, value) / 10
+        ) * 10;
+    } else if (value && e.target.name.includes("Profit")) {
+      data.retailPriceWithoutValueAdded =
+        Math.round(
+          (parseInt(this.props.product.tradeBuyingPrice) +
+            parseInt(value) +
+            this.getShipping()) /
+            1 /
+            10
+        ) * 10;
+
+      data.retailProfitPercentWithoutValueAdded = getPercentByProfit(
+        data.retailPriceWithoutValueAdded,
+        value
+      );
+    } else if (value && e.target.name.includes("Price")) {
+      data.retailProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          (parseInt(value) * 1 -
+            parseInt(this.props.product.tradeBuyingPrice) -
+            this.getShipping()) /
+            10
+        ) * 10;
+
+      data.retailProfitPercentWithoutValueAdded =
+        Math.round(
+          (data.retailProfitDiffPriceWithoutValueAdded * 10000) /
+            parseInt(value)
+        ) / 100;
+    } else {
+      data.retailProfitPercentWithoutValueAdded = "";
+      data.retailProfitDiffPriceWithoutValueAdded = "";
+      data.retailPriceWithoutValueAdded = "";
     }
     this.setState({ data });
   };
@@ -152,21 +382,18 @@ class Process extends Component {
 
   getCostAndTax = () => {
     if (!this.props.settings) return 0;
-    return parseInt(this.props.settings[1].set);
+    return parseInt(this.props.settings[0].shippingCosts);
   };
 
   getAddedValue = () => 0.09;
 
-  getMarketPlaceAddedValue = shipCost => shipCost * 0.09;
+  getMarketPlaceAddedValue = () => 0.09;
 
   getMarketPlaceCommission = () => 0.1;
-
+  getWholeShipping = () => 0.01;
   getMarketPlaceCosts = () => {
     const { length, width, height, weight } = this.props.product;
-    const shipCost = getDigiKalaShipping(length, width, height, weight);
-    return (
-      shipCost + this.getMarketPlaceAddedValue(shipCost) + this.getCostAndTax()
-    );
+    return getDigiKalaShipping(length, width, height, weight);
   };
 
   getShipping = () => {
@@ -397,7 +624,9 @@ class Process extends Component {
                     <div className="shadow rounded col-4 pt-3 pb-3">
                       <ListGroupItem
                         label="هزینه بسته بندی و ارسال به مارکت پلیس"
-                        value={2000}
+                        value={parseInt(
+                          settings[0].shippingCosts
+                        ).toLocaleString()}
                         size="12"
                       />
                       <ListGroupItem
@@ -410,17 +639,17 @@ class Process extends Component {
                     <div className="shadow rounded col-4 pt-3 pb-3">
                       <ListGroupItem
                         label="درصد ارزش افزوده عمده فروشی"
-                        value={parseInt(settings[0].set) + " %"}
+                        value={parseInt(settings[0].valueAdded) + " %"}
                         size="12"
                       />
                       <ListGroupItem
                         label="درصد ارزش افزوده خرده فروشی"
-                        value={parseInt(settings[0].set) + " %"}
+                        value={parseInt(settings[0].valueAdded) + " %"}
                         size="12"
                       />
                       <ListGroupItem
                         label="درصد ارزش افزوده مارکت پلیس"
-                        value={parseInt(settings[0].set) + " %"}
+                        value={parseInt(settings[0].valueAdded) + " %"}
                         size="12"
                       />
                     </div>
@@ -429,7 +658,7 @@ class Process extends Component {
                         label="مبلغ ارزش افزوده عمده فروشی"
                         value={
                           Math.round(
-                            ((parseInt(settings[0].set) / 100) *
+                            ((parseInt(settings[0].valueAdded) / 100) *
                               product.wholePrice) /
                               10
                           ) * 10
@@ -440,7 +669,7 @@ class Process extends Component {
                         label="مبلغ ارزش افزوده خرده فروشی"
                         value={
                           Math.round(
-                            ((parseInt(settings[0].set) / 100) *
+                            ((parseInt(settings[0].valueAdded) / 100) *
                               product.retailPrice) /
                               10
                           ) * 10
@@ -451,8 +680,11 @@ class Process extends Component {
                         label="مبلغ ارزش افزوده مارکت پلیس"
                         value={
                           Math.round(
-                            ((parseInt(settings[0].set) / 100) *
-                              product.marketPlacePrice) /
+                            ((parseInt(settings[0].valueAdded) / 100) *
+                              this.getMarketPlaceCosts() -
+                              this.getCostAndTax() +
+                              this.getMarketPlaceCommission() *
+                                parseInt(product.marketPlacePrice)) /
                               10
                           ) * 10
                         }
@@ -464,41 +696,159 @@ class Process extends Component {
                         <Input
                           type="text"
                           name="wholeProfitPercent"
-                          label="درصد سود مستقیم"
-                          size="2"
+                          label="درصد سود مستقیم عمده فروشی"
+                          size="3"
                           required="false"
                           value={PersianNum(this.state.data.wholeProfitPercent)}
-                          onChange={this.handleProfitChange}
+                          onChange={this.handleProfitChangeWholePrice}
                         />
                         <Input
                           type="text"
                           name="wholeProfitDiffPrice"
-                          label="مبلغ سود مستقیم"
-                          size="2"
+                          label="مبلغ سود مستقیم عمده فروشی"
+                          size="3"
                           required="false"
                           value={PersianNum(
                             this.state.data.wholeProfitDiffPrice.toLocaleString()
                           )}
-                          onChange={this.handleProfitChange}
+                          onChange={this.handleProfitChangeWholePrice}
                         />
                         <Input
                           type="text"
                           name="wholePrice"
-                          label="قیمت فروش مستقیم"
-                          size="2"
+                          label="قیمت فروش مستقیم عمده فروشی"
+                          size="3"
                           required="false"
                           value={PersianNum(
                             this.state.data.wholePrice.toLocaleString()
                           )}
-                          onChange={this.handleProfitChange}
+                          onChange={this.handleProfitChangeWholePrice}
                         />
                       </div>
                       <div className="row">
                         <Input
                           type="text"
+                          name="wholeProfitPercentWithoutValueAdded"
+                          label="درصد سود عمده فروشی بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.wholeProfitPercentWithoutValueAdded
+                          )}
+                          onChange={
+                            this.handleProfitChangeWholePriceWithoutValueAdded
+                          }
+                        />
+                        <Input
+                          type="text"
+                          name="wholeProfitDiffPriceWithoutValueAdded"
+                          label="مبلغ سود عمده فروشی بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.wholeProfitDiffPriceWithoutValueAdded.toLocaleString()
+                          )}
+                          onChange={
+                            this.handleProfitChangeWholePriceWithoutValueAdded
+                          }
+                        />
+                        <Input
+                          type="text"
+                          name="wholePriceWithoutValueAdded"
+                          label="قیمت فروش عمده فروشی بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.wholePriceWithoutValueAdded.toLocaleString()
+                          )}
+                          onChange={
+                            this.handleProfitChangeWholePriceWithoutValueAdded
+                          }
+                        />
+                      </div>
+                      <div className="row">
+                        <Input
+                          type="text"
+                          name="retailProfitPercent"
+                          label="درصد سود مستقیم خرده فروشی"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.retailProfitPercent
+                          )}
+                          onChange={this.handleProfitChangeRetailPrice}
+                        />
+                        <Input
+                          type="text"
+                          name="retailProfitDiffPrice"
+                          label="مبلغ سود مستقیم خرده فروشی"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.retailProfitDiffPrice.toLocaleString()
+                          )}
+                          onChange={this.handleProfitChangeRetailPrice}
+                        />
+                        <Input
+                          type="text"
+                          name="retailPrice"
+                          label="قیمت فروش مستقیم خرده فروشی"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.retailPrice.toLocaleString()
+                          )}
+                          onChange={this.handleProfitChangeRetailPrice}
+                        />
+                      </div>
+                      <div className="row">
+                        <Input
+                          type="text"
+                          name="retailProfitPercentWithoutValueAdded"
+                          label="درصد سود خرده فروشی بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.retailProfitPercentWithoutValueAdded
+                          )}
+                          onChange={
+                            this.handleProfitChangeRetailPriceWithoutValueAdded
+                          }
+                        />
+                        <Input
+                          type="text"
+                          name="retailProfitDiffPriceWithoutValueAdded"
+                          label="مبلغ سود خرده فروشی بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.retailProfitDiffPriceWithoutValueAdded.toLocaleString()
+                          )}
+                          onChange={
+                            this.handleProfitChangeRetailPriceWithoutValueAdded
+                          }
+                        />
+                        <Input
+                          type="text"
+                          name="retailPriceWithoutValueAdded"
+                          label="قیمت فروش خرده فروشی بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.retailPriceWithoutValueAdded.toLocaleString()
+                          )}
+                          onChange={
+                            this.handleProfitChangeRetailPriceWithoutValueAdded
+                          }
+                        />
+                      </div>
+
+                      <div className="row">
+                        <Input
+                          type="text"
                           name="marketPlaceProfitPercent"
                           label="درصد سود مارکت پلیس"
-                          size="2"
+                          size="3"
                           required="false"
                           value={PersianNum(
                             this.state.data.marketPlaceProfitPercent
@@ -509,7 +859,7 @@ class Process extends Component {
                           type="text"
                           name="marketPlaceProfitDiffPrice"
                           label="مبلغ سود مارکت پلیس"
-                          size="2"
+                          size="3"
                           required="false"
                           value={PersianNum(
                             this.state.data.marketPlaceProfitDiffPrice.toLocaleString()
@@ -520,12 +870,54 @@ class Process extends Component {
                           type="text"
                           name="marketPlacePrice"
                           label="قیمت فروش مارکت پلیس"
-                          size="2"
+                          size="3"
                           required="false"
                           value={PersianNum(
                             this.state.data.marketPlacePrice.toLocaleString()
                           )}
                           onChange={this.handleMarketPlaceProfitChange}
+                        />
+                      </div>
+                      <div className="row">
+                        <Input
+                          type="text"
+                          name="marketPlaceProfitPercentWithoutValueAdded"
+                          label="درصد سود مارکت پلیس بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data
+                              .marketPlaceProfitPercentWithoutValueAdded
+                          )}
+                          onChange={
+                            this.handleMarketPlaceProfitChangeWithoutValueAdded
+                          }
+                        />
+                        <Input
+                          type="text"
+                          name="marketPlaceProfitDiffPriceWithoutValueAdded"
+                          label="مبلغ سود مارکت پلیس بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.marketPlaceProfitDiffPriceWithoutValueAdded.toLocaleString()
+                          )}
+                          onChange={
+                            this.handleMarketPlaceProfitChangeWithoutValueAdded
+                          }
+                        />
+                        <Input
+                          type="text"
+                          name="marketPlacePriceWithoutValueAdded"
+                          label="قیمت فروش مارکت پلیس بدون ارزش افزوده"
+                          size="3"
+                          required="false"
+                          value={PersianNum(
+                            this.state.data.marketPlacePriceWithoutValueAdded.toLocaleString()
+                          )}
+                          onChange={
+                            this.handleMarketPlaceProfitChangeWithoutValueAdded
+                          }
                         />
                       </div>
                     </div>

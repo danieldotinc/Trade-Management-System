@@ -11,6 +11,7 @@ import {
 import Input from "./input";
 import Select from "./select";
 import UploadImg from "./uploadImg";
+import Check from "./check";
 
 export default class Form extends Component {
   state = {
@@ -45,6 +46,9 @@ export default class Form extends Component {
       data[e.target.name + "Id"] = optionId;
       const errors = FormValidate(e);
       this.setState({ data, errors });
+    } else if (e.target.type == "checkbox") {
+      data[e.target.value] = e.target.checked;
+      this.setState({ data });
     } else if (
       e.target.value &&
       e.target.name.includes("Price") &&
@@ -126,7 +130,7 @@ export default class Form extends Component {
         label={label}
         size={size}
         required={required}
-        value={data[name]}
+        value={PersianNum(data[name])}
         onChange={this.handleFormChange}
       />
     );
@@ -140,6 +144,19 @@ export default class Form extends Component {
         label={label}
         size={size}
         options={options}
+        value={data[name]}
+        onChange={this.handleFormChange}
+      />
+    );
+  };
+
+  renderCheck = (name, label, size = "3") => {
+    const { data } = this.state;
+    return (
+      <Check
+        name={name}
+        label={label}
+        size={size}
         value={data[name]}
         onChange={this.handleFormChange}
       />

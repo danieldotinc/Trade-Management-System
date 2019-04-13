@@ -45,6 +45,7 @@ export class FullList extends Component {
       sortColumn,
       currentPage,
       pageSize,
+      settings,
       types,
       selectedGenre
     } = state;

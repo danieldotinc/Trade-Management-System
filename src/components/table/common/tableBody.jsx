@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import auth from "../../../services/authService";
 import uuid from "uuid";
 import Delete from "../../Modal/delete";
+import { connect } from "react-redux";
+import { getSettingItems } from "../../../actions/settingActions";
 import Like from "./like";
 import _ from "lodash";
 import { PersianNum, EngNum } from "./persiandigit";
 
 class TableBody extends Component {
+  componentDidMount() {
+    this.props.getSettingItems();
+  }
+
   renderCell = (item, column) => {
     if (column.path == "img")
       return (
@@ -44,8 +50,11 @@ class TableBody extends Component {
       onEdit,
       onLikeItem,
       listName,
-      onDetail
+      onDetail,
+      settings,
+      loadingSetting
     } = this.props;
+    if (loadingSetting && !settings) return <h1>Loading...</h1>;
     return (
       <tbody>
         {pageItems.map(item => (
@@ -63,13 +72,17 @@ class TableBody extends Component {
               <Like movie={item} onClick={() => onLikeItem(item, listName)} />
             </td> */}
             <td key={uuid.v4()}>
-              <button
-                className="btn btn-raised btn-dark ml-2 shadow rounded"
-                onClick={() => onEdit(item)}
-              >
-                <i className="fa fa-wrench" />
-              </button>
-              {user.isAdmin && <Delete onDelete={onDelete} item={item} />}
+              {(settings[0].editAction || user.isAdmin) && (
+                <button
+                  className="btn btn-raised btn-dark ml-2 shadow rounded"
+                  onClick={() => onEdit(item)}
+                >
+                  <i className="fa fa-wrench" />
+                </button>
+              )}
+              {(settings[0].deleteAction || user.isAdmin) && (
+                <Delete onDelete={onDelete} item={item} />
+              )}
             </td>
           </tr>
         ))}
@@ -77,5 +90,12 @@ class TableBody extends Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  settings: state.setting.settings,
+  loadingSetting: state.setting.loading
+});
 
-export default TableBody;
+export default connect(
+  mapStateToProps,
+  { getSettingItems }
+)(TableBody);

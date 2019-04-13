@@ -125,20 +125,14 @@ export class AddProduct extends Form {
 
   getCostAndTax = data => {
     if (!this.props.settings) return 0;
-    return parseInt(this.props.settings[0].valueAdded);
+    return parseInt(this.props.settings[0].shippingCosts);
   };
 
   getMarketPlaceCosts = data => {
     const { length, width, height, weight } = data;
     const shipCost = getDigiKalaShipping(length, width, height, weight);
-    return (
-      shipCost +
-      this.getMarketPlaceAddedValue(shipCost) +
-      this.getCostAndTax(data)
-    );
+    return shipCost + this.getCostAndTax(data);
   };
-
-  getMarketPlaceAddedValue = shipCost => shipCost * 0.09;
 
   getMarketPlaceCommission = () => 0.1;
 
@@ -153,7 +147,7 @@ export class AddProduct extends Form {
     Math.round(
       (parseInt(EngNum(data.tradeBuyingPrice)) + this.getShipping(data) * 2) /
         (1 -
-          parseInt(this.props.settings[0].wholeProfit.set) / 100 -
+          parseInt(this.props.settings[0].wholeProfit) / 100 -
           this.getAddedValue()) /
         10
     ) * 10;

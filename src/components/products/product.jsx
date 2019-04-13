@@ -7,6 +7,7 @@ import {
   getProductItem,
   deleteProductItem
 } from "../../actions/productActions";
+import { getSettingItems } from "../../actions/settingActions";
 import { PersianNum } from "../table/common/persiandigit";
 import Delete from "../Modal/delete";
 import ListGroupItem from "../listGroup/listGroupItem";
@@ -21,6 +22,7 @@ export class Product extends Component {
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.getProductItem(id);
+    this.props.getSettingItems();
   }
 
   onDelete = item => {
@@ -44,7 +46,7 @@ export class Product extends Component {
 
   render() {
     const user = auth.getCurrentUser();
-    const { product, loading } = this.props;
+    const { product, loading, settings, loadingSetting } = this.props;
     if (loading || !product) return <h1>Loading ...</h1>;
     return (
       <GridItem xs={12} sm={12} md={12}>
@@ -64,22 +66,27 @@ export class Product extends Component {
                 >
                   <i className="fa fa-arrow-right" />
                 </button>
-
-                <button
-                  className="btn btn-lg btn-success m-2 shadow rounded"
-                  style={{ backgroundColor: "#9c27b0", borderColor: "#9c27b0" }}
-                  onClick={() => this.onProcess(product)}
-                >
-                  <i className="fa fa-sync" />
-                </button>
-
-                <button
-                  className="btn btn-lg btn-dark m-2 shadow rounded"
-                  onClick={() => this.onEdit(product)}
-                >
-                  <i className="fa fa-wrench" />
-                </button>
-                {user.isAdmin && (
+                {(settings[0].processAccess || user.isAdmin) && (
+                  <button
+                    className="btn btn-lg btn-success m-2 shadow rounded"
+                    style={{
+                      backgroundColor: "#9c27b0",
+                      borderColor: "#9c27b0"
+                    }}
+                    onClick={() => this.onProcess(product)}
+                  >
+                    <i className="fa fa-sync" />
+                  </button>
+                )}
+                {(settings[0].editAction || user.isAdmin) && (
+                  <button
+                    className="btn btn-lg btn-dark m-2 shadow rounded"
+                    onClick={() => this.onEdit(product)}
+                  >
+                    <i className="fa fa-wrench" />
+                  </button>
+                )}
+                {(settings[0].deleteAction || user.isAdmin) && (
                   <Delete
                     onDelete={this.onDelete}
                     item={product}
@@ -187,10 +194,12 @@ export class Product extends Component {
 
 const mapStateToProps = state => ({
   product: state.product.product,
-  loading: state.product.loading
+  loading: state.product.loading,
+  settings: state.setting.settings,
+  loadingSetting: state.setting.loading
 });
 
 export default connect(
   mapStateToProps,
-  { getProductItem, deleteProductItem }
+  { getProductItem, deleteProductItem, getSettingItems }
 )(withStyles(rtlStyle)(Product));

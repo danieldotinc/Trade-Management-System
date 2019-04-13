@@ -23,12 +23,13 @@ class EditSettings extends Form {
       wholeProfit: "",
       retailProfit: "",
       marketPlaceProfit: "",
-      addAction: "",
-      editAction: "",
-      deleteAction: "",
-      processAccess: "",
-      personsAccess: "",
-      companiesAccess: ""
+      addAction: false,
+      editAction: false,
+      deleteAction: false,
+      processAccess: false,
+      personsAccess: false,
+      companiesAccess: false,
+      tradeAccess: false
     },
     errors: {}
   };
@@ -51,9 +52,11 @@ class EditSettings extends Form {
   doSubmit = data => {
     this.props.updateSettingItem(data);
 
-    this.props.onRoute("/Settings");
-    this.props.history.push("/Settings");
-    toast.info("تنظیمات" + " با موفقیت به روزرسانی شد.");
+    setTimeout(() => {
+      this.props.onRoute("/Settings");
+      this.props.history.push("/Settings");
+      toast.info("تنظیمات" + " با موفقیت به روزرسانی شد.");
+    }, 1000);
   };
 
   render() {
@@ -76,6 +79,38 @@ class EditSettings extends Form {
               </div>
               <div className="row">
                 {this.renderInput("valueAdded", "ارزش افزوده برای مالیات")}
+                {this.renderInput("shippingCosts", "هزینه ارسال به دیجیکالا")}
+                {this.renderInput("wholeProfit", "درصد سود عمده فروشی")}
+                {this.renderInput("retailProfit", "درصد سود خرده فروشی")}
+                {this.renderInput("marketPlaceProfit", "درصد سود مارکت پلیس")}
+                {this.renderCheck(
+                  "addAction",
+                  `امکان انجام فرآیند "افزودن" برای کاربران`
+                )}
+                {this.renderCheck(
+                  "editAction",
+                  `امکان انجام فرآیند "ویرایش" برای کاربران`
+                )}
+                {this.renderCheck(
+                  "deleteAction",
+                  `امکان انجام فرآیند "حذف" برای کاربران`
+                )}
+                {this.renderCheck(
+                  "processAccess",
+                  `دسترسی به "پردازش" برای کاربران`
+                )}
+                {this.renderCheck(
+                  "personsAccess",
+                  `دسترسی به "اشخاص" برای کاربران`
+                )}
+                {this.renderCheck(
+                  "companiesAccess",
+                  `دسترسی به "شرکت ها" برای کاربران`
+                )}
+                {this.renderCheck(
+                  "tradeAccess",
+                  `دسترسی به "بازرگانی" برای کاربران`
+                )}
               </div>
             </form>
           </CardBody>

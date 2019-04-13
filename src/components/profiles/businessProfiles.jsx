@@ -4,11 +4,13 @@ import ListPage from "../table/listPage";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import { getPersonItems, deletePersonItem } from "../../actions/personActions";
+import { getSettingItems } from "../../actions/settingActions";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
 class BusinessProfiles extends Component {
   componentDidMount() {
     this.props.getPersonItems();
+    this.props.getSettingItems();
   }
 
   handleProfileDetail = item => {
@@ -65,7 +67,13 @@ class BusinessProfiles extends Component {
   // };
 
   render() {
-    const { persons, loadingPersons, ...rest } = this.props;
+    const {
+      persons,
+      loadingPersons,
+      settings,
+      loadingSetting,
+      ...rest
+    } = this.props;
     if (loadingPersons || !persons) return <h1>Loading...</h1>;
     return (
       <ListPage
@@ -73,6 +81,7 @@ class BusinessProfiles extends Component {
         onDetail={this.handleProfileDetail}
         onEdit={this.handleEditTableItem}
         onDelete={this.handleDeleteTableItem}
+        settings={settings}
         {...rest}
       />
     );
@@ -81,10 +90,12 @@ class BusinessProfiles extends Component {
 
 const mapStateToProps = state => ({
   persons: state.person.persons,
-  loadingPersons: state.person.loading
+  loadingPersons: state.person.loading,
+  settings: state.setting.settings,
+  loadingSetting: state.setting.loading
 });
 
 export default connect(
   mapStateToProps,
-  { getPersonItems, deletePersonItem }
+  { getPersonItems, deletePersonItem, getSettingItems }
 )(withStyles(rtlStyle)(BusinessProfiles));

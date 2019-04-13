@@ -7,11 +7,13 @@ import {
   getCompanyItems,
   deleteCompanyItem
 } from "../../actions/companyActions";
+import { getSettingItems } from "../../actions/settingActions";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
 class Companies extends Component {
   componentDidMount() {
     this.props.getCompanyItems();
+    this.props.getSettingItems();
   }
 
   handleProfileDetail = item => {
@@ -28,7 +30,13 @@ class Companies extends Component {
   };
 
   render() {
-    const { companies, loadingCompanies, ...rest } = this.props;
+    const {
+      companies,
+      loadingCompanies,
+      settings,
+      loadingSetting,
+      ...rest
+    } = this.props;
     if (loadingCompanies || !companies) return <h1>Loading...</h1>;
     return (
       <ListPage
@@ -36,6 +44,7 @@ class Companies extends Component {
         onDetail={this.handleProfileDetail}
         onEdit={this.handleEditTableItem}
         onDelete={this.handleDeleteTableItem}
+        settings={settings}
         {...rest}
       />
     );
@@ -44,10 +53,12 @@ class Companies extends Component {
 
 const mapStateToProps = state => ({
   companies: state.company.companies,
-  loadingCompanies: state.company.loading
+  loadingCompanies: state.company.loading,
+  settings: state.setting.settings,
+  loadingSetting: state.setting.loading
 });
 
 export default connect(
   mapStateToProps,
-  { getCompanyItems, deleteCompanyItem }
+  { getCompanyItems, deleteCompanyItem, getSettingItems }
 )(withStyles(rtlStyle)(Companies));

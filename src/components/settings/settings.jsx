@@ -117,6 +117,12 @@ class Settings extends Component {
                         size="12"
                         float="left"
                       />
+                      <ListGroupItem
+                        label={`دسترسی به "بازرگانی" برای کاربران`}
+                        value={settings[0].tradeAccess ? "بله" : "خیر"}
+                        size="12"
+                        float="left"
+                      />
                     </div>
                   </div>
                 </div>

@@ -5,15 +5,23 @@ import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
 import { Link, NavLink } from "react-router-dom";
-
+import auth from "../../services/authService";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
 
-export class ListPage extends Component {
+class ListPage extends Component {
   render() {
-    const { classes, onNewForm, onRoute, properties, ...rest } = this.props;
+    const {
+      classes,
+      onNewForm,
+      onRoute,
+      properties,
+      settings,
+      ...rest
+    } = this.props;
     const { addLink, links } = this.props.state;
+    const user = auth.getCurrentUser();
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -39,12 +47,14 @@ export class ListPage extends Component {
           </CardHeader>
           <CardBody>
             <div className="row m-2">
-              <Link
-                to={addLink}
-                className="btn btn-lg btn-info m-2 shadow-lg rounded"
-              >
-                <i className="fa fa-plus" />
-              </Link>
+              {(settings[0].addAction || user.isAdmin) && (
+                <Link
+                  to={addLink}
+                  className="btn btn-lg btn-info m-2 shadow-lg rounded"
+                >
+                  <i className="fa fa-plus" />
+                </Link>
+              )}
             </div>
             <FullList {...rest} />
           </CardBody>

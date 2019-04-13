@@ -14,6 +14,7 @@ import Dashboard from "./components/dashboard/dashboard";
 import { Register } from "./components/users/register";
 import { Login } from "./components/users/login";
 import Settings from "./components/settings/settings";
+import Trade from "./components/trades/trade";
 import EditSettings from "./components/settings/editSettings";
 import Logout from "./components/users/logout";
 import Process from "./components/products/process";
@@ -95,6 +96,13 @@ let dashboardRoutes = [
     rtlName: "تنظیمات",
     layout: "",
     component: Settings
+  },
+  {
+    path: "/Trade",
+    name: "Trade",
+    rtlName: "بازرگانی",
+    layout: "",
+    component: Trade
   },
   {
     path: "/EditSettings",

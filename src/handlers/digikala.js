@@ -2,25 +2,25 @@ export function getDigiKalaShipping(length, width, height, weight) {
   const sizeUnit = getSize(parseInt(length), parseInt(width), parseInt(height));
   const weightUnit = getWeight(weight, sizeUnit);
 
-  if (sizeUnit === 1 && weightUnit === 1) return 900 + 800;
-  if (sizeUnit === 1 && weightUnit === 2) return 1200 + 1400;
-  if (sizeUnit === 1 && weightUnit === 3) return 1500 + 1900;
+  if (sizeUnit === 1 && weightUnit === 1) return 9000 + 8000;
+  if (sizeUnit === 1 && weightUnit === 2) return 12000 + 14000;
+  if (sizeUnit === 1 && weightUnit === 3) return 15000 + 19000;
 
-  if (sizeUnit === 2 && weightUnit === 1) return 1500 + 1900;
-  if (sizeUnit === 2 && weightUnit === 2) return 1800 + 2100;
-  if (sizeUnit === 2 && weightUnit === 3) return 2100 + 2400;
+  if (sizeUnit === 2 && weightUnit === 1) return 15000 + 19000;
+  if (sizeUnit === 2 && weightUnit === 2) return 18000 + 21000;
+  if (sizeUnit === 2 && weightUnit === 3) return 21000 + 24000;
 
-  if (sizeUnit === 3 && weightUnit === 1) return 1900 + 2300;
-  if (sizeUnit === 3 && weightUnit === 2) return 2700 + 2700;
-  if (sizeUnit === 3 && weightUnit === 3) return 3900 + 3400;
+  if (sizeUnit === 3 && weightUnit === 1) return 19000 + 23000;
+  if (sizeUnit === 3 && weightUnit === 2) return 27000 + 27000;
+  if (sizeUnit === 3 && weightUnit === 3) return 39000 + 34000;
 
-  if (sizeUnit === 4 && weightUnit === 1) return 4900 + 4900;
-  if (sizeUnit === 4 && weightUnit === 2) return 9000 + 7900;
-  if (sizeUnit === 4 && weightUnit === 3) return 21000 + 9900;
+  if (sizeUnit === 4 && weightUnit === 1) return 49000 + 49000;
+  if (sizeUnit === 4 && weightUnit === 2) return 90000 + 79000;
+  if (sizeUnit === 4 && weightUnit === 3) return 210000 + 99000;
 
-  if (sizeUnit === 5 && weightUnit === 1) return 11000 + 7900;
-  if (sizeUnit === 5 && weightUnit === 2) return 19000 + 10900;
-  if (sizeUnit === 5 && weightUnit === 3) return 39000 + 15900;
+  if (sizeUnit === 5 && weightUnit === 1) return 110000 + 79000;
+  if (sizeUnit === 5 && weightUnit === 2) return 190000 + 109000;
+  if (sizeUnit === 5 && weightUnit === 3) return 390000 + 159000;
 }
 
 function getSize(length, width, height) {

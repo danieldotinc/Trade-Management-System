@@ -7,12 +7,13 @@ import {
   getProductItems,
   deleteProductItem
 } from "../../actions/productActions";
-
+import { getSettingItems } from "../../actions/settingActions";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
 class Products extends Component {
   componentDidMount() {
     this.props.getProductItems();
+    this.props.getSettingItems();
   }
 
   handleProductDetail = item => {
@@ -49,7 +50,13 @@ class Products extends Component {
   // };
 
   render() {
-    const { products, loadingProducts, ...rest } = this.props;
+    const {
+      products,
+      loadingProducts,
+      settings,
+      loadingSetting,
+      ...rest
+    } = this.props;
     if (loadingProducts || !products) return <h1>Loading...</h1>;
     return (
       <ListPage
@@ -57,6 +64,7 @@ class Products extends Component {
         onDetail={this.handleProductDetail}
         onEdit={this.handleEditTableItem}
         onDelete={this.handleDeleteTableItem}
+        settings={settings}
         {...rest}
       />
     );
@@ -65,10 +73,12 @@ class Products extends Component {
 
 const mapStateToProps = state => ({
   products: state.product.products,
-  loadingProducts: state.product.loading
+  loadingProducts: state.product.loading,
+  settings: state.setting.settings,
+  loadingSetting: state.setting.loading
 });
 
 export default connect(
   mapStateToProps,
-  { getProductItems, deleteProductItem }
+  { getProductItems, deleteProductItem, getSettingItems }
 )(withStyles(rtlStyle)(Products));

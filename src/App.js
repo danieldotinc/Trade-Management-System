@@ -12,7 +12,6 @@ import {
   getCompanyColumns,
   getProductColumns
 } from "./services/fakeColumnService";
-
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/css/style.css";
 
@@ -78,6 +77,16 @@ class App extends Component {
         currentPage: 1
       });
     }
+
+    if (Route == "/Settings") {
+      return this.setState({
+        listName: "Settings",
+        pageName: "تنظیمات",
+        addLink: "/Settings",
+        columns: getProductColumns(),
+        currentPage: 1
+      });
+    }
     if (Route == "/AddProduct")
       return this.setState({
         pageName: "افزودن محصول"
@@ -90,7 +99,6 @@ class App extends Component {
 
   render() {
     const { activePage } = this.state;
-
     return (
       <div className="load">
         <ToastContainer />
