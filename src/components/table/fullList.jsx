@@ -33,6 +33,7 @@ export class FullList extends Component {
       onGenreChange,
       onDelete,
       onEdit,
+      onTrade,
       onLikeItem,
       onSort,
       onDetail
@@ -77,6 +78,7 @@ export class FullList extends Component {
           <ItemsCount itemsCount={PersianNum(sortedItems.length)} />
           <Table
             user={user}
+            onTrade={onTrade}
             onDetail={onDetail}
             listName={listName}
             sortColumn={sortColumn}

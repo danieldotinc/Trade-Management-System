@@ -48,6 +48,7 @@ class TableBody extends Component {
       columns,
       onDelete,
       onEdit,
+      onTrade,
       onLikeItem,
       listName,
       onDetail,
@@ -72,6 +73,15 @@ class TableBody extends Component {
               <Like movie={item} onClick={() => onLikeItem(item, listName)} />
             </td> */}
             <td key={uuid.v4()}>
+              {listName == "Product" &&
+                (settings[0].processAction || user.isAdmin) && (
+                  <button
+                    className="btn btn-raised btn-info ml-2 shadow rounded"
+                    onClick={() => onTrade(item)}
+                  >
+                    <i className="fa fa-calculator" />
+                  </button>
+                )}
               {(settings[0].editAction || user.isAdmin) && (
                 <button
                   className="btn btn-raised btn-dark ml-2 shadow rounded"
@@ -80,6 +90,7 @@ class TableBody extends Component {
                   <i className="fa fa-wrench" />
                 </button>
               )}
+
               {(settings[0].deleteAction || user.isAdmin) && (
                 <Delete onDelete={onDelete} item={item} />
               )}

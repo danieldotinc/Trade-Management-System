@@ -1,6 +1,6 @@
 import React from "react";
 
-const Input = ({ name, label, size, onChange, ...rest }) => {
+const Input = ({ name, label, size, onChange, required = false, ...rest }) => {
   return (
     <div className={`form-group m-3 col-${size}`}>
       <label htmlFor={`${name}Input`}>{label}</label>
@@ -12,6 +12,7 @@ const Input = ({ name, label, size, onChange, ...rest }) => {
         onChange={onChange}
         onInvalid={onChange}
         onInput={onChange}
+        required={required}
         placeholder="..."
       />
     </div>

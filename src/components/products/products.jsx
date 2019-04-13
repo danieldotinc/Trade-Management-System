@@ -16,18 +16,18 @@ class Products extends Component {
     this.props.getSettingItems();
   }
 
-  handleProductDetail = item => {
-    this.props.history.push(`/Product/${item._id}`);
-  };
+  handleProductDetail = item => this.props.history.push(`/Product/${item._id}`);
 
   handleDeleteTableItem = item => {
     this.props.deleteProductItem(item._id);
     toast.info(`${item.name} با موفقیت حذف شد.`);
   };
 
-  handleEditTableItem = item => {
+  handleEditTableItem = item =>
     this.props.history.push(`/EditProduct/${item._id}`);
-  };
+
+  handleTradeTableItem = item =>
+    this.props.history.push(`/TradeProduct/${item._id}`);
 
   // handleLikeItem = item => {
   //   const items = [...this.state.items];
@@ -61,6 +61,7 @@ class Products extends Component {
     return (
       <ListPage
         items={products}
+        onTrade={this.handleTradeTableItem}
         onDetail={this.handleProductDetail}
         onEdit={this.handleEditTableItem}
         onDelete={this.handleDeleteTableItem}

@@ -12,7 +12,8 @@ const Table = ({
   onEdit,
   onLikeItem,
   pageItems,
-  onDetail
+  onDetail,
+  onTrade
 }) => {
   return (
     <table className="table table-hover">
@@ -24,6 +25,7 @@ const Table = ({
       />
       <TableBody
         listName={listName}
+        onTrade={onTrade}
         onDetail={onDetail}
         onDelete={onDelete}
         onEdit={onEdit}

@@ -25,350 +25,350 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
 class Process extends Component {
-  state = {
-    data: {
-      wholePrice: "",
-      wholeProfitPercent: "",
-      wholeProfitDiffPrice: "",
-      wholePriceWithoutValueAdded: "",
-      wholeProfitPercentWithoutValueAdded: "",
-      wholeProfitDiffPriceWithoutValueAdded: "",
-      retailPrice: "",
-      retailProfitPercent: "",
-      retailProfitDiffPrice: "",
-      retailPriceWithoutValueAdded: "",
-      retailProfitPercentWithoutValueAdded: "",
-      retailProfitDiffPriceWithoutValueAdded: "",
-      marketPlacePrice: "",
-      marketPlaceProfitPercent: "",
-      marketPlaceProfitDiffPrice: "",
-      marketPlacePriceWithoutValueAdded: "",
-      marketPlaceProfitPercentWithoutValueAdded: "",
-      marketPlaceProfitDiffPriceWithoutValueAdded: ""
-    }
-  };
+  // state = {
+  //   data: {
+  //     wholePrice: "",
+  //     wholeProfitPercent: "",
+  //     wholeProfitDiffPrice: "",
+  //     wholePriceWithoutValueAdded: "",
+  //     wholeProfitPercentWithoutValueAdded: "",
+  //     wholeProfitDiffPriceWithoutValueAdded: "",
+  //     retailPrice: "",
+  //     retailProfitPercent: "",
+  //     retailProfitDiffPrice: "",
+  //     retailPriceWithoutValueAdded: "",
+  //     retailProfitPercentWithoutValueAdded: "",
+  //     retailProfitDiffPriceWithoutValueAdded: "",
+  //     marketPlacePrice: "",
+  //     marketPlaceProfitPercent: "",
+  //     marketPlaceProfitDiffPrice: "",
+  //     marketPlacePriceWithoutValueAdded: "",
+  //     marketPlaceProfitPercentWithoutValueAdded: "",
+  //     marketPlaceProfitDiffPriceWithoutValueAdded: ""
+  //   }
+  // };
   componentDidMount = () => {
     const { id } = this.props.match.params;
     this.props.getProductItem(id);
     this.props.getSettingItems();
   };
 
-  handleMarketPlaceProfitChange = e => {
-    const data = { ...this.state.data };
-    const clearValue = e.target.value.replace(/,/g, "");
-    const value = EngNum(clearValue);
-    data[e.target.name] = parseInt(value);
-    if (value && e.target.name.includes("Percent")) {
-      data.marketPlacePrice =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) +
-            this.getMarketPlaceCosts() +
-            this.getCostAndTax()) /
-            (1 -
-              parseInt(value) / 100 -
-              this.getMarketPlaceCommission() -
-              this.getAddedValue()) /
-            10
-        ) * 10;
-      data.marketPlaceProfitDiffPrice =
-        Math.round(getProfitByPercent(data.marketPlacePrice, value) / 10) * 10;
-    } else if (value && e.target.name.includes("Profit")) {
-      data.marketPlacePrice =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) +
-            parseInt(value) +
-            this.getMarketPlaceCosts() +
-            this.getCostAndTax()) /
-            (1 - this.getMarketPlaceCommission() - this.getAddedValue()) /
-            10
-        ) * 10;
+  // handleMarketPlaceProfitChange = e => {
+  //   const data = { ...this.state.data };
+  //   const clearValue = e.target.value.replace(/,/g, "");
+  //   const value = EngNum(clearValue);
+  //   data[e.target.name] = parseInt(value);
+  //   if (value && e.target.name.includes("Percent")) {
+  //     data.marketPlacePrice =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) +
+  //           this.getMarketPlaceCosts() +
+  //           this.getCostAndTax()) /
+  //           (1 -
+  //             parseInt(value) / 100 -
+  //             this.getMarketPlaceCommission() -
+  //             this.getAddedValue()) /
+  //           10
+  //       ) * 10;
+  //     data.marketPlaceProfitDiffPrice =
+  //       Math.round(getProfitByPercent(data.marketPlacePrice, value) / 10) * 10;
+  //   } else if (value && e.target.name.includes("Profit")) {
+  //     data.marketPlacePrice =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) +
+  //           parseInt(value) +
+  //           this.getMarketPlaceCosts() +
+  //           this.getCostAndTax()) /
+  //           (1 - this.getMarketPlaceCommission() - this.getAddedValue()) /
+  //           10
+  //       ) * 10;
 
-      data.marketPlaceProfitPercent = getPercentByProfit(
-        data.marketPlacePrice,
-        value
-      );
-    } else if (value && e.target.name.includes("Price")) {
-      data.marketPlaceProfitDiffPrice =
-        Math.round(
-          (parseInt(value) *
-            (1 - this.getMarketPlaceCommission() - this.getAddedValue()) -
-            parseInt(this.props.product.tradeBuyingPrice) -
-            this.getMarketPlaceCosts() -
-            this.getCostAndTax()) /
-            10
-        ) * 10;
+  //     data.marketPlaceProfitPercent = getPercentByProfit(
+  //       data.marketPlacePrice,
+  //       value
+  //     );
+  //   } else if (value && e.target.name.includes("Price")) {
+  //     data.marketPlaceProfitDiffPrice =
+  //       Math.round(
+  //         (parseInt(value) *
+  //           (1 - this.getMarketPlaceCommission() - this.getAddedValue()) -
+  //           parseInt(this.props.product.tradeBuyingPrice) -
+  //           this.getMarketPlaceCosts() -
+  //           this.getCostAndTax()) /
+  //           10
+  //       ) * 10;
 
-      data.marketPlaceProfitPercent =
-        Math.round(
-          (data.marketPlaceProfitDiffPrice * 10000) / parseInt(value)
-        ) / 100;
-    } else {
-      data.marketPlaceProfitPercent = "";
-      data.marketPlaceProfitDiffPrice = "";
-      data.marketPlacePrice = "";
-    }
-    this.setState({ data });
-  };
+  //     data.marketPlaceProfitPercent =
+  //       Math.round(
+  //         (data.marketPlaceProfitDiffPrice * 10000) / parseInt(value)
+  //       ) / 100;
+  //   } else {
+  //     data.marketPlaceProfitPercent = "";
+  //     data.marketPlaceProfitDiffPrice = "";
+  //     data.marketPlacePrice = "";
+  //   }
+  //   this.setState({ data });
+  // };
 
-  handleMarketPlaceProfitChangeWithoutValueAdded = e => {
-    const data = { ...this.state.data };
-    const clearValue = e.target.value.replace(/,/g, "");
-    const value = EngNum(clearValue);
-    data[e.target.name] = parseInt(value);
-    if (value && e.target.name.includes("Percent")) {
-      data.marketPlacePriceWithoutValueAdded =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) +
-            this.getMarketPlaceCosts() +
-            this.getCostAndTax() +
-            this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
-            (1 -
-              parseInt(value) / 100 -
-              this.getMarketPlaceCommission() -
-              this.getMarketPlaceCommission() *
-                this.getMarketPlaceAddedValue()) /
-            10
-        ) * 10;
-      data.marketPlaceProfitDiffPriceWithoutValueAdded =
-        Math.round(
-          getProfitByPercent(data.marketPlacePriceWithoutValueAdded, value) / 10
-        ) * 10;
-    } else if (value && e.target.name.includes("Profit")) {
-      data.marketPlacePriceWithoutValueAdded =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) +
-            parseInt(value) +
-            this.getMarketPlaceCosts() +
-            this.getCostAndTax() +
-            this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
-            (1 -
-              this.getMarketPlaceCommission() -
-              this.getMarketPlaceCommission() *
-                this.getMarketPlaceAddedValue()) /
-            10
-        ) * 10;
+  // handleMarketPlaceProfitChangeWithoutValueAdded = e => {
+  //   const data = { ...this.state.data };
+  //   const clearValue = e.target.value.replace(/,/g, "");
+  //   const value = EngNum(clearValue);
+  //   data[e.target.name] = parseInt(value);
+  //   if (value && e.target.name.includes("Percent")) {
+  //     data.marketPlacePriceWithoutValueAdded =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) +
+  //           this.getMarketPlaceCosts() +
+  //           this.getCostAndTax() +
+  //           this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
+  //           (1 -
+  //             parseInt(value) / 100 -
+  //             this.getMarketPlaceCommission() -
+  //             this.getMarketPlaceCommission() *
+  //               this.getMarketPlaceAddedValue()) /
+  //           10
+  //       ) * 10;
+  //     data.marketPlaceProfitDiffPriceWithoutValueAdded =
+  //       Math.round(
+  //         getProfitByPercent(data.marketPlacePriceWithoutValueAdded, value) / 10
+  //       ) * 10;
+  //   } else if (value && e.target.name.includes("Profit")) {
+  //     data.marketPlacePriceWithoutValueAdded =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) +
+  //           parseInt(value) +
+  //           this.getMarketPlaceCosts() +
+  //           this.getCostAndTax() +
+  //           this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
+  //           (1 -
+  //             this.getMarketPlaceCommission() -
+  //             this.getMarketPlaceCommission() *
+  //               this.getMarketPlaceAddedValue()) /
+  //           10
+  //       ) * 10;
 
-      data.marketPlaceProfitPercentWithoutValueAdded = getPercentByProfit(
-        data.marketPlacePriceWithoutValueAdded,
-        value
-      );
-    } else if (value && e.target.name.includes("Price")) {
-      data.marketPlaceProfitDiffPriceWithoutValueAdded =
-        Math.round(
-          (parseInt(value) *
-            (1 -
-              this.getMarketPlaceCommission() -
-              this.getMarketPlaceCommission() *
-                this.getMarketPlaceAddedValue()) -
-            parseInt(this.props.product.tradeBuyingPrice) -
-            this.getMarketPlaceCosts() -
-            this.getCostAndTax() -
-            this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
-            10
-        ) * 10;
+  //     data.marketPlaceProfitPercentWithoutValueAdded = getPercentByProfit(
+  //       data.marketPlacePriceWithoutValueAdded,
+  //       value
+  //     );
+  //   } else if (value && e.target.name.includes("Price")) {
+  //     data.marketPlaceProfitDiffPriceWithoutValueAdded =
+  //       Math.round(
+  //         (parseInt(value) *
+  //           (1 -
+  //             this.getMarketPlaceCommission() -
+  //             this.getMarketPlaceCommission() *
+  //               this.getMarketPlaceAddedValue()) -
+  //           parseInt(this.props.product.tradeBuyingPrice) -
+  //           this.getMarketPlaceCosts() -
+  //           this.getCostAndTax() -
+  //           this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
+  //           10
+  //       ) * 10;
 
-      data.marketPlaceProfitPercentWithoutValueAdded =
-        Math.round(
-          (data.marketPlaceProfitDiffPriceWithoutValueAdded * 10000) /
-            parseInt(value)
-        ) / 100;
-    } else {
-      data.marketPlaceProfitPercentWithoutValueAdded = "";
-      data.marketPlaceProfitDiffPriceWithoutValueAdded = "";
-      data.marketPlacePriceWithoutValueAdded = "";
-    }
-    this.setState({ data });
-  };
+  //     data.marketPlaceProfitPercentWithoutValueAdded =
+  //       Math.round(
+  //         (data.marketPlaceProfitDiffPriceWithoutValueAdded * 10000) /
+  //           parseInt(value)
+  //       ) / 100;
+  //   } else {
+  //     data.marketPlaceProfitPercentWithoutValueAdded = "";
+  //     data.marketPlaceProfitDiffPriceWithoutValueAdded = "";
+  //     data.marketPlacePriceWithoutValueAdded = "";
+  //   }
+  //   this.setState({ data });
+  // };
 
-  handleProfitChangeWholePrice = e => {
-    const data = { ...this.state.data };
-    const clearValue = e.target.value.replace(/,/g, "");
-    const value = EngNum(clearValue);
-    data[e.target.name] = parseInt(value);
-    if (value && e.target.name.includes("Percent")) {
-      data.wholePrice =
-        Math.round(
-          parseInt(this.props.product.tradeBuyingPrice) /
-            (1 -
-              parseInt(value) / 100 -
-              this.getAddedValue() -
-              this.getWholeShipping()) /
-            10
-        ) * 10;
-      data.wholeProfitDiffPrice =
-        Math.round(getProfitByPercent(data.wholePrice, value) / 10) * 10;
-    } else if (value && e.target.name.includes("Profit")) {
-      data.wholePrice =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) + parseInt(value)) /
-            (1 - this.getAddedValue() - this.getWholeShipping()) /
-            10
-        ) * 10;
+  // handleProfitChangeWholePrice = e => {
+  //   const data = { ...this.state.data };
+  //   const clearValue = e.target.value.replace(/,/g, "");
+  //   const value = EngNum(clearValue);
+  //   data[e.target.name] = parseInt(value);
+  //   if (value && e.target.name.includes("Percent")) {
+  //     data.wholePrice =
+  //       Math.round(
+  //         parseInt(this.props.product.tradeBuyingPrice) /
+  //           (1 -
+  //             parseInt(value) / 100 -
+  //             this.getAddedValue() -
+  //             this.getWholeShipping()) /
+  //           10
+  //       ) * 10;
+  //     data.wholeProfitDiffPrice =
+  //       Math.round(getProfitByPercent(data.wholePrice, value) / 10) * 10;
+  //   } else if (value && e.target.name.includes("Profit")) {
+  //     data.wholePrice =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) + parseInt(value)) /
+  //           (1 - this.getAddedValue() - this.getWholeShipping()) /
+  //           10
+  //       ) * 10;
 
-      data.wholeProfitPercent = getPercentByProfit(data.wholePrice, value);
-    } else if (value && e.target.name.includes("Price")) {
-      data.wholeProfitDiffPrice =
-        Math.round(
-          (parseInt(value) *
-            (1 - this.getAddedValue() - this.getWholeShipping()) -
-            parseInt(this.props.product.tradeBuyingPrice)) /
-            10
-        ) * 10;
+  //     data.wholeProfitPercent = getPercentByProfit(data.wholePrice, value);
+  //   } else if (value && e.target.name.includes("Price")) {
+  //     data.wholeProfitDiffPrice =
+  //       Math.round(
+  //         (parseInt(value) *
+  //           (1 - this.getAddedValue() - this.getWholeShipping()) -
+  //           parseInt(this.props.product.tradeBuyingPrice)) /
+  //           10
+  //       ) * 10;
 
-      data.wholeProfitPercent =
-        Math.round((data.wholeProfitDiffPrice * 10000) / parseInt(value)) / 100;
-    } else {
-      data.wholeProfitPercent = "";
-      data.wholeProfitDiffPrice = "";
-      data.wholePrice = "";
-    }
-    this.setState({ data });
-  };
+  //     data.wholeProfitPercent =
+  //       Math.round((data.wholeProfitDiffPrice * 10000) / parseInt(value)) / 100;
+  //   } else {
+  //     data.wholeProfitPercent = "";
+  //     data.wholeProfitDiffPrice = "";
+  //     data.wholePrice = "";
+  //   }
+  //   this.setState({ data });
+  // };
 
-  handleProfitChangeWholePriceWithoutValueAdded = e => {
-    const data = { ...this.state.data };
-    const clearValue = e.target.value.replace(/,/g, "");
-    const value = EngNum(clearValue);
-    data[e.target.name] = parseInt(value);
-    if (value && e.target.name.includes("Percent")) {
-      data.wholePriceWithoutValueAdded =
-        Math.round(
-          parseInt(this.props.product.tradeBuyingPrice) /
-            (1 - parseInt(value) / 100 - this.getWholeShipping()) /
-            10
-        ) * 10;
-      data.wholeProfitDiffPriceWithoutValueAdded =
-        Math.round(
-          getProfitByPercent(data.wholePriceWithoutValueAdded, value) / 10
-        ) * 10;
-    } else if (value && e.target.name.includes("Profit")) {
-      data.wholePriceWithoutValueAdded =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) + parseInt(value)) /
-            (1 - this.getWholeShipping()) /
-            10
-        ) * 10;
+  // handleProfitChangeWholePriceWithoutValueAdded = e => {
+  //   const data = { ...this.state.data };
+  //   const clearValue = e.target.value.replace(/,/g, "");
+  //   const value = EngNum(clearValue);
+  //   data[e.target.name] = parseInt(value);
+  //   if (value && e.target.name.includes("Percent")) {
+  //     data.wholePriceWithoutValueAdded =
+  //       Math.round(
+  //         parseInt(this.props.product.tradeBuyingPrice) /
+  //           (1 - parseInt(value) / 100 - this.getWholeShipping()) /
+  //           10
+  //       ) * 10;
+  //     data.wholeProfitDiffPriceWithoutValueAdded =
+  //       Math.round(
+  //         getProfitByPercent(data.wholePriceWithoutValueAdded, value) / 10
+  //       ) * 10;
+  //   } else if (value && e.target.name.includes("Profit")) {
+  //     data.wholePriceWithoutValueAdded =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) + parseInt(value)) /
+  //           (1 - this.getWholeShipping()) /
+  //           10
+  //       ) * 10;
 
-      data.wholeProfitPercentWithoutValueAdded = getPercentByProfit(
-        data.wholePriceWithoutValueAdded,
-        value
-      );
-    } else if (value && e.target.name.includes("Price")) {
-      data.wholeProfitDiffPriceWithoutValueAdded =
-        Math.round(
-          (parseInt(value) * (1 - this.getWholeShipping()) -
-            parseInt(this.props.product.tradeBuyingPrice)) /
-            10
-        ) * 10;
+  //     data.wholeProfitPercentWithoutValueAdded = getPercentByProfit(
+  //       data.wholePriceWithoutValueAdded,
+  //       value
+  //     );
+  //   } else if (value && e.target.name.includes("Price")) {
+  //     data.wholeProfitDiffPriceWithoutValueAdded =
+  //       Math.round(
+  //         (parseInt(value) * (1 - this.getWholeShipping()) -
+  //           parseInt(this.props.product.tradeBuyingPrice)) /
+  //           10
+  //       ) * 10;
 
-      data.wholeProfitPercentWithoutValueAdded =
-        Math.round(
-          (data.wholeProfitDiffPriceWithoutValueAdded * 10000) / parseInt(value)
-        ) / 100;
-    } else {
-      data.wholeProfitPercentWithoutValueAdded = "";
-      data.wholeProfitDiffPriceWithoutValueAdded = "";
-      data.wholePriceWithoutValueAdded = "";
-    }
-    this.setState({ data });
-  };
+  //     data.wholeProfitPercentWithoutValueAdded =
+  //       Math.round(
+  //         (data.wholeProfitDiffPriceWithoutValueAdded * 10000) / parseInt(value)
+  //       ) / 100;
+  //   } else {
+  //     data.wholeProfitPercentWithoutValueAdded = "";
+  //     data.wholeProfitDiffPriceWithoutValueAdded = "";
+  //     data.wholePriceWithoutValueAdded = "";
+  //   }
+  //   this.setState({ data });
+  // };
 
-  handleProfitChangeRetailPrice = e => {
-    const data = { ...this.state.data };
-    const clearValue = e.target.value.replace(/,/g, "");
-    const value = EngNum(clearValue);
-    data[e.target.name] = parseInt(value);
-    if (value && e.target.name.includes("Percent")) {
-      data.retailPrice =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) + this.getShipping()) /
-            (1 - parseInt(value) / 100 - this.getAddedValue()) /
-            10
-        ) * 10;
-      data.retailProfitDiffPrice =
-        Math.round(getProfitByPercent(data.retailPrice, value) / 10) * 10;
-    } else if (value && e.target.name.includes("Profit")) {
-      data.retailPrice =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) +
-            parseInt(value) +
-            this.getShipping()) /
-            (1 - this.getAddedValue()) /
-            10
-        ) * 10;
+  // handleProfitChangeRetailPrice = e => {
+  //   const data = { ...this.state.data };
+  //   const clearValue = e.target.value.replace(/,/g, "");
+  //   const value = EngNum(clearValue);
+  //   data[e.target.name] = parseInt(value);
+  //   if (value && e.target.name.includes("Percent")) {
+  //     data.retailPrice =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) + this.getShipping()) /
+  //           (1 - parseInt(value) / 100 - this.getAddedValue()) /
+  //           10
+  //       ) * 10;
+  //     data.retailProfitDiffPrice =
+  //       Math.round(getProfitByPercent(data.retailPrice, value) / 10) * 10;
+  //   } else if (value && e.target.name.includes("Profit")) {
+  //     data.retailPrice =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) +
+  //           parseInt(value) +
+  //           this.getShipping()) /
+  //           (1 - this.getAddedValue()) /
+  //           10
+  //       ) * 10;
 
-      data.retailProfitPercent = getPercentByProfit(data.retailPrice, value);
-    } else if (value && e.target.name.includes("Price")) {
-      data.retailProfitDiffPrice =
-        Math.round(
-          (parseInt(value) * (1 - this.getAddedValue()) -
-            parseInt(this.props.product.tradeBuyingPrice) -
-            this.getShipping()) /
-            10
-        ) * 10;
+  //     data.retailProfitPercent = getPercentByProfit(data.retailPrice, value);
+  //   } else if (value && e.target.name.includes("Price")) {
+  //     data.retailProfitDiffPrice =
+  //       Math.round(
+  //         (parseInt(value) * (1 - this.getAddedValue()) -
+  //           parseInt(this.props.product.tradeBuyingPrice) -
+  //           this.getShipping()) /
+  //           10
+  //       ) * 10;
 
-      data.retailProfitPercent =
-        Math.round((data.retailProfitDiffPrice * 10000) / parseInt(value)) /
-        100;
-    } else {
-      data.retailProfitPercent = "";
-      data.retailProfitDiffPrice = "";
-      data.retailPrice = "";
-    }
-    this.setState({ data });
-  };
+  //     data.retailProfitPercent =
+  //       Math.round((data.retailProfitDiffPrice * 10000) / parseInt(value)) /
+  //       100;
+  //   } else {
+  //     data.retailProfitPercent = "";
+  //     data.retailProfitDiffPrice = "";
+  //     data.retailPrice = "";
+  //   }
+  //   this.setState({ data });
+  // };
 
-  handleProfitChangeRetailPriceWithoutValueAdded = e => {
-    const data = { ...this.state.data };
-    const clearValue = e.target.value.replace(/,/g, "");
-    const value = EngNum(clearValue);
-    data[e.target.name] = parseInt(value);
-    if (value && e.target.name.includes("Percent")) {
-      data.retailPriceWithoutValueAdded =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) + this.getShipping()) /
-            (1 - parseInt(value) / 100) /
-            10
-        ) * 10;
-      data.retailProfitDiffPriceWithoutValueAdded =
-        Math.round(
-          getProfitByPercent(data.retailPriceWithoutValueAdded, value) / 10
-        ) * 10;
-    } else if (value && e.target.name.includes("Profit")) {
-      data.retailPriceWithoutValueAdded =
-        Math.round(
-          (parseInt(this.props.product.tradeBuyingPrice) +
-            parseInt(value) +
-            this.getShipping()) /
-            1 /
-            10
-        ) * 10;
+  // handleProfitChangeRetailPriceWithoutValueAdded = e => {
+  //   const data = { ...this.state.data };
+  //   const clearValue = e.target.value.replace(/,/g, "");
+  //   const value = EngNum(clearValue);
+  //   data[e.target.name] = parseInt(value);
+  //   if (value && e.target.name.includes("Percent")) {
+  //     data.retailPriceWithoutValueAdded =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) + this.getShipping()) /
+  //           (1 - parseInt(value) / 100) /
+  //           10
+  //       ) * 10;
+  //     data.retailProfitDiffPriceWithoutValueAdded =
+  //       Math.round(
+  //         getProfitByPercent(data.retailPriceWithoutValueAdded, value) / 10
+  //       ) * 10;
+  //   } else if (value && e.target.name.includes("Profit")) {
+  //     data.retailPriceWithoutValueAdded =
+  //       Math.round(
+  //         (parseInt(this.props.product.tradeBuyingPrice) +
+  //           parseInt(value) +
+  //           this.getShipping()) /
+  //           1 /
+  //           10
+  //       ) * 10;
 
-      data.retailProfitPercentWithoutValueAdded = getPercentByProfit(
-        data.retailPriceWithoutValueAdded,
-        value
-      );
-    } else if (value && e.target.name.includes("Price")) {
-      data.retailProfitDiffPriceWithoutValueAdded =
-        Math.round(
-          (parseInt(value) * 1 -
-            parseInt(this.props.product.tradeBuyingPrice) -
-            this.getShipping()) /
-            10
-        ) * 10;
+  //     data.retailProfitPercentWithoutValueAdded = getPercentByProfit(
+  //       data.retailPriceWithoutValueAdded,
+  //       value
+  //     );
+  //   } else if (value && e.target.name.includes("Price")) {
+  //     data.retailProfitDiffPriceWithoutValueAdded =
+  //       Math.round(
+  //         (parseInt(value) * 1 -
+  //           parseInt(this.props.product.tradeBuyingPrice) -
+  //           this.getShipping()) /
+  //           10
+  //       ) * 10;
 
-      data.retailProfitPercentWithoutValueAdded =
-        Math.round(
-          (data.retailProfitDiffPriceWithoutValueAdded * 10000) /
-            parseInt(value)
-        ) / 100;
-    } else {
-      data.retailProfitPercentWithoutValueAdded = "";
-      data.retailProfitDiffPriceWithoutValueAdded = "";
-      data.retailPriceWithoutValueAdded = "";
-    }
-    this.setState({ data });
-  };
+  //     data.retailProfitPercentWithoutValueAdded =
+  //       Math.round(
+  //         (data.retailProfitDiffPriceWithoutValueAdded * 10000) /
+  //           parseInt(value)
+  //       ) / 100;
+  //   } else {
+  //     data.retailProfitPercentWithoutValueAdded = "";
+  //     data.retailProfitDiffPriceWithoutValueAdded = "";
+  //     data.retailPriceWithoutValueAdded = "";
+  //   }
+  //   this.setState({ data });
+  // };
 
   onEdit = item => {
     this.props.history.push(`/EditProduct/${item._id}`);
@@ -691,7 +691,7 @@ class Process extends Component {
                         size="12"
                       />
                     </div>
-                    <div className="shadow rounded col-12 pt-3 pb-3">
+                    {/* <div className="shadow rounded col-12 pt-3 pb-3">
                       <div className="row">
                         <Input
                           type="text"
@@ -920,7 +920,7 @@ class Process extends Component {
                           }
                         />
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
