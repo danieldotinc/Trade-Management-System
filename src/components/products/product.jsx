@@ -47,7 +47,9 @@ export class Product extends Component {
   render() {
     const user = auth.getCurrentUser();
     const { product, loading, settings, loadingSetting } = this.props;
-    if (loading || !product) return <h1>Loading ...</h1>;
+    if (loading || !product || loadingSetting || !settings)
+      return <h1>Loading ...</h1>;
+
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -96,18 +98,19 @@ export class Product extends Component {
               </div>
               <div className="row">
                 <div className="m-2 col-6">
-                  <img
-                    style={{
-                      height: "500px",
-                      width: "500px",
-                      borderRadius: "10px"
-                    }}
-                    src={
-                      product.img && require(`../../../public/${product.img}`)
-                    }
-                  />
+                  {product.img.length && (
+                    <img
+                      style={{
+                        height: "500px",
+                        width: "500px",
+                        borderRadius: "10px"
+                      }}
+                      src={require(`../../../public/${product.img}`)}
+                    />
+                  )}
+
                   <br />
-                  {product.imgs &&
+                  {product.imgs[0] &&
                     product.imgs.map(img => (
                       <img
                         style={{

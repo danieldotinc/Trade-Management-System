@@ -185,8 +185,10 @@ export class AddProduct extends Form {
   };
 
   handleBack = () => {
-    this.props.onRoute("/Products");
-    this.props.history.push("/Products");
+    const { state } = this.props.location;
+    const path = state ? state.from.pathname : "/Products";
+    this.props.onRoute(path);
+    this.props.history.push(path);
   };
 
   doSubmit = data => {
@@ -201,8 +203,7 @@ export class AddProduct extends Form {
       ? this.props.updateProductItem({ item: finaldata, id: result._id })
       : this.props.addProductItem(finaldata);
 
-    this.props.onRoute("/Products");
-    this.props.history.push("/Products");
+    this.handleBack();
     this.handleNotify(result.name);
   };
 

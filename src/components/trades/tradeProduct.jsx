@@ -32,27 +32,36 @@ import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.j
 class Trade extends Form {
   state = {
     data: {
-      tradeBuyingPrice: 0,
+      tradeBuyingPrice: "",
       weight: "",
       length: "",
       width: "",
       height: "",
+      otherCosts: "",
+      stock: "",
+      eachItemOtherCosts: "",
       wholePrice: "",
+      wholePriceFinal: "",
       wholeProfitPercent: "",
       wholeProfitDiffPrice: "",
       wholePriceWithoutValueAdded: "",
+      wholePriceFinalWithoutValueAdded: "",
       wholeProfitPercentWithoutValueAdded: "",
       wholeProfitDiffPriceWithoutValueAdded: "",
       retailPrice: "",
+      retailPriceFinal: "",
       retailProfitPercent: "",
       retailProfitDiffPrice: "",
       retailPriceWithoutValueAdded: "",
+      retailPriceFinalWithoutValueAdded: "",
       retailProfitPercentWithoutValueAdded: "",
       retailProfitDiffPriceWithoutValueAdded: "",
       marketPlacePrice: "",
+      marketPlacePriceFinal: "",
       marketPlaceProfitPercent: "",
       marketPlaceProfitDiffPrice: "",
       marketPlacePriceWithoutValueAdded: "",
+      marketPlacePriceFinalWithoutValueAdded: "",
       marketPlaceProfitPercentWithoutValueAdded: "",
       marketPlaceProfitDiffPriceWithoutValueAdded: ""
     }
@@ -118,6 +127,25 @@ class Trade extends Form {
     this.setState({ data });
   };
 
+  handleOtherCosts = e => {
+    const data = { ...this.state.data };
+    const clearValue = e.target.value.replace(/,/g, "");
+    const value = EngNum(clearValue);
+    data[e.target.name] = value;
+    if (e.target.name.includes("stock") && value) {
+      if (data.otherCosts)
+        data.eachItemOtherCosts = parseInt(data.otherCosts) / parseInt(value);
+    } else if (e.target.name.includes("eachItemOtherCosts") && value) {
+      if (data.otherCosts)
+        data.stock =
+          parseInt(data.otherCosts) / parseInt(data.eachItemOtherCosts);
+    } else {
+      data.stock = "";
+      data.eachItemOtherCosts = "";
+    }
+    this.setState({ data });
+  };
+
   handleMarketPlaceProfitChange = e => {
     const data = { ...this.state.data };
     const clearValue = e.target.value.replace(/,/g, "");
@@ -128,6 +156,7 @@ class Trade extends Form {
         Math.round(
           (parseInt(data.tradeBuyingPrice) +
             this.getMarketPlaceCosts() +
+            this.getOtherCosts() +
             this.getCostAndTax()) /
             (1 -
               parseInt(value) / 100 -
@@ -135,42 +164,75 @@ class Trade extends Form {
               this.getAddedValue()) /
             10
         ) * 10;
+      data.marketPlacePriceFinal = data.eachItemOtherCosts
+        ? Math.round(data.marketPlacePrice + data.eachItemOtherCosts)
+        : data.marketPlacePrice;
       data.marketPlaceProfitDiffPrice =
-        Math.round(getProfitByPercent(data.marketPlacePrice, value) / 10) * 10;
+        Math.round(getProfitByPercent(data.marketPlacePriceFinal, value) / 10) *
+        10;
     } else if (value && e.target.name.includes("Profit")) {
       data.marketPlacePrice =
         Math.round(
           (parseInt(data.tradeBuyingPrice) +
             parseInt(value) +
             this.getMarketPlaceCosts() +
+            this.getOtherCosts() +
             this.getCostAndTax()) /
             (1 - this.getMarketPlaceCommission() - this.getAddedValue()) /
             10
         ) * 10;
 
+      data.marketPlacePriceFinal = data.eachItemOtherCosts
+        ? Math.round(data.marketPlacePrice + data.eachItemOtherCosts)
+        : data.marketPlacePrice;
       data.marketPlaceProfitPercent = getPercentByProfit(
-        data.marketPlacePrice,
+        data.marketPlacePriceFinal,
         value
       );
-    } else if (value && e.target.name.includes("Price")) {
+    } else if (value && e.target.name.includes("Final")) {
       data.marketPlaceProfitDiffPrice =
         Math.round(
           (parseInt(value) *
             (1 - this.getMarketPlaceCommission() - this.getAddedValue()) -
             parseInt(data.tradeBuyingPrice) -
             this.getMarketPlaceCosts() -
+            this.getOtherCosts() -
+            this.getCostAndTax()) /
+            10
+        ) * 10;
+      data.marketPlacePrice = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) - parseInt(data.eachItemOtherCosts))
+        : parseInt(value);
+      data.marketPlaceProfitPercent =
+        Math.round(
+          (data.marketPlaceProfitDiffPrice * 10000) / parseInt(value)
+        ) / 100;
+    } else if (value && e.target.name.includes("Price")) {
+      data.marketPlacePriceFinal = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) + parseInt(data.eachItemOtherCosts))
+        : parseInt(value);
+
+      data.marketPlaceProfitDiffPrice =
+        Math.round(
+          (parseInt(data.marketPlacePriceFinal) *
+            (1 - this.getMarketPlaceCommission() - this.getAddedValue()) -
+            parseInt(data.tradeBuyingPrice) -
+            this.getMarketPlaceCosts() -
+            this.getOtherCosts() -
             this.getCostAndTax()) /
             10
         ) * 10;
 
       data.marketPlaceProfitPercent =
         Math.round(
-          (data.marketPlaceProfitDiffPrice * 10000) / parseInt(value)
+          (data.marketPlaceProfitDiffPrice * 10000) /
+            parseInt(data.marketPlacePriceFinal)
         ) / 100;
     } else {
       data.marketPlaceProfitPercent = "";
       data.marketPlaceProfitDiffPrice = "";
       data.marketPlacePrice = "";
+      data.marketPlacePriceFinal = "";
     }
     this.setState({ data });
   };
@@ -185,6 +247,7 @@ class Trade extends Form {
         Math.round(
           (parseInt(data.tradeBuyingPrice) +
             this.getMarketPlaceCosts() +
+            this.getOtherCosts() +
             this.getCostAndTax() +
             this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
             (1 -
@@ -194,9 +257,17 @@ class Trade extends Form {
                 this.getMarketPlaceAddedValue()) /
             10
         ) * 10;
+      data.marketPlacePriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(
+            data.marketPlacePriceWithoutValueAdded + data.eachItemOtherCosts
+          )
+        : data.marketPlacePriceWithoutValueAdded;
       data.marketPlaceProfitDiffPriceWithoutValueAdded =
         Math.round(
-          getProfitByPercent(data.marketPlacePriceWithoutValueAdded, value) / 10
+          getProfitByPercent(
+            data.marketPlacePriceFinalWithoutValueAdded,
+            value
+          ) / 10
         ) * 10;
     } else if (value && e.target.name.includes("Profit")) {
       data.marketPlacePriceWithoutValueAdded =
@@ -204,6 +275,7 @@ class Trade extends Form {
           (parseInt(data.tradeBuyingPrice) +
             parseInt(value) +
             this.getMarketPlaceCosts() +
+            this.getOtherCosts() +
             this.getCostAndTax() +
             this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
             (1 -
@@ -213,11 +285,17 @@ class Trade extends Form {
             10
         ) * 10;
 
+      data.marketPlacePriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(
+            data.marketPlacePriceWithoutValueAdded + data.eachItemOtherCosts
+          )
+        : data.marketPlacePriceWithoutValueAdded;
+
       data.marketPlaceProfitPercentWithoutValueAdded = getPercentByProfit(
-        data.marketPlacePriceWithoutValueAdded,
+        data.marketPlacePriceFinalWithoutValueAdded,
         value
       );
-    } else if (value && e.target.name.includes("Price")) {
+    } else if (value && e.target.name.includes("Final")) {
       data.marketPlaceProfitDiffPriceWithoutValueAdded =
         Math.round(
           (parseInt(value) *
@@ -227,6 +305,36 @@ class Trade extends Form {
                 this.getMarketPlaceAddedValue()) -
             parseInt(data.tradeBuyingPrice) -
             this.getMarketPlaceCosts() -
+            this.getOtherCosts() -
+            this.getCostAndTax() -
+            this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
+            10
+        ) * 10;
+
+      data.marketPlacePriceWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) - data.eachItemOtherCosts)
+        : parseInt(value);
+
+      data.marketPlaceProfitPercentWithoutValueAdded =
+        Math.round(
+          (data.marketPlaceProfitDiffPriceWithoutValueAdded * 10000) /
+            parseInt(value)
+        ) / 100;
+    } else if (value && e.target.name.includes("Price")) {
+      data.marketPlacePriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) + data.eachItemOtherCosts)
+        : parseInt(value);
+
+      data.marketPlaceProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          (parseInt(data.marketPlacePriceFinalWithoutValueAdded) *
+            (1 -
+              this.getMarketPlaceCommission() -
+              this.getMarketPlaceCommission() *
+                this.getMarketPlaceAddedValue()) -
+            parseInt(data.tradeBuyingPrice) -
+            this.getMarketPlaceCosts() -
+            this.getOtherCosts() -
             this.getCostAndTax() -
             this.getMarketPlaceCosts() * this.getMarketPlaceAddedValue()) /
             10
@@ -235,12 +343,13 @@ class Trade extends Form {
       data.marketPlaceProfitPercentWithoutValueAdded =
         Math.round(
           (data.marketPlaceProfitDiffPriceWithoutValueAdded * 10000) /
-            parseInt(value)
+            parseInt(data.marketPlacePriceFinalWithoutValueAdded)
         ) / 100;
     } else {
       data.marketPlaceProfitPercentWithoutValueAdded = "";
       data.marketPlaceProfitDiffPriceWithoutValueAdded = "";
       data.marketPlacePriceWithoutValueAdded = "";
+      data.marketPlacePriceFinalWithoutValueAdded = "";
     }
     this.setState({ data });
   };
@@ -253,39 +362,79 @@ class Trade extends Form {
     if (value && e.target.name.includes("Percent")) {
       data.wholePrice =
         Math.round(
-          parseInt(data.tradeBuyingPrice) /
-            (1 -
-              parseInt(value) / 100 -
-              this.getAddedValue() -
-              this.getWholeShipping()) /
-            10
+          parseInt(data.tradeBuyingPrice) +
+            this.getOtherCosts() /
+              (1 -
+                parseInt(value) / 100 -
+                this.getAddedValue() -
+                this.getWholeShipping()) /
+              10
         ) * 10;
+
+      data.wholePriceFinal = data.eachItemOtherCosts
+        ? Math.round(
+            parseInt(data.wholePrice) + parseInt(data.eachItemOtherCosts)
+          )
+        : data.wholePrice;
+
       data.wholeProfitDiffPrice =
-        Math.round(getProfitByPercent(data.wholePrice, value) / 10) * 10;
+        Math.round(getProfitByPercent(data.wholePriceFinal, value) / 10) * 10;
     } else if (value && e.target.name.includes("Profit")) {
       data.wholePrice =
         Math.round(
-          (parseInt(data.tradeBuyingPrice) + parseInt(value)) /
+          (parseInt(data.tradeBuyingPrice) +
+            parseInt(value) +
+            this.getOtherCosts()) /
             (1 - this.getAddedValue() - this.getWholeShipping()) /
             10
         ) * 10;
 
-      data.wholeProfitPercent = getPercentByProfit(data.wholePrice, value);
-    } else if (value && e.target.name.includes("Price")) {
+      data.wholePriceFinal = data.eachItemOtherCosts
+        ? Math.round(
+            parseInt(data.wholePrice) + parseInt(data.eachItemOtherCosts)
+          )
+        : data.wholePrice;
+
+      data.wholeProfitPercent = getPercentByProfit(data.wholePriceFinal, value);
+    } else if (value && e.target.name.includes("Final")) {
       data.wholeProfitDiffPrice =
         Math.round(
           (parseInt(value) *
             (1 - this.getAddedValue() - this.getWholeShipping()) -
-            parseInt(data.tradeBuyingPrice)) /
+            parseInt(data.tradeBuyingPrice) -
+            this.getOtherCosts()) /
+            10
+        ) * 10;
+
+      data.wholePrice = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) - parseInt(data.eachItemOtherCosts))
+        : parseInt(value);
+
+      data.wholeProfitPercent =
+        Math.round((data.wholeProfitDiffPrice * 10000) / parseInt(value)) / 100;
+    } else if (value && e.target.name.includes("Price")) {
+      data.wholePriceFinal = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) + parseInt(data.eachItemOtherCosts))
+        : parseInt(value);
+
+      data.wholeProfitDiffPrice =
+        Math.round(
+          (parseInt(data.wholePriceFinal) *
+            (1 - this.getAddedValue() - this.getWholeShipping()) -
+            parseInt(data.tradeBuyingPrice) -
+            this.getOtherCosts()) /
             10
         ) * 10;
 
       data.wholeProfitPercent =
-        Math.round((data.wholeProfitDiffPrice * 10000) / parseInt(value)) / 100;
+        Math.round(
+          (data.wholeProfitDiffPrice * 10000) / parseInt(data.wholePriceFinal)
+        ) / 100;
     } else {
       data.wholeProfitPercent = "";
       data.wholeProfitDiffPrice = "";
       data.wholePrice = "";
+      data.wholePriceFinal = "";
     }
     this.setState({ data });
   };
@@ -298,42 +447,83 @@ class Trade extends Form {
     if (value && e.target.name.includes("Percent")) {
       data.wholePriceWithoutValueAdded =
         Math.round(
-          parseInt(data.tradeBuyingPrice) /
-            (1 - parseInt(value) / 100 - this.getWholeShipping()) /
-            10
+          parseInt(data.tradeBuyingPrice) +
+            this.getOtherCosts() /
+              (1 - parseInt(value) / 100 - this.getWholeShipping()) /
+              10
         ) * 10;
+
+      data.wholePriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(
+            parseInt(data.wholePriceWithoutValueAdded) +
+              parseInt(data.eachItemOtherCosts)
+          )
+        : data.wholePriceWithoutValueAdded;
+
       data.wholeProfitDiffPriceWithoutValueAdded =
         Math.round(
-          getProfitByPercent(data.wholePriceWithoutValueAdded, value) / 10
+          getProfitByPercent(data.wholePriceFinalWithoutValueAdded, value) / 10
         ) * 10;
     } else if (value && e.target.name.includes("Profit")) {
       data.wholePriceWithoutValueAdded =
         Math.round(
-          (parseInt(data.tradeBuyingPrice) + parseInt(value)) /
+          (parseInt(data.tradeBuyingPrice) +
+            parseInt(value) +
+            this.getOtherCosts()) /
             (1 - this.getWholeShipping()) /
             10
         ) * 10;
 
+      data.wholePriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(
+            parseInt(data.wholePriceWithoutValueAdded) +
+              parseInt(data.eachItemOtherCosts)
+          )
+        : data.wholePriceWithoutValueAdded;
+
       data.wholeProfitPercentWithoutValueAdded = getPercentByProfit(
-        data.wholePriceWithoutValueAdded,
+        data.wholePriceFinalWithoutValueAdded,
         value
       );
-    } else if (value && e.target.name.includes("Price")) {
+    } else if (value && e.target.name.includes("Final")) {
       data.wholeProfitDiffPriceWithoutValueAdded =
         Math.round(
           (parseInt(value) * (1 - this.getWholeShipping()) -
-            parseInt(data.tradeBuyingPrice)) /
+            parseInt(data.tradeBuyingPrice) -
+            this.getOtherCosts()) /
+            10
+        ) * 10;
+
+      data.wholePriceWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) - parseInt(data.eachItemOtherCosts))
+        : value;
+      data.wholeProfitPercentWithoutValueAdded =
+        Math.round(
+          (data.wholeProfitDiffPriceWithoutValueAdded * 10000) / parseInt(value)
+        ) / 100;
+    } else if (value && e.target.name.includes("Price")) {
+      data.wholePriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) + parseInt(data.eachItemOtherCosts))
+        : value;
+      data.wholeProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          (parseInt(data.wholePriceFinalWithoutValueAdded) *
+            (1 - this.getWholeShipping()) -
+            parseInt(data.tradeBuyingPrice) -
+            this.getOtherCosts()) /
             10
         ) * 10;
 
       data.wholeProfitPercentWithoutValueAdded =
         Math.round(
-          (data.wholeProfitDiffPriceWithoutValueAdded * 10000) / parseInt(value)
+          (data.wholeProfitDiffPriceWithoutValueAdded * 10000) /
+            parseInt(data.wholePriceFinalWithoutValueAdded)
         ) / 100;
     } else {
       data.wholeProfitPercentWithoutValueAdded = "";
       data.wholeProfitDiffPriceWithoutValueAdded = "";
       data.wholePriceWithoutValueAdded = "";
+      data.wholePriceFinalWithoutValueAdded = "";
     }
     this.setState({ data });
   };
@@ -346,39 +536,81 @@ class Trade extends Form {
     if (value && e.target.name.includes("Percent")) {
       data.retailPrice =
         Math.round(
-          (parseInt(data.tradeBuyingPrice) + this.getShipping()) /
+          (parseInt(data.tradeBuyingPrice) +
+            this.getShipping() +
+            this.getOtherCosts()) /
             (1 - parseInt(value) / 100 - this.getAddedValue()) /
             10
         ) * 10;
+
+      data.retailPriceFinal = data.eachItemOtherCosts
+        ? Math.round(
+            parseInt(data.retailPrice) + parseInt(data.eachItemOtherCosts)
+          )
+        : data.retailPrice;
+
       data.retailProfitDiffPrice =
-        Math.round(getProfitByPercent(data.retailPrice, value) / 10) * 10;
+        Math.round(getProfitByPercent(data.retailPriceFinal, value) / 10) * 10;
     } else if (value && e.target.name.includes("Profit")) {
       data.retailPrice =
         Math.round(
           (parseInt(data.tradeBuyingPrice) +
             parseInt(value) +
-            this.getShipping()) /
+            this.getShipping() +
+            this.getOtherCosts()) /
             (1 - this.getAddedValue()) /
             10
         ) * 10;
 
-      data.retailProfitPercent = getPercentByProfit(data.retailPrice, value);
-    } else if (value && e.target.name.includes("Price")) {
+      data.retailPriceFinal = data.eachItemOtherCosts
+        ? Math.round(
+            parseInt(data.retailPrice) + parseInt(data.eachItemOtherCosts)
+          )
+        : data.retailPrice;
+
+      data.retailProfitPercent = getPercentByProfit(
+        data.retailPriceFinal,
+        value
+      );
+    } else if (value && e.target.name.includes("Final")) {
       data.retailProfitDiffPrice =
         Math.round(
           (parseInt(value) * (1 - this.getAddedValue()) -
             parseInt(data.tradeBuyingPrice) -
-            this.getShipping()) /
+            this.getShipping() -
+            this.getOtherCosts()) /
+            10
+        ) * 10;
+
+      data.retailPrice = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) - parseInt(data.eachItemOtherCosts))
+        : value;
+      data.retailProfitPercent =
+        Math.round((data.retailProfitDiffPrice * 10000) / parseInt(value)) /
+        100;
+    } else if (value && e.target.name.includes("Price")) {
+      data.retailPriceFinal = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) + parseInt(data.eachItemOtherCosts))
+        : value;
+
+      data.retailProfitDiffPrice =
+        Math.round(
+          (parseInt(data.retailPriceFinal) * (1 - this.getAddedValue()) -
+            parseInt(data.tradeBuyingPrice) -
+            this.getShipping() -
+            this.getOtherCosts()) /
             10
         ) * 10;
 
       data.retailProfitPercent =
-        Math.round((data.retailProfitDiffPrice * 10000) / parseInt(value)) /
-        100;
+        Math.round(
+          (data.retailProfitDiffPrice * 10000) / parseInt(data.retailPriceFinal)
+        ) / 100;
     } else {
       data.retailProfitPercent = "";
       data.retailProfitDiffPrice = "";
       data.retailPrice = "";
+      data.retailPriceFinal = "";
     }
     this.setState({ data });
   };
@@ -391,49 +623,96 @@ class Trade extends Form {
     if (value && e.target.name.includes("Percent")) {
       data.retailPriceWithoutValueAdded =
         Math.round(
-          (parseInt(data.tradeBuyingPrice) + this.getShipping()) /
+          (parseInt(data.tradeBuyingPrice) +
+            this.getShipping() +
+            this.getOtherCosts()) /
             (1 - parseInt(value) / 100) /
             10
         ) * 10;
+
+      data.retailPriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(
+            parseInt(data.retailPriceWithoutValueAdded) +
+              parseInt(data.eachItemOtherCosts)
+          )
+        : data.retailPriceWithoutValueAdded;
+
       data.retailProfitDiffPriceWithoutValueAdded =
         Math.round(
-          getProfitByPercent(data.retailPriceWithoutValueAdded, value) / 10
+          getProfitByPercent(data.retailPriceFinalWithoutValueAdded, value) / 10
         ) * 10;
     } else if (value && e.target.name.includes("Profit")) {
       data.retailPriceWithoutValueAdded =
         Math.round(
           (parseInt(data.tradeBuyingPrice) +
             parseInt(value) +
-            this.getShipping()) /
+            this.getShipping() +
+            this.getOtherCosts()) /
             1 /
             10
         ) * 10;
 
+      data.retailPriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(
+            parseInt(data.retailPriceWithoutValueAdded) +
+              parseInt(data.eachItemOtherCosts)
+          )
+        : data.retailPriceWithoutValueAdded;
+
       data.retailProfitPercentWithoutValueAdded = getPercentByProfit(
-        data.retailPriceWithoutValueAdded,
+        data.retailPriceFinalWithoutValueAdded,
         value
       );
-    } else if (value && e.target.name.includes("Price")) {
+    } else if (value && e.target.name.includes("Final")) {
       data.retailProfitDiffPriceWithoutValueAdded =
         Math.round(
           (parseInt(value) * 1 -
             parseInt(data.tradeBuyingPrice) -
-            this.getShipping()) /
+            this.getShipping() -
+            this.getOtherCosts()) /
             10
         ) * 10;
+
+      data.retailPriceWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) - parseInt(data.eachItemOtherCosts))
+        : value;
 
       data.retailProfitPercentWithoutValueAdded =
         Math.round(
           (data.retailProfitDiffPriceWithoutValueAdded * 10000) /
             parseInt(value)
         ) / 100;
+    } else if (value && e.target.name.includes("Price")) {
+      data.retailPriceFinalWithoutValueAdded = data.eachItemOtherCosts
+        ? Math.round(parseInt(value) + parseInt(data.eachItemOtherCosts))
+        : value;
+      data.retailProfitDiffPriceWithoutValueAdded =
+        Math.round(
+          (parseInt(data.retailPriceFinalWithoutValueAdded) * 1 -
+            parseInt(data.tradeBuyingPrice) -
+            this.getShipping() -
+            this.getOtherCosts()) /
+            10
+        ) * 10;
+
+      data.retailProfitPercentWithoutValueAdded =
+        Math.round(
+          (data.retailProfitDiffPriceWithoutValueAdded * 10000) /
+            parseInt(data.retailPriceFinalWithoutValueAdded)
+        ) / 100;
     } else {
       data.retailProfitPercentWithoutValueAdded = "";
       data.retailProfitDiffPriceWithoutValueAdded = "";
       data.retailPriceWithoutValueAdded = "";
+      data.retailPriceFinalWithoutValueAdded = "";
     }
     this.setState({ data });
   };
+
+  getOtherCosts = () =>
+    this.state.data.eachItemOtherCosts
+      ? parseInt(this.state.data.eachItemOtherCosts)
+      : 0;
 
   getCostAndTax = () => {
     if (!this.props.settings) return 0;
@@ -473,9 +752,9 @@ class Trade extends Form {
   doSubmit = dt => {
     const { product, match } = this.props;
     const { data } = { ...this.state };
-    product.retailPrice = data.retailPrice.toString();
-    product.wholePrice = data.wholePrice.toString();
-    product.marketPlacePrice = data.marketPlacePrice.toString();
+    product.retailPrice = data.retailPriceFinal.toString();
+    product.wholePrice = data.wholePriceFinal.toString();
+    product.marketPlacePrice = data.marketPlacePriceFinal.toString();
 
     this.props.updateProductItem({
       item: product,
@@ -514,62 +793,57 @@ class Trade extends Form {
                 {this.renderInput("length", "طول")}
                 {this.renderInput("width", "عرض")}
                 {this.renderInput("height", "ارتفاع")}
-                {/* <Input
-                  type="text"
-                  name="tradeBuyingPrice"
-                  label="قیمت خرید"
-                  size="2"
-                  required="false"
-                  value={PersianNum(
-                    parseInt(this.state.data.tradeBuyingPrice).toLocaleString()
-                  )}
-                  onChange={this.handleBasicChange}
-                />
-                <Input
-                  type="text"
-                  name="weight"
-                  label="وزن"
-                  size="2"
-                  required="false"
-                  value={PersianNum(this.state.data.weight)}
-                  onChange={this.handleBasicChange}
-                />
-                <Input
-                  type="text"
-                  name="length"
-                  label="طول"
-                  size="2"
-                  required="false"
-                  value={PersianNum(this.state.data.length)}
-                  onChange={this.handleBasicChange}
-                />
-                <Input
-                  type="text"
-                  name="width"
-                  label="عرض"
-                  size="2"
-                  required="false"
-                  value={PersianNum(this.state.data.width)}
-                  onChange={this.handleBasicChange}
-                />
 
                 <Input
                   type="text"
-                  name="height"
-                  label="ارتفاع"
+                  name="otherCosts"
+                  label="سایر هزینه ها"
                   size="2"
-                  required="false"
-                  value={PersianNum(this.state.data.height)}
+                  required={false}
+                  value={
+                    this.state.data.otherCosts &&
+                    PersianNum(
+                      parseInt(this.state.data.otherCosts).toLocaleString()
+                    )
+                  }
                   onChange={this.handleBasicChange}
-                /> */}
+                />
+                <Input
+                  type="text"
+                  name="stock"
+                  label="تعداد آیتم ها"
+                  size="2"
+                  required={false}
+                  value={
+                    this.state.data.stock &&
+                    PersianNum(parseInt(this.state.data.stock).toLocaleString())
+                  }
+                  onChange={this.handleOtherCosts}
+                />
+                <Input
+                  type="text"
+                  name="eachItemOtherCosts"
+                  label="هزینه سرشکن"
+                  size="2"
+                  required={false}
+                  value={
+                    this.state.data.eachItemOtherCosts &&
+                    PersianNum(
+                      parseInt(
+                        this.state.data.eachItemOtherCosts
+                      ).toLocaleString()
+                    )
+                  }
+                  onChange={this.handleOtherCosts}
+                />
               </div>
               <hr />
               <div className="row">
                 <Input
                   type="text"
                   name="wholeProfitPercent"
-                  label="درصد سود مستقیم عمده فروشی"
-                  size="3"
+                  label="درصد سود عمده فروشی"
+                  size="2"
                   required={false}
                   value={PersianNum(this.state.data.wholeProfitPercent)}
                   onChange={this.handleProfitChangeWholePrice}
@@ -577,23 +851,39 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholeProfitDiffPrice"
-                  label="مبلغ سود مستقیم عمده فروشی"
-                  size="3"
+                  label="مبلغ سود عمده فروشی"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.wholeProfitDiffPrice.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.wholeProfitDiffPrice &&
+                    PersianNum(
+                      this.state.data.wholeProfitDiffPrice.toLocaleString()
+                    )
+                  }
                   onChange={this.handleProfitChangeWholePrice}
                 />
                 <Input
                   type="text"
                   name="wholePrice"
-                  label="قیمت فروش مستقیم عمده فروشی"
-                  size="3"
+                  label="قیمت عمده فروشی"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.wholePrice.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.wholePrice &&
+                    PersianNum(this.state.data.wholePrice.toLocaleString())
+                  }
+                  onChange={this.handleProfitChangeWholePrice}
+                />
+                <Input
+                  type="text"
+                  name="wholePriceFinal"
+                  label="قیمت نهایی عمده فروشی"
+                  size="2"
+                  required={false}
+                  value={
+                    this.state.data.wholePriceFinal &&
+                    PersianNum(this.state.data.wholePriceFinal.toLocaleString())
+                  }
                   onChange={this.handleProfitChangeWholePrice}
                 />
               </div>
@@ -602,7 +892,7 @@ class Trade extends Form {
                   type="text"
                   name="wholeProfitPercentWithoutValueAdded"
                   label="درصد سود عمده فروشی بدون ارزش افزوده"
-                  size="3"
+                  size="2"
                   required={false}
                   value={PersianNum(
                     this.state.data.wholeProfitPercentWithoutValueAdded
@@ -613,22 +903,42 @@ class Trade extends Form {
                   type="text"
                   name="wholeProfitDiffPriceWithoutValueAdded"
                   label="مبلغ سود عمده فروشی بدون ارزش افزوده"
-                  size="3"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.wholeProfitDiffPriceWithoutValueAdded.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.wholeProfitDiffPriceWithoutValueAdded &&
+                    PersianNum(
+                      this.state.data.wholeProfitDiffPriceWithoutValueAdded.toLocaleString()
+                    )
+                  }
                   onChange={this.handleProfitChangeWholePriceWithoutValueAdded}
                 />
                 <Input
                   type="text"
                   name="wholePriceWithoutValueAdded"
-                  label="قیمت فروش عمده فروشی بدون ارزش افزوده"
-                  size="3"
+                  label="قیمت عمده فروشی بدون ارزش افزوده"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.wholePriceWithoutValueAdded.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.wholePriceWithoutValueAdded &&
+                    PersianNum(
+                      this.state.data.wholePriceWithoutValueAdded.toLocaleString()
+                    )
+                  }
+                  onChange={this.handleProfitChangeWholePriceWithoutValueAdded}
+                />
+                <Input
+                  type="text"
+                  name="wholePriceFinalWithoutValueAdded"
+                  label="قیمت نهایی عمده فروشی بدون ارزش افزوده"
+                  size="2"
+                  required={false}
+                  value={
+                    this.state.data.wholePriceFinalWithoutValueAdded &&
+                    PersianNum(
+                      this.state.data.wholePriceFinalWithoutValueAdded.toLocaleString()
+                    )
+                  }
                   onChange={this.handleProfitChangeWholePriceWithoutValueAdded}
                 />
               </div>
@@ -636,8 +946,8 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailProfitPercent"
-                  label="درصد سود مستقیم خرده فروشی"
-                  size="3"
+                  label="درصد سود خرده فروشی"
+                  size="2"
                   required={false}
                   value={PersianNum(this.state.data.retailProfitPercent)}
                   onChange={this.handleProfitChangeRetailPrice}
@@ -645,23 +955,43 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailProfitDiffPrice"
-                  label="مبلغ سود مستقیم خرده فروشی"
-                  size="3"
+                  label="مبلغ سود خرده فروشی"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.retailProfitDiffPrice.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.retailProfitDiffPrice &&
+                    PersianNum(
+                      this.state.data.retailProfitDiffPrice.toLocaleString()
+                    )
+                  }
                   onChange={this.handleProfitChangeRetailPrice}
                 />
                 <Input
                   type="text"
                   name="retailPrice"
-                  label="قیمت فروش مستقیم خرده فروشی"
-                  size="3"
+                  label="قیمت خرده فروشی"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.retailPrice.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.retailPrice &&
+                    PersianNum(this.state.data.retailPrice.toLocaleString())
+                  }
+                  onChange={this.handleProfitChangeRetailPrice}
+                />
+                <Input
+                  type="text"
+                  name="retailPriceFinal"
+                  label="قیمت نهایی خرده فروشی"
+                  size="2"
+                  required={false}
+                  value={
+                    this.state.data.retailPriceFinal &&
+                    PersianNum(
+                      parseInt(
+                        this.state.data.retailPriceFinal
+                      ).toLocaleString()
+                    )
+                  }
                   onChange={this.handleProfitChangeRetailPrice}
                 />
               </div>
@@ -670,7 +1000,7 @@ class Trade extends Form {
                   type="text"
                   name="retailProfitPercentWithoutValueAdded"
                   label="درصد سود خرده فروشی بدون ارزش افزوده"
-                  size="3"
+                  size="2"
                   required={false}
                   value={PersianNum(
                     this.state.data.retailProfitPercentWithoutValueAdded
@@ -681,22 +1011,44 @@ class Trade extends Form {
                   type="text"
                   name="retailProfitDiffPriceWithoutValueAdded"
                   label="مبلغ سود خرده فروشی بدون ارزش افزوده"
-                  size="3"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.retailProfitDiffPriceWithoutValueAdded.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.retailProfitDiffPriceWithoutValueAdded &&
+                    PersianNum(
+                      this.state.data.retailProfitDiffPriceWithoutValueAdded.toLocaleString()
+                    )
+                  }
                   onChange={this.handleProfitChangeRetailPriceWithoutValueAdded}
                 />
                 <Input
                   type="text"
                   name="retailPriceWithoutValueAdded"
-                  label="قیمت فروش خرده فروشی بدون ارزش افزوده"
-                  size="3"
+                  label="قیمت خرده فروشی بدون ارزش افزوده"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.retailPriceWithoutValueAdded.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.retailPriceWithoutValueAdded &&
+                    PersianNum(
+                      this.state.data.retailPriceWithoutValueAdded.toLocaleString()
+                    )
+                  }
+                  onChange={this.handleProfitChangeRetailPriceWithoutValueAdded}
+                />
+                <Input
+                  type="text"
+                  name="retailPriceFinalWithoutValueAdded"
+                  label="قیمت نهایی خرده فروشی بدون ارزش افزوده"
+                  size="2"
+                  required={false}
+                  value={
+                    this.state.data.retailPriceFinalWithoutValueAdded &&
+                    PersianNum(
+                      parseInt(
+                        this.state.data.retailPriceFinalWithoutValueAdded
+                      ).toLocaleString()
+                    )
+                  }
                   onChange={this.handleProfitChangeRetailPriceWithoutValueAdded}
                 />
               </div>
@@ -706,7 +1058,7 @@ class Trade extends Form {
                   type="text"
                   name="marketPlaceProfitPercent"
                   label="درصد سود مارکت پلیس"
-                  size="3"
+                  size="2"
                   required={false}
                   value={PersianNum(this.state.data.marketPlaceProfitPercent)}
                   onChange={this.handleMarketPlaceProfitChange}
@@ -715,22 +1067,42 @@ class Trade extends Form {
                   type="text"
                   name="marketPlaceProfitDiffPrice"
                   label="مبلغ سود مارکت پلیس"
-                  size="3"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.marketPlaceProfitDiffPrice.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.marketPlaceProfitDiffPrice &&
+                    PersianNum(
+                      this.state.data.marketPlaceProfitDiffPrice.toLocaleString()
+                    )
+                  }
                   onChange={this.handleMarketPlaceProfitChange}
                 />
                 <Input
                   type="text"
                   name="marketPlacePrice"
-                  label="قیمت فروش مارکت پلیس"
-                  size="3"
+                  label="قیمت مارکت پلیس"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.marketPlacePrice.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.marketPlacePrice &&
+                    PersianNum(
+                      this.state.data.marketPlacePrice.toLocaleString()
+                    )
+                  }
+                  onChange={this.handleMarketPlaceProfitChange}
+                />
+                <Input
+                  type="text"
+                  name="marketPlacePriceFinal"
+                  label="قیمت نهایی مارکت پلیس"
+                  size="2"
+                  required={false}
+                  value={
+                    this.state.data.marketPlacePriceFinal &&
+                    PersianNum(
+                      this.state.data.marketPlacePriceFinal.toLocaleString()
+                    )
+                  }
                   onChange={this.handleMarketPlaceProfitChange}
                 />
               </div>
@@ -739,7 +1111,7 @@ class Trade extends Form {
                   type="text"
                   name="marketPlaceProfitPercentWithoutValueAdded"
                   label="درصد سود مارکت پلیس بدون ارزش افزوده"
-                  size="3"
+                  size="2"
                   required={false}
                   value={PersianNum(
                     this.state.data.marketPlaceProfitPercentWithoutValueAdded
@@ -750,22 +1122,43 @@ class Trade extends Form {
                   type="text"
                   name="marketPlaceProfitDiffPriceWithoutValueAdded"
                   label="مبلغ سود مارکت پلیس بدون ارزش افزوده"
-                  size="3"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.marketPlaceProfitDiffPriceWithoutValueAdded.toLocaleString()
-                  )}
+                  value={
+                    this.state.data
+                      .marketPlaceProfitDiffPriceWithoutValueAdded &&
+                    PersianNum(
+                      this.state.data.marketPlaceProfitDiffPriceWithoutValueAdded.toLocaleString()
+                    )
+                  }
                   onChange={this.handleMarketPlaceProfitChangeWithoutValueAdded}
                 />
                 <Input
                   type="text"
                   name="marketPlacePriceWithoutValueAdded"
-                  label="قیمت فروش مارکت پلیس بدون ارزش افزوده"
-                  size="3"
+                  label="قیمت مارکت پلیس بدون ارزش افزوده"
+                  size="2"
                   required={false}
-                  value={PersianNum(
-                    this.state.data.marketPlacePriceWithoutValueAdded.toLocaleString()
-                  )}
+                  value={
+                    this.state.data.marketPlacePriceWithoutValueAdded &&
+                    PersianNum(
+                      this.state.data.marketPlacePriceWithoutValueAdded.toLocaleString()
+                    )
+                  }
+                  onChange={this.handleMarketPlaceProfitChangeWithoutValueAdded}
+                />
+                <Input
+                  type="text"
+                  name="marketPlacePriceFinalWithoutValueAdded"
+                  label="قیمت نهایی مارکت پلیس بدون ارزش افزوده"
+                  size="2"
+                  required={false}
+                  value={
+                    this.state.data.marketPlacePriceFinalWithoutValueAdded &&
+                    PersianNum(
+                      this.state.data.marketPlacePriceFinalWithoutValueAdded.toLocaleString()
+                    )
+                  }
                   onChange={this.handleMarketPlaceProfitChangeWithoutValueAdded}
                 />
               </div>
