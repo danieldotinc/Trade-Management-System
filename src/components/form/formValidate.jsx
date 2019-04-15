@@ -56,12 +56,12 @@ const FormValidate = e => {
   }
 
   if (status) {
-    $(e.target.parentNode).append(
-      '<div class="valid-feedback" id="valid-' +
-        e.target.id +
-        '">کاملا درسته</div>'
-    );
-    $("#" + e.target.id).addClass("is-valid");
+    // $(e.target.parentNode).append(
+    //   '<div class="valid-feedback" id="valid-' +
+    //     e.target.id +
+    //     '">کاملا درسته</div>'
+    // );
+    // $("#" + e.target.id).addClass("is-valid");
     e.target.setCustomValidity("");
     return true;
   } else if (status === false) {

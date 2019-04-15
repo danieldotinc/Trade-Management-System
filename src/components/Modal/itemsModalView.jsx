@@ -52,21 +52,22 @@ class ItemsModalView extends Form {
                   data-toggle="buttons"
                   style={{ direction: "ltr" }}
                 >
-                  {items.map(item => (
-                    <label
-                      key={`label${item._id}`}
-                      className="btn btn-outline-info m-1"
-                      onClick={() => this.setState({ selectedItem: item })}
-                    >
-                      <input
-                        type="radio"
-                        name="options"
-                        id={item._id}
-                        autoComplete="off"
-                      />
-                      {item.name}
-                    </label>
-                  ))}
+                  {items &&
+                    items.map(item => (
+                      <label
+                        key={`label${item._id}`}
+                        className="btn btn-outline-info m-1"
+                        onClick={() => this.setState({ selectedItem: item })}
+                      >
+                        <input
+                          type="radio"
+                          name="options"
+                          id={item._id}
+                          autoComplete="off"
+                        />
+                        {item.name}
+                      </label>
+                    ))}
                 </div>
                 {this.renderInput("name", "نام آیتم", "4")}
               </div>
