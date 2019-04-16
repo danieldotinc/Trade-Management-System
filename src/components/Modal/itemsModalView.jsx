@@ -50,7 +50,7 @@ class ItemsModalView extends Form {
                 <div
                   className="btn-group btn-group-toggle"
                   data-toggle="buttons"
-                  style={{ direction: "ltr" }}
+                  style={{ direction: "ltr", display: "inline-block" }}
                 >
                   {items &&
                     items.map(item => (

@@ -40,6 +40,12 @@ import {
   updateSubCategoryItem,
   deleteSubCategoryItem
 } from "../../actions/subCategoryActions";
+import {
+  getGroupItems,
+  addGroupItem,
+  updateGroupItem,
+  deleteGroupItem
+} from "../../actions/groupActions";
 import { getDigiKalaShipping } from "../../handlers/digikala";
 
 import Form from "../form/form";
@@ -66,12 +72,13 @@ export class AddProduct extends Form {
       categoryId: 0,
       subCategory: "",
       subCategoryId: 0,
+      group: "",
+      groupId: 0,
       webLink: "",
       itemNumber: "",
       proCode: "",
       diverseCode: "",
-      myKitchenCode: "",
-      myKitchenPlusCode: "",
+      taminMall: "",
       nikradCode: "",
       name: "",
       brand: "",
@@ -111,6 +118,7 @@ export class AddProduct extends Form {
     this.props.getColorItems();
     this.props.getSupplierItems();
     this.props.getSubCategoryItems();
+    this.props.getGroupItems();
     this.props.getSettingItems();
     this.handleCleaningForm();
     this.handleEditForm();
@@ -125,14 +133,18 @@ export class AddProduct extends Form {
   }
 
   handleCheckCategory = data => {
-    const { materials, suppliers, subCategories } = this.props;
+    const { materials, suppliers, subCategories, groups } = this.props;
 
     const subIndex = subCategories.filter(e => e.category == data.categoryId);
+    const grpIndex = groups.filter(e => e.subCategory == data.subCategoryId);
     const matIndex = materials.filter(e => e.category == data.categoryId);
     const supIndex = suppliers.filter(e => e.category == data.categoryId);
 
     data.subCategoryId = subIndex[0] ? data.subCategoryId : "";
     data.subCategory = subIndex[0] ? data.subCategory : "";
+
+    data.groupId = grpIndex[0] ? data.groupId : "";
+    data.group = grpIndex[0] ? data.group : "";
 
     data.materialId = matIndex[0] ? data.materialId : "";
     data.material = matIndex[0] ? data.material : "";
@@ -141,6 +153,7 @@ export class AddProduct extends Form {
     data.supplier = supIndex[0] ? data.supplier : "";
 
     if (!data.subCategoryId) delete data.subCategoryId;
+    if (!data.groupId) delete data.groupId;
     if (!data.materialId) delete data.materialId;
     if (!data.supplierId) delete data.supplierId;
 
@@ -153,7 +166,8 @@ export class AddProduct extends Form {
       colors,
       materials,
       suppliers,
-      subCategories
+      subCategories,
+      groups
     } = this.props;
 
     data.category = !data.categoryId ? categories[0].name : data.category;
@@ -175,6 +189,10 @@ export class AddProduct extends Form {
     data.subCategoryId = !data.subCategoryId
       ? subCategories[0]._id
       : data.subCategoryId;
+
+    data.group = !data.groupId ? groups[0].name : data.group;
+
+    data.groupId = !data.groupId ? groups[0]._id : data.groupId;
 
     return data;
   };
@@ -219,6 +237,39 @@ export class AddProduct extends Form {
       ? this.state.data.categoryId
       : this.props.categories[0]._id;
     this.props.updateSubCategoryItem({ ...item, category });
+    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+  };
+
+  onAddGroupItem = name => {
+    const categoryId = this.state.data.categoryId
+      ? this.state.data.categoryId
+      : this.props.categories[0]._id;
+    const subCategories = this.props.subCategories.filter(
+      e => e.category == categoryId
+    );
+    const subCategory = this.state.data.subCategoryId
+      ? this.state.data.subCategoryId
+      : subCategories[0] && subCategories[0]._id;
+    this.props.addGroupItem({ name, subCategory });
+    name && toast.info(name + " با موفقیت اضافه شد.");
+  };
+
+  onDeleteGroupItem = item => {
+    this.props.deleteGroupItem(item._id);
+    toast.info(item.name + " با موفقیت حذف شد.");
+  };
+
+  onEditGroupItem = item => {
+    const categoryId = this.state.data.categoryId
+      ? this.state.data.categoryId
+      : this.props.categories[0]._id;
+    const subCategories = this.props.subCategories.filter(
+      e => e.category == categoryId
+    );
+    const subCategory = this.state.data.subCategoryId
+      ? this.state.data.subCategoryId
+      : subCategories[0] && subCategories[0]._id;
+    this.props.updateGroupItem({ ...item, subCategory });
     item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
   };
 
@@ -378,6 +429,7 @@ export class AddProduct extends Form {
       materials,
       suppliers,
       subCategories,
+      groups,
       loadingCategories,
       loadingSubCategories
     } = this.props;
@@ -388,6 +440,7 @@ export class AddProduct extends Form {
       !materials ||
       !suppliers ||
       !subCategories ||
+      !groups ||
       loadingSubCategories
     )
       return <h1>Loading...</h1>;
@@ -399,6 +452,13 @@ export class AddProduct extends Form {
     subCategories = subCategories.filter(e => e.category == categoryId);
     materials = materials.filter(e => e.category == categoryId);
     suppliers = suppliers.filter(e => e.category == categoryId);
+
+    const subCategoryId = this.state.data.subCategoryId
+      ? this.state.data.subCategoryId
+      : subCategories[0] && subCategories[0]._id;
+
+    groups = groups.filter(e => e.subCategory == subCategoryId);
+
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -440,16 +500,36 @@ export class AddProduct extends Form {
                   data-toggle="modal"
                   data-target={"#subcat"}
                 >
-                  زیر گروه ها
+                  گروه ها
                 </button>
                 {this.state.modal && (
                   <ItemsModalView
                     id="subcat"
-                    title="زیر گروه ها"
+                    title="گروه ها"
                     items={subCategories}
                     onAdd={this.onAddSubCategoryItem}
                     onEdit={this.onEditSubCategoryItem}
                     onDelete={this.onDeleteSubCategoryItem}
+                    classes="btn-lg m-2"
+                  />
+                )}
+                <button
+                  type="button"
+                  className={`btn btn-dark shadow rounded btn-lg m-2`}
+                  onClick={() => this.setState({ modal: true })}
+                  data-toggle="modal"
+                  data-target={"#groups"}
+                >
+                  زیرگروه ها
+                </button>
+                {this.state.modal && (
+                  <ItemsModalView
+                    id="groups"
+                    title="زیرگروه ها"
+                    items={groups}
+                    onAdd={this.onAddGroupItem}
+                    onEdit={this.onEditGroupItem}
+                    onDelete={this.onDeleteGroupItem}
                     classes="btn-lg m-2"
                   />
                 )}
@@ -518,24 +598,19 @@ export class AddProduct extends Form {
                 {this.renderInput("itemNumber", "آیتم نامبر")}
                 {this.renderInput("proCode", "کد محصول")}
                 {this.renderInput("diverseCode", "کد تنوع")}
-                {this.renderInput("myKitchenCode", "کد مای کیچن")}
-                {this.renderInput("myKitchenPlusCode", "کد مای کیچن پلاس")}
+                {this.renderInput("taminMallCode", "کد تامین مال")}
                 {this.renderInput("nikradCode", "کد نیکراد")}
-                {this.renderSelect("category", "دسته بندی", categories, "3")}
-                {this.renderSelect(
-                  "subCategory",
-                  "زیرگروه",
-                  subCategories,
-                  "3"
-                )}
+                {this.renderSelect("category", "دسته بندی", categories, "4")}
+                {this.renderSelect("subCategory", "گروه", subCategories, "3")}
+                {this.renderSelect("group", "زیرگروه", groups, "3")}
+                {this.renderInput("name", "عنوان", "4", true)}
+                {this.renderInput("brand", "برند")}
                 {this.renderSelect("supplier", "تامین کننده", suppliers)}
                 {this.renderSelect("color", "رنگ", colors)}
                 {this.renderSelect("material", "جنس", materials)}
-                {this.renderInput("name", "عنوان", "6", true)}
-                {this.renderInput("brand", "برند")}
                 {this.renderInput("weight", "وزن")}
-                {this.renderInput("width", "عرض")}
                 {this.renderInput("length", "طول")}
+                {this.renderInput("width", "عرض")}
                 {this.renderInput("height", "ارتفاع")}
                 {this.renderInput("tradeListPrice", "قیمت لیست")}
                 {this.renderInput("tradeBuyingPrice", "قیمت خرید")}
@@ -587,6 +662,8 @@ const mapStateToProduct = state => ({
   loadingSuppliers: state.supplier.loading,
   subCategories: state.subCategory.subCategories,
   loadingSubCategories: state.subCategory.loading,
+  groups: state.group.groups,
+  loadingGroups: state.group.loading,
   product: state.product.product,
   loadingProduct: state.product.loading
 });
@@ -615,6 +692,10 @@ export default connect(
     addSubCategoryItem,
     updateSubCategoryItem,
     deleteSubCategoryItem,
+    getGroupItems,
+    addGroupItem,
+    updateGroupItem,
+    deleteGroupItem,
     addProductItem,
     updateProductItem,
     getSettingItems

@@ -44,6 +44,7 @@ export default class Form extends Component {
       var optionElement = e.target.childNodes[index];
       var optionId = optionElement.getAttribute("id");
       data[e.target.name + "Id"] = optionId;
+      if (e.target.name == "category") data.subCategoryId = 0;
       const errors = FormValidate(e);
       this.setState({ data, errors });
     } else if (e.target.type == "checkbox") {

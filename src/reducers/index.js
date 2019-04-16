@@ -7,6 +7,7 @@ import colorReducer from "./colorReducer";
 import materialReducer from "./materialReducer";
 import supplierReducer from "./supplierReducer";
 import subCategoryReducer from "./subCategoryReducer";
+import groupReducer from "./groupReducer";
 import companyReducer from "./companyReducer";
 import identityReducer from "./identityReducer";
 import marketSectorReducer from "./marketSectorReducer";
@@ -22,6 +23,7 @@ export default combineReducers({
   material: materialReducer,
   supplier: supplierReducer,
   subCategory: subCategoryReducer,
+  group: groupReducer,
   identity: identityReducer,
   marketSector: marketSectorReducer,
   officeSector: officeSectorReducer
