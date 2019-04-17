@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import auth from "../../../services/authService";
 import uuid from "uuid";
 import Delete from "../../Modal/delete";
+import Diversity from "../../Modal/diversity";
 import { connect } from "react-redux";
 import { getSettingItems } from "../../../actions/settingActions";
 import Like from "./like";
@@ -49,6 +50,7 @@ class TableBody extends Component {
       onDelete,
       onEdit,
       onTrade,
+      onDiversity,
       onLikeItem,
       listName,
       onDetail,
@@ -74,9 +76,19 @@ class TableBody extends Component {
             </td> */}
             <td key={uuid.v4()}>
               {listName == "Product" &&
+                (settings[0].addAction || user.isAdmin) && (
+                  <Diversity
+                    onDiversity={onDiversity}
+                    item={item}
+                    classes="ml-2"
+                  />
+                )}
+              {listName == "Product" &&
                 (settings[0].processAction || user.isAdmin) && (
                   <button
-                    className="btn btn-raised btn-info ml-2 shadow rounded"
+                    className="btn btn-raised btn-secondary ml-2 shadow rounded"
+                    data-placement="top"
+                    title="بازرگانی"
                     onClick={() => onTrade(item)}
                   >
                     <i className="fa fa-calculator" />
@@ -85,6 +97,8 @@ class TableBody extends Component {
               {(settings[0].editAction || user.isAdmin) && (
                 <button
                   className="btn btn-raised btn-dark ml-2 shadow rounded"
+                  data-placement="top"
+                  title="ویرایش"
                   onClick={() => onEdit(item)}
                 >
                   <i className="fa fa-wrench" />

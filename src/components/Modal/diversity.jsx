@@ -1,31 +1,45 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import Form from "../form/form";
+import { getColorItems } from "../../actions/colorActions";
 import $ from "jquery";
-class Delete extends Component {
+class Delete extends Form {
+  state = {
+    data: {
+      color: "",
+      colorId: ""
+    }
+  };
   constructor(props) {
     super(props);
     this.ref = React.createRef();
   }
 
-  onDeleteItem = item => {
-    this.props.onDelete(item);
+  componentDidMount() {
+    this.props.getColorItems();
+  }
+
+  onDiversityItem = item => {
+    this.props.onDiversity(item);
     this.onClose();
   };
   onClose = () => {
     $(`#${this.ref.current.id}`).modal("hide");
   };
   render() {
-    const { item, classes } = this.props;
+    const { item, classes, colors, loading } = this.props;
+    if (!colors || loading) return 0;
     return (
       <React.Fragment>
         <button
           type="button"
-          className={`btn btn-danger shadow rounded ${classes}`}
+          className={`btn btn-info shadow rounded ${classes}`}
           data-toggle="modal"
-          data-placement="top"
-          title="حذف"
           data-target={item._id && "#a" + item._id}
+          data-placement="top"
+          title="ایجاد تنوع"
         >
-          <i className="fa fa-trash-alt" />
+          <i className="fa fa-clone" />
         </button>
 
         <div
@@ -41,19 +55,19 @@ class Delete extends Component {
             <div className="modal-content">
               <div className="modal-header">
                 <span className="modal-title" id="exampleModalLongTitle">
-                  تایید برای حذف دائمی
+                  ایجاد تنوع برای {item.name}
                 </span>
               </div>
               <div className="modal-body h6">
-                آیا از حذف {`"${item.name}"`} اطمینان دارید؟
+                {this.renderSelect("color", "رنگ", colors, "8")}
               </div>
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-danger m-2"
-                  onClick={() => this.onDeleteItem(item)}
+                  className="btn btn-info m-2"
+                  onClick={() => this.onDiversityItem(item)}
                 >
-                  <i className="fa fa-check" />
+                  <i className="fa fa-plus" />
                 </button>
                 <button
                   type="button"
@@ -71,4 +85,12 @@ class Delete extends Component {
   }
 }
 
-export default Delete;
+const mapStateToProduct = state => ({
+  colors: state.color.colors,
+  loading: state.color.loading
+});
+
+export default connect(
+  mapStateToProduct,
+  { getColorItems }
+)(Delete);

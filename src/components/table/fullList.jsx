@@ -26,18 +26,7 @@ export class FullList extends Component {
   };
 
   render() {
-    const {
-      state,
-      classes,
-      onPageChange,
-      onGenreChange,
-      onDelete,
-      onEdit,
-      onTrade,
-      onLikeItem,
-      onSort,
-      onDetail
-    } = this.props;
+    const { state, classes, onPageChange, onGenreChange, ...rest } = this.props;
 
     const {
       user,
@@ -78,16 +67,11 @@ export class FullList extends Component {
           <ItemsCount itemsCount={PersianNum(sortedItems.length)} />
           <Table
             user={user}
-            onTrade={onTrade}
-            onDetail={onDetail}
             listName={listName}
             sortColumn={sortColumn}
-            onSort={onSort}
             pageItems={pageItems}
             columns={columns}
-            onDelete={onDelete}
-            onEdit={onEdit}
-            onLikeItem={onLikeItem}
+            {...rest}
           />
           <Pagination
             listName={listName}

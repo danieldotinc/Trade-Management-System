@@ -23,7 +23,7 @@ class App extends Component {
     columns: [],
     links: [],
     selectedGenre: "all",
-    sortColumn: { path: "_id", order: "desc" },
+    sortColumn: { path: "proCode", order: "desc" },
     currentPage: 1,
     pageSize: 15,
     personInfo: false,

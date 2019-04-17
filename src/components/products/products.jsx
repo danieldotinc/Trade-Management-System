@@ -29,6 +29,9 @@ class Products extends Component {
   handleTradeTableItem = item =>
     this.props.history.push(`/TradeProduct/${item._id}`);
 
+  handleDiversityTableItem = item =>
+    this.props.history.push(`/TradeProduct/${item._id}`);
+
   // handleLikeItem = item => {
   //   const items = [...this.state.items];
   //   const index = items.indexOf(item);
@@ -62,6 +65,7 @@ class Products extends Component {
       <ListPage
         items={products}
         onTrade={this.handleTradeTableItem}
+        onDiversity={this.handleDiversityTableItem}
         onDetail={this.handleProductDetail}
         onEdit={this.handleEditTableItem}
         onDelete={this.handleDeleteTableItem}

@@ -76,9 +76,7 @@ export class AddProduct extends Form {
       groupId: 0,
       webLink: "",
       itemNumber: "",
-      proCode: "",
-      diverseCode: "",
-      taminMall: "",
+      taminMallCode: "",
       nikradCode: "",
       name: "",
       brand: "",
@@ -596,8 +594,6 @@ export class AddProduct extends Form {
               </div>
               <div className="row">
                 {this.renderInput("itemNumber", "آیتم نامبر")}
-                {this.renderInput("proCode", "کد محصول")}
-                {this.renderInput("diverseCode", "کد تنوع")}
                 {this.renderInput("taminMallCode", "کد تامین مال")}
                 {this.renderInput("nikradCode", "کد نیکراد")}
                 {this.renderSelect("category", "دسته بندی", categories, "4")}

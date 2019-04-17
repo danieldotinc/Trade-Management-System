@@ -307,13 +307,12 @@ class Trade extends Component {
     if (value && e.target.name.includes("Percent")) {
       data.wholePrice =
         Math.round(
-          parseInt(data.tradeBuyingPrice) +
-            this.getOtherCosts() /
-              (1 -
-                parseInt(value) / 100 -
-                this.getAddedValue() -
-                this.getWholeShipping()) /
-              10
+          (parseInt(data.tradeBuyingPrice) + this.getOtherCosts()) /
+            (1 -
+              parseInt(value) / 100 -
+              this.getAddedValue() -
+              this.getWholeShipping()) /
+            10
         ) * 10;
 
       data.wholePriceFinal = data.eachItemOtherCosts
@@ -392,10 +391,9 @@ class Trade extends Component {
     if (value && e.target.name.includes("Percent")) {
       data.wholePriceWithoutValueAdded =
         Math.round(
-          parseInt(data.tradeBuyingPrice) +
-            this.getOtherCosts() /
-              (1 - parseInt(value) / 100 - this.getWholeShipping()) /
-              10
+          (parseInt(data.tradeBuyingPrice) + this.getOtherCosts()) /
+            (1 - parseInt(value) / 100 - this.getWholeShipping()) /
+            10
         ) * 10;
 
       data.wholePriceFinalWithoutValueAdded = data.eachItemOtherCosts

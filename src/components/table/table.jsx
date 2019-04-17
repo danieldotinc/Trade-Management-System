@@ -2,19 +2,7 @@ import React, { Component } from "react";
 import TableHeader from "../table/common/tableHeader";
 import TableBody from "../table/common/tableBody";
 
-const Table = ({
-  user,
-  listName,
-  columns,
-  sortColumn,
-  onSort,
-  onDelete,
-  onEdit,
-  onLikeItem,
-  pageItems,
-  onDetail,
-  onTrade
-}) => {
+const Table = ({ user, listName, columns, sortColumn, onSort, ...rest }) => {
   return (
     <table className="table table-hover">
       <TableHeader
@@ -23,16 +11,7 @@ const Table = ({
         sortColumn={sortColumn}
         onSort={onSort}
       />
-      <TableBody
-        listName={listName}
-        onTrade={onTrade}
-        onDetail={onDetail}
-        onDelete={onDelete}
-        onEdit={onEdit}
-        onLikeItem={onLikeItem}
-        pageItems={pageItems}
-        columns={columns}
-      />
+      <TableBody listName={listName} columns={columns} {...rest} />
     </table>
   );
 };
