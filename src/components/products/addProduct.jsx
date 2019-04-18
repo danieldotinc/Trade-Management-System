@@ -55,6 +55,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -125,7 +126,12 @@ export class AddProduct extends Form {
   componentWillReceiveProps(nextProps, nextState) {
     if (this.props.match.params.id) {
       const { product, loadingProduct } = nextProps;
-      if (loadingProduct || !product) return <h1>Loading...</h1>;
+      if (loadingProduct || !product)
+        return (
+          <div className="loader">
+            <BeatLoader sizeUnit={"px"} size={20} color={"#C70039"} />
+          </div>
+        );
       this.setState({ data: product });
     }
   }
@@ -333,15 +339,14 @@ export class AddProduct extends Form {
     id && this.props.getProductItem(id);
   };
 
-  getCostAndTax = data => {
+  getCostAndTax = () => {
     if (!this.props.settings) return 0;
     return parseInt(this.props.settings[0].shippingCosts);
   };
 
   getMarketPlaceCosts = data => {
     const { length, width, height, weight } = data;
-    const shipCost = getDigiKalaShipping(length, width, height, weight);
-    return shipCost + this.getCostAndTax(data);
+    return getDigiKalaShipping(length, width, height, weight);
   };
 
   getMarketPlaceCommission = () => 0.1;
@@ -350,34 +355,42 @@ export class AddProduct extends Form {
     const { length, width, height, weight } = data;
     return getDigiKalaShipping(length, width, height, weight);
   };
-
-  getAddedValue = () => 0.09;
+  getWholeShipping = () => 0.01;
+  getAddedValue = () => {
+    if (!this.props.settings) return 0;
+    return parseInt(this.props.settings[0].valueAdded);
+  };
 
   getWholePrice = data =>
     Math.round(
-      (parseInt(EngNum(data.tradeBuyingPrice)) + this.getShipping(data) * 2) /
+      parseInt(EngNum(data.tradeBuyingPrice)) /
         (1 -
-          parseInt(this.props.settings[0].wholeProfit) / 100 -
-          this.getAddedValue()) /
+          (parseInt(this.props.settings[0].wholeProfit) +
+            this.getAddedValue()) /
+            100 -
+          this.getWholeShipping()) /
         10
     ) * 10;
 
   getRetailPrice = data =>
     Math.round(
-      (parseInt(EngNum(data.tradeBuyingPrice)) + this.getShipping(data) * 2) /
+      (parseInt(EngNum(data.tradeBuyingPrice)) + this.getShipping(data)) /
         (1 -
-          parseInt(this.props.settings[0].retailProfit) / 100 -
-          this.getAddedValue()) /
+          (parseInt(this.props.settings[0].retailProfit) +
+            this.getAddedValue()) /
+            100) /
         10
     ) * 10;
 
   getMarketPlacePrice = data =>
     Math.round(
       (parseInt(EngNum(data.tradeBuyingPrice)) +
-        this.getMarketPlaceCosts(data)) /
+        this.getMarketPlaceCosts(data) +
+        this.getCostAndTax()) /
         (1 -
-          parseInt(this.props.settings[0].marketPlaceProfit) / 100 -
-          this.getAddedValue() -
+          (parseInt(this.props.settings[0].marketPlaceProfit) +
+            this.getAddedValue()) /
+            100 -
           this.getMarketPlaceCommission()) /
         10
     ) * 10;
@@ -441,7 +454,11 @@ export class AddProduct extends Form {
       !groups ||
       loadingSubCategories
     )
-      return <h1>Loading...</h1>;
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#C70039"} />
+        </div>
+      );
 
     const categoryId = this.state.data.categoryId
       ? this.state.data.categoryId
@@ -594,8 +611,9 @@ export class AddProduct extends Form {
               </div>
               <div className="row">
                 {this.renderInput("itemNumber", "آیتم نامبر")}
-                {this.renderInput("taminMallCode", "کد تامین مال")}
+                {this.renderInput("taminMallCode", "کد تامین کننده")}
                 {this.renderInput("nikradCode", "کد نیکراد")}
+                {this.renderInput("webLink", "لینک در سایت", "4")}
                 {this.renderSelect("category", "دسته بندی", categories, "4")}
                 {this.renderSelect("subCategory", "گروه", subCategories, "3")}
                 {this.renderSelect("group", "زیرگروه", groups, "3")}

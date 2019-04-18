@@ -5,6 +5,7 @@ import {
   GET_PRODUCT,
   GET_PRODUCTS,
   ADD_PRODUCT,
+  ADD_DIVERSITY_PRODUCT,
   DELETE_PRODUCT,
   UPDATE_PRODUCT
 } from "./types";
@@ -13,6 +14,7 @@ import {
   getProducts,
   deleteProduct,
   saveProduct,
+  addDiversity,
   updateProduct
 } from "../services/productService";
 import { toast } from "react-toastify";
@@ -52,6 +54,20 @@ export const addProductItem = product => async dispatch => {
     await saveProduct(product);
     dispatch({
       type: ADD_PRODUCT,
+      payload: product
+    });
+  } catch (ex) {
+    if (ex.response && ex.response.status === 404) {
+      toast.error("Error!");
+    }
+  }
+};
+
+export const addDiversityProductItem = product => async dispatch => {
+  try {
+    await addDiversity(product);
+    dispatch({
+      type: ADD_DIVERSITY_PRODUCT,
       payload: product
     });
   } catch (ex) {

@@ -26,6 +26,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -67,7 +68,12 @@ export class AddPerson extends Form {
   componentWillReceiveProps(nextProps, nextState) {
     if (this.props.match.params.id) {
       const { person, loadingPerson } = nextProps;
-      if (loadingPerson || !person) return <h1>Loading...</h1>;
+      if (loadingPerson || !person)
+        return (
+          <div className="loader">
+            <BeatLoader sizeUnit={"px"} size={20} color={"#C70039"} />
+          </div>
+        );
       this.setState({ data: person });
     }
   }

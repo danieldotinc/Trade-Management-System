@@ -26,6 +26,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -99,19 +100,22 @@ class Trade extends Form {
       this.handleProfitChangeWholePrice({
         target: {
           name: "wholePrice",
-          value: product.wholePrice
+          value: product.wholePrice.toString()
         }
       });
       this.handleProfitChangeRetailPrice({
         target: {
           name: "retailPrice",
-          value: product.retailPrice
+          value: product.retailPrice.toString()
         }
       });
       this.handleMarketPlaceProfitChange({
-        target: { name: "marketPlacePrice", value: product.marketPlacePrice }
+        target: {
+          name: "marketPlacePrice",
+          value: product.marketPlacePrice.toString()
+        }
       });
-    }, 1500);
+    }, 2000);
   };
 
   handleEditTrade = () => {
@@ -766,7 +770,12 @@ class Trade extends Form {
     const { settings, loadingSettings } = this.props;
     const user = auth.getCurrentUser();
 
-    if (loadingSettings || !settings) return <h1>Loading...</h1>;
+    if (loadingSettings || !settings)
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#C70039"} />
+        </div>
+      );
 
     return (
       <GridItem xs={12} sm={12} md={12}>

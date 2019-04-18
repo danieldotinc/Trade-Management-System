@@ -47,9 +47,8 @@ export const productColumns = [
   { label: "کد محصول", path: "proCode" },
   { label: "کد تنوع", path: "diverseCode" },
   { label: "عنوان", path: "name" },
-  { label: "برند", path: "brand" },
+  { label: "رنگ", path: "color" },
   { label: "عمده", path: "wholePrice" },
-  { label: "تکی", path: "retailPrice" },
   { label: "دیجیکالا", path: "marketPlacePrice" }
 ];
 

@@ -6,6 +6,7 @@ import ListGroupItem from "../listGroup/listGroupItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -15,7 +16,12 @@ class Settings extends Component {
   }
   render() {
     const { settings, loading } = this.props;
-    if (loading || !settings) return <h1>Loading...</h1>;
+    if (loading || !settings)
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#FFC300"} />
+        </div>
+      );
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>

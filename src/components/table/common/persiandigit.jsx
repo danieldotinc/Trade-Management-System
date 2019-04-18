@@ -6,7 +6,7 @@ let persianMap = persianDigits.split("");
 let englishMap = englishDigits.split("");
 
 export function PersianNum(num) {
-  if (typeof num == "undefined") {
+  if (typeof num == "undefined" || num == null) {
     num = "";
   }
   let input = num.toString();

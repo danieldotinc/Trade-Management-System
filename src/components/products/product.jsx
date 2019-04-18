@@ -15,6 +15,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -48,7 +49,11 @@ export class Product extends Component {
     const user = auth.getCurrentUser();
     const { product, loading, settings, loadingSetting } = this.props;
     if (loading || !product || loadingSetting || !settings)
-      return <h1>Loading ...</h1>;
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#FFC300"} />
+        </div>
+      );
 
     return (
       <GridItem xs={12} sm={12} md={12}>
@@ -98,7 +103,7 @@ export class Product extends Component {
               </div>
               <div className="row">
                 <div className="m-2 col-6">
-                  {product.img.length && (
+                  {product.img[0] && (
                     <img
                       style={{
                         height: "500px",
@@ -140,49 +145,81 @@ export class Product extends Component {
                     <ListGroupItem
                       label="برند"
                       value={product.brand}
-                      size="12"
                       float=""
+                    />
+                    <ListGroupItem label="رنگ" value={product.color} float="" />
+                    <ListGroupItem
+                      label="آیتم نامبر"
+                      value={product.itemNumber}
+                    />
+                    <ListGroupItem
+                      label="کد تامین کننده"
+                      value={product.taminMallCode}
                     />
                     <ListGroupItem label="کد محصول" value={product.proCode} />
                     <ListGroupItem
                       label="کد تنوع"
-                      value={parseInt(product.diverseCode)}
+                      value={
+                        product.diverseCode && parseInt(product.diverseCode)
+                      }
                     />
                     <ListGroupItem
                       label="قیمت لیست"
-                      value={parseInt(product.tradeListPrice)}
+                      value={
+                        product.tradeListPrice &&
+                        parseInt(product.tradeListPrice)
+                      }
                     />
                     <ListGroupItem
                       label="قیمت خرید"
-                      value={parseInt(product.tradeBuyingPrice)}
+                      value={
+                        product.tradeBuyingPrice &&
+                        parseInt(product.tradeBuyingPrice)
+                      }
                     />
                     <ListGroupItem
                       label="قیمت عمده فروشی"
-                      value={parseInt(product.wholePrice)}
+                      value={product.wholePrice && parseInt(product.wholePrice)}
                     />
                     <ListGroupItem
                       label="قیمت خرده فروشی"
-                      value={parseInt(product.retailPrice)}
+                      value={
+                        product.retailPrice && parseInt(product.retailPrice)
+                      }
                     />
                     <ListGroupItem
                       label="قیمت مارکت پلیس"
-                      value={parseInt(product.marketPlacePrice)}
+                      value={
+                        product.marketPlacePrice &&
+                        parseInt(product.marketPlacePrice)
+                      }
                     />
                     <ListGroupItem
                       label="تعداد در جعبه"
-                      value={parseInt(product.boxQuantity)}
+                      value={
+                        product.boxQuantity && parseInt(product.boxQuantity)
+                      }
                     />
                     <ListGroupItem
                       label="موجودی انبار خرده فروشی"
-                      value={parseInt(product.retailStoreStock)}
+                      value={
+                        product.retailStoreStock &&
+                        parseInt(product.retailStoreStock)
+                      }
                     />
                     <ListGroupItem
                       label="موجودی انبار عمده فروشی"
-                      value={parseInt(product.wholeStoreStock)}
+                      value={
+                        product.wholeStoreStock &&
+                        parseInt(product.wholeStoreStock)
+                      }
                     />
                     <ListGroupItem
                       label="موجودی انبار مارکت پلیس"
-                      value={parseInt(product.wholeStoreStock)}
+                      value={
+                        product.wholeStoreStock &&
+                        parseInt(product.wholeStoreStock)
+                      }
                     />
                   </div>
                 </div>

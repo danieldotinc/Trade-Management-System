@@ -11,8 +11,7 @@ export class Navigation extends Component {
   }
   render() {
     const user = auth.getCurrentUser();
-    const { onRoute, settings, loading } = this.props;
-    if (loading || !settings) return <h1>Loading...</h1>;
+    const { onRoute, settings } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -39,7 +38,7 @@ export class Navigation extends Component {
                   </NavLink>
                 </li>
 
-                {(settings[0].personsAccess || user.isAdmin) && (
+                {((settings && settings[0].personsAccess) || user.isAdmin) && (
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"
@@ -50,7 +49,8 @@ export class Navigation extends Component {
                     </NavLink>
                   </li>
                 )}
-                {(settings[0].companiesAccess || user.isAdmin) && (
+                {((settings && settings[0].companiesAccess) ||
+                  user.isAdmin) && (
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"
@@ -61,7 +61,7 @@ export class Navigation extends Component {
                     </NavLink>
                   </li>
                 )}
-                {(settings[0].tradeAccess || user.isAdmin) && (
+                {((settings && settings[0].tradeAccess) || user.isAdmin) && (
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"

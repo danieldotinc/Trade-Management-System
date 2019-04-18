@@ -12,6 +12,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -40,7 +41,12 @@ export class AddCompany extends Form {
   componentWillReceiveProps(nextProps, nextState) {
     if (this.props.match.params.id) {
       const { company, loadingCompany } = nextProps;
-      if (loadingCompany || !company) return <h1>Loading...</h1>;
+      if (loadingCompany || !company)
+        return (
+          <div className="loader">
+            <BeatLoader sizeUnit={"px"} size={20} color={"#C70039"} />
+          </div>
+        );
       this.setState({ data: company });
     }
   }
@@ -87,7 +93,12 @@ export class AddCompany extends Form {
 
   render() {
     const { marketSectors, loadingMarketSectors } = this.props;
-    if (!marketSectors || loadingMarketSectors) return <h1>Loading ...</h1>;
+    if (!marketSectors || loadingMarketSectors)
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#20B2AA"} />
+        </div>
+      );
 
     return (
       <React.Fragment>

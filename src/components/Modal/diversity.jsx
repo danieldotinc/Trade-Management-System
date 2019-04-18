@@ -20,15 +20,29 @@ class Delete extends Form {
   }
 
   onDiversityItem = item => {
-    this.props.onDiversity(item);
+    let { colors } = this.props;
+    const { color, colorId } = this.state.data;
+    colors = colors ? colors.filter(c => c._id != item.colorId) : [];
+    const diverseItem = { ...item };
+
+    diverseItem.color = color ? color : colors[0].name;
+    diverseItem.colorId = colorId ? colorId : colors[0]._id;
+
+    delete diverseItem._id;
+    delete diverseItem.__v;
+
+    this.props.onDiversity(diverseItem);
     this.onClose();
   };
+
   onClose = () => {
     $(`#${this.ref.current.id}`).modal("hide");
   };
+
   render() {
-    const { item, classes, colors, loading } = this.props;
-    if (!colors || loading) return 0;
+    let { item, classes, colors, loading } = this.props;
+    colors = colors ? colors.filter(c => c._id != item.colorId) : [];
+    // if (!colors || loading) return 0;
     return (
       <React.Fragment>
         <button
@@ -59,7 +73,7 @@ class Delete extends Form {
                 </span>
               </div>
               <div className="modal-body h6">
-                {this.renderSelect("color", "رنگ", colors, "8")}
+                {colors && this.renderSelect("color", "رنگ", colors, "8")}
               </div>
               <div className="modal-footer">
                 <button

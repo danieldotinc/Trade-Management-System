@@ -12,6 +12,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -40,7 +41,12 @@ class EditSettings extends Form {
 
   componentWillReceiveProps(nextProps) {
     const { settings, loading } = nextProps;
-    if (loading || !settings) return <h1>Loading...</h1>;
+    if (loading || !settings)
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#C70039"} />
+        </div>
+      );
     this.setState({ data: settings[0] });
   }
 

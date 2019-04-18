@@ -4,6 +4,7 @@ import {
   GET_PRODUCTS,
   DELETE_PRODUCT,
   ADD_PRODUCT,
+  ADD_DIVERSITY_PRODUCT,
   UPDATE_PRODUCT,
   CLEAR_CURRENT_PRODUCT
 } from "../actions/types";
@@ -23,6 +24,8 @@ export default function(state = initialState, action) {
     case GET_PRODUCTS:
       return { ...state, products: action.payload, loading: false };
     case ADD_PRODUCT:
+      return { ...state, products: [action.payload, ...state.products] };
+    case ADD_DIVERSITY_PRODUCT:
       return { ...state, products: [action.payload, ...state.products] };
     case UPDATE_PRODUCT:
       return { ...state, product: action.payload };

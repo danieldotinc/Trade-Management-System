@@ -4,6 +4,7 @@ import ListPage from "../table/listPage";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import { getPersonItems, deletePersonItem } from "../../actions/personActions";
+import { BeatLoader } from "react-spinners";
 import { getSettingItems } from "../../actions/settingActions";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -74,7 +75,17 @@ class BusinessProfiles extends Component {
       loadingSetting,
       ...rest
     } = this.props;
-    if (loadingPersons || !persons) return <h1>Loading...</h1>;
+    if (loadingPersons || !persons)
+      return (
+        <div className="loader">
+          <BeatLoader
+            // css={override}
+            sizeUnit={"px"}
+            size={20}
+            color={"#20B2AA"}
+          />
+        </div>
+      );
     return (
       <ListPage
         items={persons}

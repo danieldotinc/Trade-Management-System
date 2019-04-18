@@ -9,7 +9,10 @@ const Pagination = props => {
   const pages = _.range(1, pagesCount + 1);
   return (
     <nav ria-label="Page navigation example">
-      <ul className="pagination" style={{ direction: "ltr" }}>
+      <ul
+        className="pagination justify-content-center"
+        style={{ direction: "ltr" }}
+      >
         {pages.map(page => (
           <li
             className={

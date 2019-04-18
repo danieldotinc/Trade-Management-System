@@ -14,6 +14,11 @@ class TableBody extends Component {
     this.props.getSettingItems();
   }
 
+  getDots = string => {
+    if (string.length > 50) return string.substring(0, 50) + "...";
+    return string;
+  };
+
   renderCell = (item, column) => {
     if (column.path == "img")
       return (
@@ -27,7 +32,10 @@ class TableBody extends Component {
         />
       );
     else if (column.path.includes("Price"))
-      return PersianNum(parseInt(_.get(item, column.path)).toLocaleString());
+      return (
+        _.get(item, column.path) &&
+        PersianNum(parseInt(_.get(item, column.path)).toLocaleString())
+      );
     else if (
       column.path == "imgFiles" ||
       column.path == "imgFile" ||
@@ -36,7 +44,7 @@ class TableBody extends Component {
       column.path == "imgs"
     ) {
       return;
-    } else return PersianNum(_.get(item, column.path));
+    } else return this.getDots(PersianNum(_.get(item, column.path)));
   };
 
   generateKey = (item, column) => {
@@ -57,7 +65,7 @@ class TableBody extends Component {
       settings,
       loadingSetting
     } = this.props;
-    if (loadingSetting && !settings) return <h1>Loading...</h1>;
+    // if (loadingSetting && !settings) return <h1>Loading...</h1>;
     return (
       <tbody>
         {pageItems.map(item => (
@@ -74,9 +82,20 @@ class TableBody extends Component {
             {/* <td key={uuid.v4()}>
               <Like movie={item} onClick={() => onLikeItem(item, listName)} />
             </td> */}
-            <td key={uuid.v4()}>
+            <td key={uuid.v4()} style={{ float: "left" }}>
+              {listName == "Product" && (
+                <a
+                  className="btn btn-raised btn-primary ml-2 shadow rounded"
+                  data-placement="top"
+                  title="در وبسایت"
+                  target="_blank"
+                  href={item.webLink}
+                >
+                  <i className="fa fa-link" />
+                </a>
+              )}
               {listName == "Product" &&
-                (settings[0].addAction || user.isAdmin) && (
+                ((settings && settings[0].addAction) || user.isAdmin) && (
                   <Diversity
                     onDiversity={onDiversity}
                     item={item}
@@ -84,7 +103,7 @@ class TableBody extends Component {
                   />
                 )}
               {listName == "Product" &&
-                (settings[0].processAction || user.isAdmin) && (
+                ((settings && settings[0].processAction) || user.isAdmin) && (
                   <button
                     className="btn btn-raised btn-secondary ml-2 shadow rounded"
                     data-placement="top"
@@ -94,7 +113,7 @@ class TableBody extends Component {
                     <i className="fa fa-calculator" />
                   </button>
                 )}
-              {(settings[0].editAction || user.isAdmin) && (
+              {((settings && settings[0].editAction) || user.isAdmin) && (
                 <button
                   className="btn btn-raised btn-dark ml-2 shadow rounded"
                   data-placement="top"
@@ -105,7 +124,7 @@ class TableBody extends Component {
                 </button>
               )}
 
-              {(settings[0].deleteAction || user.isAdmin) && (
+              {((settings && settings[0].deleteAction) || user.isAdmin) && (
                 <Delete onDelete={onDelete} item={item} />
               )}
             </td>

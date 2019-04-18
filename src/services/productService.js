@@ -16,6 +16,10 @@ export async function saveProduct(item) {
   return http.post(`/products`, item);
 }
 
+export async function addDiversity(item) {
+  return http.post(`/products/diversity`, item);
+}
+
 export async function updateProduct(item) {
   return http.put(`/products/${item.id}`, item.item);
 }

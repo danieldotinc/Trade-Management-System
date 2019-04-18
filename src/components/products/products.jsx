@@ -3,8 +3,10 @@ import { toast } from "react-toastify";
 import ListPage from "../table/listPage";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
+import { BeatLoader } from "react-spinners";
 import {
   getProductItems,
+  addDiversityProductItem,
   deleteProductItem
 } from "../../actions/productActions";
 import { getSettingItems } from "../../actions/settingActions";
@@ -29,8 +31,12 @@ class Products extends Component {
   handleTradeTableItem = item =>
     this.props.history.push(`/TradeProduct/${item._id}`);
 
-  handleDiversityTableItem = item =>
-    this.props.history.push(`/TradeProduct/${item._id}`);
+  handleDiversityTableItem = item => {
+    this.props.addDiversityProductItem(item);
+    setTimeout(() => {
+      this.props.getProductItems();
+    }, 2000);
+  };
 
   // handleLikeItem = item => {
   //   const items = [...this.state.items];
@@ -60,7 +66,13 @@ class Products extends Component {
       loadingSetting,
       ...rest
     } = this.props;
-    if (loadingProducts || !products) return <h1>Loading...</h1>;
+    if (loadingProducts || !products)
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#20B2AA"} />
+        </div>
+      );
+
     return (
       <ListPage
         items={products}
@@ -85,5 +97,10 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductItems, deleteProductItem, getSettingItems }
+  {
+    getProductItems,
+    deleteProductItem,
+    getSettingItems,
+    addDiversityProductItem
+  }
 )(withStyles(rtlStyle)(Products));

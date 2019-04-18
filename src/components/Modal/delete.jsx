@@ -23,7 +23,7 @@ class Delete extends Component {
           data-toggle="modal"
           data-placement="top"
           title="حذف"
-          data-target={item._id && "#a" + item._id}
+          data-target={item._id && "#r" + item._id}
         >
           <i className="fa fa-trash-alt" />
         </button>
@@ -31,7 +31,7 @@ class Delete extends Component {
         <div
           className="modal fade"
           ref={this.ref}
-          id={"a" + item._id}
+          id={"r" + item._id}
           tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalCenterTitle"

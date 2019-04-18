@@ -9,6 +9,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -37,7 +38,12 @@ class Profile extends Component {
     const user = auth.getCurrentUser();
     const { person, loading } = this.props;
 
-    if (loading || !person) return <h1>Loading ...</h1>;
+    if (loading || !person)
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#FFC300"} />
+        </div>
+      );
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>

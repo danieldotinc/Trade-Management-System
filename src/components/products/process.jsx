@@ -21,6 +21,7 @@ import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardHeader from "../Card/CardHeader";
+import { BeatLoader } from "react-spinners";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -405,7 +406,12 @@ class Process extends Component {
     const { product, loadingProduct, settings } = this.props;
     const user = auth.getCurrentUser();
 
-    if (!product || loadingProduct || !settings) return <h1>Loading...</h1>;
+    if (!product || loadingProduct || !settings)
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#9932CC"} />
+        </div>
+      );
 
     const buyingDiscoutPercent = getPercent(
       product.tradeBuyingPrice,
@@ -524,18 +530,18 @@ class Process extends Component {
                         size="12"
                       />
                       <ListGroupItem
+                        label="کد آیتم نامبر"
+                        value={product.itemNumber}
+                        size="12"
+                      />
+                      <ListGroupItem
+                        label="کد تامین کننده"
+                        value={product.taminMallCode}
+                        size="12"
+                      />
+                      <ListGroupItem
                         label="کد نیکراد"
                         value={product.nikradCode}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="کد مای کیچن"
-                        value={product.myKitchenCode}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="کد مای کیچن پلاس"
-                        value={product.myKitchenCode}
                         size="12"
                       />
                     </div>

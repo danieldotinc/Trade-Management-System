@@ -6,7 +6,7 @@ import Table from "../table/table";
 import _ from "lodash";
 import Search from "./common/search";
 import ItemsCount from "./common/itemsCount";
-import { PersianNum } from "./common/persiandigit";
+import { PersianNum, EngNum } from "./common/persiandigit";
 
 export class FullList extends Component {
   state = {
@@ -17,7 +17,19 @@ export class FullList extends Component {
   handleSearch = search => {
     const { items } = this.props;
     if (search != "") {
-      const filteredItems = items.filter(i => i.name.includes(search));
+      const filteredItems = items.filter(
+        i =>
+          (i.name && i.name.includes(search)) ||
+          (i.diverseCode && i.diverseCode.toString().includes(search)) ||
+          (i.proCode && i.proCode.toString().includes(EngNum(search))) ||
+          (i.category && i.category.includes(search)) ||
+          (i.color && i.color.includes(search)) ||
+          (i.mobile && i.mobile.toString().includes(EngNum(search))) ||
+          (i.identity && i.identity.includes(search)) ||
+          (i.city && i.city.includes(search)) ||
+          (i.marketSector && i.marketSector.includes(search)) ||
+          (i.company && i.company.includes(search))
+      );
       this.props.onPageChange(1);
       this.setState({ items: filteredItems, search });
     } else {

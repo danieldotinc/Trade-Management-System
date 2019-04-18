@@ -7,6 +7,7 @@ import {
   getCompanyItems,
   deleteCompanyItem
 } from "../../actions/companyActions";
+import { BeatLoader } from "react-spinners";
 import { getSettingItems } from "../../actions/settingActions";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
@@ -37,7 +38,17 @@ class Companies extends Component {
       loadingSetting,
       ...rest
     } = this.props;
-    if (loadingCompanies || !companies) return <h1>Loading...</h1>;
+    if (loadingCompanies || !companies)
+      return (
+        <div className="loader">
+          <BeatLoader
+            // css={override}
+            sizeUnit={"px"}
+            size={20}
+            color={"#20B2AA"}
+          />
+        </div>
+      );
     return (
       <ListPage
         items={companies}
