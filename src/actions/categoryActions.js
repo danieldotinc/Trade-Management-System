@@ -15,7 +15,7 @@ import {
   saveCategory,
   updateCategory
 } from "../services/categoryService";
-import { ToastContainer, toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 
 export const setCategoryLoading = () => {
   return {
@@ -56,7 +56,7 @@ export const addCategoryItem = category => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -70,7 +70,7 @@ export const updateCategoryItem = category => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -84,7 +84,7 @@ export const deleteCategoryItem = id => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("این آیتم قبلا حذف شده است.");
+      NotificationManager.warning("این آیتم قبلا حذف شده است.");
     }
   }
 };

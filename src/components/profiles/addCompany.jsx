@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 import {
   getCompanyItem,
   addCompanyItem,
@@ -65,7 +65,7 @@ export class AddCompany extends Form {
     this.props.match.params.id
       ? (msg = " با موفقیت به روزرسانی شد.")
       : (msg = " با موفقیت اضافه شد.");
-    toast.info(name + msg);
+    NotificationManager.success(name + msg);
   };
 
   handleEditForm = () => {

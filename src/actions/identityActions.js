@@ -14,7 +14,7 @@ import {
   saveIdentity,
   updateIdentity
 } from "../services/identityService";
-import { ToastContainer, toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 
 export const setIdentityLoading = () => {
   return {
@@ -55,7 +55,7 @@ export const addIdentityItem = identity => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -69,7 +69,7 @@ export const deleteIdentityItem = id => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("این آیتم قبلا حذف شده است.");
+      NotificationManager.warning("این آیتم قبلا حذف شده است.");
     }
   }
 };

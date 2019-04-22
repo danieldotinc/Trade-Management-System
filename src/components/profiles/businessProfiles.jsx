@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { toast } from "react-toastify";
 import ListPage from "../table/listPage";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import { getPersonItems, deletePersonItem } from "../../actions/personActions";
+import Notifications from "../dashboard/Notifications";
 import { BeatLoader } from "react-spinners";
 import { getSettingItems } from "../../actions/settingActions";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
-class BusinessProfiles extends Component {
+class BusinessProfiles extends Notifications {
   componentDidMount() {
     this.props.getPersonItems();
     this.props.getSettingItems();
@@ -24,7 +24,7 @@ class BusinessProfiles extends Component {
 
   handleDeleteTableItem = item => {
     this.props.deletePersonItem(item._id);
-    toast.info(`${item.name} با موفقیت حذف شد.`);
+    this.showNotification(`${item.name} با موفقیت حذف شد.`, "danger");
   };
 
   // handleLikeItem = item => {
@@ -87,14 +87,17 @@ class BusinessProfiles extends Component {
         </div>
       );
     return (
-      <ListPage
-        items={persons}
-        onDetail={this.handleProfileDetail}
-        onEdit={this.handleEditTableItem}
-        onDelete={this.handleDeleteTableItem}
-        settings={settings}
-        {...rest}
-      />
+      <React.Fragment>
+        {this.renderNotification()}
+        <ListPage
+          items={persons}
+          onDetail={this.handleProfileDetail}
+          onEdit={this.handleEditTableItem}
+          onDelete={this.handleDeleteTableItem}
+          settings={settings}
+          {...rest}
+        />{" "}
+      </React.Fragment>
     );
   }
 }

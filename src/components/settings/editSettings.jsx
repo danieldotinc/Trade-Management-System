@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 import {
   getSettingItems,
   updateSettingItem
@@ -61,7 +61,7 @@ class EditSettings extends Form {
     setTimeout(() => {
       this.props.onRoute("/Settings");
       this.props.history.push("/Settings");
-      toast.info("تنظیمات" + " با موفقیت به روزرسانی شد.");
+      NotificationManager.info("تنظیمات" + " با موفقیت به روزرسانی شد.");
     }, 1000);
   };
 

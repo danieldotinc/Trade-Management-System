@@ -3,7 +3,7 @@ import Spinner from "../form/spinner";
 import Images from "../form/images";
 import Buttons from "../form/buttons";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 import {
   getProductItem,
   addProductItem,
@@ -205,22 +205,23 @@ export class AddProduct extends Form {
     let msg = this.props.match.params.id
       ? " با موفقیت به روزرسانی شد."
       : " با موفقیت اضافه شد.";
-    toast.info(name + msg);
+    NotificationManager.success(name + msg);
   };
 
   onAddItem = name => {
     this.props.addCategoryItem({ name });
-    name && toast.info(name + " با موفقیت اضافه شد.");
+    name && NotificationManager.success(name + " با موفقیت اضافه شد.");
   };
 
   onDeleteItem = item => {
     this.props.deleteCategoryItem(item._id);
-    toast.info(item.name + " با موفقیت حذف شد.");
+    NotificationManager.success(item.name + " با موفقیت حذف شد.");
   };
 
   onEditItem = item => {
     this.props.updateCategoryItem(item);
-    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+    item.name &&
+      NotificationManager.success(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   onAddSubCategoryItem = name => {
@@ -228,12 +229,12 @@ export class AddProduct extends Form {
       ? this.state.data.categoryId
       : this.props.categories[0]._id;
     this.props.addSubCategoryItem({ name, category });
-    name && toast.info(name + " با موفقیت اضافه شد.");
+    name && NotificationManager.success(name + " با موفقیت اضافه شد.");
   };
 
   onDeleteSubCategoryItem = item => {
     this.props.deleteSubCategoryItem(item._id);
-    toast.info(item.name + " با موفقیت حذف شد.");
+    NotificationManager.success(item.name + " با موفقیت حذف شد.");
   };
 
   onEditSubCategoryItem = item => {
@@ -241,7 +242,8 @@ export class AddProduct extends Form {
       ? this.state.data.categoryId
       : this.props.categories[0]._id;
     this.props.updateSubCategoryItem({ ...item, category });
-    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+    item.name &&
+      NotificationManager.success(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   onAddGroupItem = name => {
@@ -255,12 +257,12 @@ export class AddProduct extends Form {
       ? this.state.data.subCategoryId
       : subCategories[0] && subCategories[0]._id;
     this.props.addGroupItem({ name, subCategory });
-    name && toast.info(name + " با موفقیت اضافه شد.");
+    name && NotificationManager.success(name + " با موفقیت اضافه شد.");
   };
 
   onDeleteGroupItem = item => {
     this.props.deleteGroupItem(item._id);
-    toast.info(item.name + " با موفقیت حذف شد.");
+    NotificationManager.success(item.name + " با موفقیت حذف شد.");
   };
 
   onEditGroupItem = item => {
@@ -274,22 +276,24 @@ export class AddProduct extends Form {
       ? this.state.data.subCategoryId
       : subCategories[0] && subCategories[0]._id;
     this.props.updateGroupItem({ ...item, subCategory });
-    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+    item.name &&
+      NotificationManager.success(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   onAddColorItem = name => {
     this.props.addColorItem({ name });
-    name && toast.info(name + " با موفقیت اضافه شد.");
+    name && NotificationManager.success(name + " با موفقیت اضافه شد.");
   };
 
   onDeleteColorItem = item => {
     this.props.deleteColorItem(item._id);
-    toast.info(item.name + " با موفقیت حذف شد.");
+    NotificationManager.success(item.name + " با موفقیت حذف شد.");
   };
 
   onEditColorItem = item => {
     this.props.updateColorItem(item);
-    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+    item.name &&
+      NotificationManager.success(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   onAddMaterialItem = name => {
@@ -297,12 +301,12 @@ export class AddProduct extends Form {
       ? this.state.data.categoryId
       : this.props.categories[0]._id;
     this.props.addMaterialItem({ name, category });
-    name && toast.info(name + " با موفقیت اضافه شد.");
+    name && NotificationManager.success(name + " با موفقیت اضافه شد.");
   };
 
   onDeleteMaterialItem = item => {
     this.props.deleteMaterialItem(item._id);
-    toast.info(item.name + " با موفقیت حذف شد.");
+    NotificationManager.success(item.name + " با موفقیت حذف شد.");
   };
 
   onEditMaterialItem = item => {
@@ -310,7 +314,8 @@ export class AddProduct extends Form {
       ? this.state.data.categoryId
       : this.props.categories[0]._id;
     this.props.updateMaterialItem({ ...item, category });
-    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+    item.name &&
+      NotificationManager.success(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   onAddSupplierItem = name => {
@@ -318,12 +323,12 @@ export class AddProduct extends Form {
       ? this.state.data.categoryId
       : this.props.categories[0]._id;
     this.props.addSupplierItem({ name, category });
-    name && toast.info(name + " با موفقیت اضافه شد.");
+    name && NotificationManager.success(name + " با موفقیت اضافه شد.");
   };
 
   onDeleteSupplierItem = item => {
     this.props.deleteSupplierItem(item._id);
-    toast.info(item.name + " با موفقیت حذف شد.");
+    NotificationManager.success(item.name + " با موفقیت حذف شد.");
   };
 
   onEditSupplierItem = item => {
@@ -331,7 +336,8 @@ export class AddProduct extends Form {
       ? this.state.data.categoryId
       : this.props.categories[0]._id;
     this.props.updateSupplierItem({ ...item, category });
-    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+    item.name &&
+      NotificationManager.success(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   handleEditForm = () => {

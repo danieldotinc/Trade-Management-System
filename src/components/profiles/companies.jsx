@@ -7,11 +7,12 @@ import {
   getCompanyItems,
   deleteCompanyItem
 } from "../../actions/companyActions";
+import Notifications from "../dashboard/Notifications";
 import { BeatLoader } from "react-spinners";
 import { getSettingItems } from "../../actions/settingActions";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
-class Companies extends Component {
+class Companies extends Notifications {
   componentDidMount() {
     this.props.getCompanyItems();
     this.props.getSettingItems();
@@ -27,7 +28,7 @@ class Companies extends Component {
 
   handleDeleteTableItem = item => {
     this.props.deleteCompanyItem(item._id);
-    toast.info(`${item.name} با موفقیت حذف شد.`);
+    this.showNotification(`${item.name} با موفقیت حذف شد.`, "danger");
   };
 
   render() {
@@ -50,14 +51,17 @@ class Companies extends Component {
         </div>
       );
     return (
-      <ListPage
-        items={companies}
-        onDetail={this.handleProfileDetail}
-        onEdit={this.handleEditTableItem}
-        onDelete={this.handleDeleteTableItem}
-        settings={settings}
-        {...rest}
-      />
+      <React.Fragment>
+        {this.renderNotification()}
+        <ListPage
+          items={companies}
+          onDetail={this.handleProfileDetail}
+          onEdit={this.handleEditTableItem}
+          onDelete={this.handleDeleteTableItem}
+          settings={settings}
+          {...rest}
+        />
+      </React.Fragment>
     );
   }
 }

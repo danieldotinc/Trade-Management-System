@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import auth from "../../services/authService";
 import Input from "../form/input";
 import { getSettingItems } from "../../actions/settingActions";
-import { toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 import { getDigiKalaShipping } from "../../handlers/digikala";
 import {
   getProfitByPercent,
@@ -741,7 +741,7 @@ class Trade extends Form {
     let msg = this.props.match.params.id
       ? " با موفقیت به روزرسانی شد."
       : " با موفقیت اضافه شد.";
-    toast.info(name + msg);
+    NotificationManager.info(name + msg);
   };
 
   handleBack = () => {

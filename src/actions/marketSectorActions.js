@@ -15,7 +15,7 @@ import {
   saveMarketSector,
   updateMarketSector
 } from "../services/marketSectorService";
-import { ToastContainer, toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 
 export const setMarketSectorLoading = () => {
   return {
@@ -56,7 +56,7 @@ export const addMarketSectorItem = marketSector => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -70,7 +70,7 @@ export const updateMarketSectorItem = marketSector => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -84,7 +84,7 @@ export const deleteMarketSectorItem = id => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("این آیتم قبلا حذف شده است.");
+      NotificationManager.warning("این آیتم قبلا حذف شده است.");
     }
   }
 };

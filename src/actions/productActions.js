@@ -17,7 +17,7 @@ import {
   addDiversity,
   updateProduct
 } from "../services/productService";
-import { toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 
 export const setProductLoading = () => {
   return {
@@ -58,7 +58,7 @@ export const addProductItem = product => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -72,7 +72,7 @@ export const addDiversityProductItem = product => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -86,7 +86,7 @@ export const updateProductItem = product => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -100,7 +100,7 @@ export const deleteProductItem = id => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("این آیتم قبلا حذف شده است.");
+      NotificationManager.warning("این آیتم قبلا حذف شده است.");
     }
   }
 };

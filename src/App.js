@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { NotificationContainer } from "react-notifications";
 import routes from "./routes";
 import Navigation from "./components/layouts/Navbar";
 import ProtectedRoute from "./components/protectedRoute";
@@ -102,6 +103,7 @@ class App extends Component {
     return (
       <div className="load">
         <ToastContainer />
+        <NotificationContainer />
         <Navigation activePage={activePage} onRoute={this.handleRouteChange} />
         <div className="m-3">
           <Switch>

@@ -1,5 +1,8 @@
 /*eslint-disable*/
 import React from "react";
+import { connect } from "react-redux";
+import { getProductItems } from "../../actions/productActions";
+import { getPersonItems } from "../../actions/personActions";
 import PropTypes from "prop-types";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
@@ -34,6 +37,7 @@ import CardBody from "../Card/CardBody.jsx";
 import CardFooter from "../Card/CardFooter.jsx";
 import SnackbarContent from "../Snackbar/SnackbarContent.jsx";
 import { PersianNum } from "../table/common/persiandigit";
+import { BeatLoader } from "react-spinners";
 
 import {
   dailySalesChart,
@@ -65,6 +69,12 @@ class Dashboard extends React.Component {
   state = {
     value: 0
   };
+
+  componentDidMount() {
+    this.props.getProductItems();
+    this.props.getPersonItems();
+  }
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -73,15 +83,13 @@ class Dashboard extends React.Component {
     this.setState({ value: index });
   };
   render() {
-    const {
-      classes,
-      state,
-      onDeleteTableItem,
-      onEditTableItem,
-      onLikeItem,
-      onShowDetailModal,
-      onSort
-    } = this.props;
+    const { classes, products, loading, persons, loadingPersons } = this.props;
+    if (!products || loading || !persons || loadingPersons)
+      return (
+        <div className="loader">
+          <BeatLoader sizeUnit={"px"} size={20} color={"#20B2AA"} />
+        </div>
+      );
     return (
       <div>
         <GridContainer>
@@ -120,7 +128,7 @@ class Dashboard extends React.Component {
                   className={classes.cardTitle}
                   style={{ textAlign: "center" }}
                 >
-                  {PersianNum("642+")}
+                  {PersianNum(`${products.length}+`)}
                 </h3>
               </CardHeader>
               <CardFooter stats>
@@ -164,7 +172,7 @@ class Dashboard extends React.Component {
                   className={classes.cardTitle}
                   style={{ textAlign: "center" }}
                 >
-                  {PersianNum("245+")}
+                  {PersianNum(`${persons.length}+`)}
                 </h3>
               </CardHeader>
               <CardFooter stats>
@@ -280,4 +288,14 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(rtlStyle)(Dashboard);
+const mapStateToProps = state => ({
+  products: state.product.products,
+  loading: state.product.loading,
+  persons: state.person.persons,
+  loadingPersons: state.person.loadiong
+});
+
+export default connect(
+  mapStateToProps,
+  { getProductItems, getPersonItems }
+)(withStyles(rtlStyle)(Dashboard));

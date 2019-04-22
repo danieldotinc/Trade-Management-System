@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { toast } from "react-toastify";
 import ListPage from "../table/listPage";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
@@ -10,9 +9,10 @@ import {
   deleteProductItem
 } from "../../actions/productActions";
 import { getSettingItems } from "../../actions/settingActions";
+import Notifications from "../dashboard/Notifications";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
-class Products extends Component {
+class Products extends Notifications {
   componentDidMount() {
     this.props.getProductItems();
     this.props.getSettingItems();
@@ -22,7 +22,7 @@ class Products extends Component {
 
   handleDeleteTableItem = item => {
     this.props.deleteProductItem(item._id);
-    toast.info(`${item.name} با موفقیت حذف شد.`);
+    this.showNotification(`${item.name} با موفقیت حذف شد.`, "danger");
   };
 
   handleEditTableItem = item =>
@@ -35,6 +35,7 @@ class Products extends Component {
     this.props.addDiversityProductItem(item);
     setTimeout(() => {
       this.props.getProductItems();
+      this.showNotification(`تنوع برای ${item.name} با موفقیت شد.`, "info");
     }, 2000);
   };
 
@@ -74,16 +75,19 @@ class Products extends Component {
       );
 
     return (
-      <ListPage
-        items={products}
-        onTrade={this.handleTradeTableItem}
-        onDiversity={this.handleDiversityTableItem}
-        onDetail={this.handleProductDetail}
-        onEdit={this.handleEditTableItem}
-        onDelete={this.handleDeleteTableItem}
-        settings={settings}
-        {...rest}
-      />
+      <React.Fragment>
+        {this.renderNotification()}
+        <ListPage
+          items={products}
+          onTrade={this.handleTradeTableItem}
+          onDiversity={this.handleDiversityTableItem}
+          onDetail={this.handleProductDetail}
+          onEdit={this.handleEditTableItem}
+          onDelete={this.handleDeleteTableItem}
+          settings={settings}
+          {...rest}
+        />
+      </React.Fragment>
     );
   }
 }

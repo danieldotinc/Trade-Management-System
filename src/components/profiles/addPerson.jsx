@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 import {
   getPersonItem,
   addPersonItem,
@@ -106,36 +106,38 @@ export class AddPerson extends Form {
     this.props.match.params.id
       ? (msg = " با موفقیت به روزرسانی شد.")
       : (msg = " با موفقیت اضافه شد.");
-    toast.info(name + msg);
+    NotificationManager.success(name + msg);
   };
   onAddMarketSectorItem = name => {
     this.props.addMarketSectorItem({ name });
-    name && toast.info(name + " با موفقیت اضافه شد.");
+    name && NotificationManager.success(name + " با موفقیت اضافه شد.");
   };
 
   onDeleteMarketSectorItem = item => {
     this.props.deleteMarketSectorItem(item._id);
-    toast.info(item.name + " با موفقیت حذف شد.");
+    NotificationManager.success(item.name + " با موفقیت حذف شد.");
   };
 
   onEditMarketSectorItem = item => {
     this.props.updateMarketSectorItem(item);
-    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+    item.name &&
+      NotificationManager.success(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   onAddOfficeSectorItem = name => {
     this.props.addOfficeSectorItem({ name });
-    name && toast.info(name + " با موفقیت اضافه شد.");
+    name && NotificationManager.success(name + " با موفقیت اضافه شد.");
   };
 
   onDeleteOfficeSectorItem = item => {
     this.props.deleteOfficeSectorItem(item._id);
-    toast.info(item.name + " با موفقیت حذف شد.");
+    NotificationManager.success(item.name + " با موفقیت حذف شد.");
   };
 
   onEditOfficeSectorItem = item => {
     this.props.updateOfficeSectorItem(item);
-    item.name && toast.info(item.name + " با موفقیت به روز رسانی شد.");
+    item.name &&
+      NotificationManager.success(item.name + " با موفقیت به روز رسانی شد.");
   };
 
   handleEditForm = () => {

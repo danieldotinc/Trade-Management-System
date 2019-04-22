@@ -14,7 +14,7 @@ import {
   savePerson,
   updatePerson
 } from "../services/personService";
-import { toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 
 export const setCurrentPerson = () => {
   return { type: PERSON_LOADING };
@@ -39,7 +39,7 @@ export const getPersonItem = id => async dispatch => {
     });
   } catch (ex) {
     if (ex.response) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -53,7 +53,7 @@ export const addPersonItem = person => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -67,7 +67,7 @@ export const updatePersonItem = person => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("Error!");
+      NotificationManager.error(ex.response.data);
     }
   }
 };
@@ -81,7 +81,7 @@ export const deletePersonItem = id => async dispatch => {
     });
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
-      toast.error("این آیتم قبلا حذف شده است.");
+      NotificationManager.warning("این آیتم قبلا حذف شده است.");
     }
   }
 };
