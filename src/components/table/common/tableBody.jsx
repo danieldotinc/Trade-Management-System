@@ -22,14 +22,15 @@ class TableBody extends Component {
   renderCell = (item, column) => {
     if (column.path == "img")
       return (
-        <img
-          style={{ maxHeight: "50px", maxWidth: "50px", borderRadius: "10px" }}
-          className="shadow rounded"
-          src={
-            _.get(item, column.path) &&
-            require(`../../../../public/${_.get(item, column.path)}`)
-          }
-        />
+        <div className="thumbnail-small">
+          <img
+            className="shadow rounded"
+            src={
+              _.get(item, column.path) &&
+              require(`../../../../public/${_.get(item, column.path)}`)
+            }
+          />
+        </div>
       );
     else if (column.path.includes("Price"))
       return (

@@ -849,7 +849,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholeProfitPercent"
-                  label="درصد سود عمده فروشی"
+                  label="درصد سود عمده"
                   size="2"
                   required={false}
                   value={PersianNum(this.state.data.wholeProfitPercent)}
@@ -858,7 +858,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholeProfitDiffPrice"
-                  label="مبلغ سود عمده فروشی"
+                  label="مبلغ سود عمده"
                   size="2"
                   required={false}
                   value={
@@ -872,7 +872,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholePrice"
-                  label="قیمت عمده فروشی"
+                  label="قیمت عمده"
                   size="2"
                   required={false}
                   value={
@@ -884,8 +884,8 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholePriceFinal"
-                  label="قیمت نهایی عمده فروشی"
-                  size="2"
+                  label="قیمت نهایی عمده"
+                  size="3"
                   required={false}
                   value={
                     this.state.data.wholePriceFinal &&
@@ -898,7 +898,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholeProfitPercentWithoutValueAdded"
-                  label="درصد سود عمده فروشی بدون ارزش افزوده"
+                  label="درصد سود عمده بدون مالیات"
                   size="2"
                   required={false}
                   value={PersianNum(
@@ -909,7 +909,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholeProfitDiffPriceWithoutValueAdded"
-                  label="مبلغ سود عمده فروشی بدون ارزش افزوده"
+                  label="مبلغ سود عمده بدون مالیات"
                   size="2"
                   required={false}
                   value={
@@ -923,7 +923,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholePriceWithoutValueAdded"
-                  label="قیمت عمده فروشی بدون ارزش افزوده"
+                  label="قیمت عمده بدون مالیات"
                   size="2"
                   required={false}
                   value={
@@ -937,8 +937,8 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="wholePriceFinalWithoutValueAdded"
-                  label="قیمت نهایی عمده فروشی بدون ارزش افزوده"
-                  size="2"
+                  label="قیمت نهایی عمده بدون مالیات"
+                  size="3"
                   required={false}
                   value={
                     this.state.data.wholePriceFinalWithoutValueAdded &&
@@ -953,7 +953,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailProfitPercent"
-                  label="درصد سود خرده فروشی"
+                  label="درصد سود خرده"
                   size="2"
                   required={false}
                   value={PersianNum(this.state.data.retailProfitPercent)}
@@ -962,7 +962,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailProfitDiffPrice"
-                  label="مبلغ سود خرده فروشی"
+                  label="مبلغ سود خرده"
                   size="2"
                   required={false}
                   value={
@@ -976,7 +976,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailPrice"
-                  label="قیمت خرده فروشی"
+                  label="قیمت خرده"
                   size="2"
                   required={false}
                   value={
@@ -988,8 +988,8 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailPriceFinal"
-                  label="قیمت نهایی خرده فروشی"
-                  size="2"
+                  label="قیمت نهایی خرده"
+                  size="3"
                   required={false}
                   value={
                     this.state.data.retailPriceFinal &&
@@ -1006,7 +1006,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailProfitPercentWithoutValueAdded"
-                  label="درصد سود خرده فروشی بدون ارزش افزوده"
+                  label="درصد سود خرده بدون مالیات"
                   size="2"
                   required={false}
                   value={PersianNum(
@@ -1017,7 +1017,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailProfitDiffPriceWithoutValueAdded"
-                  label="مبلغ سود خرده فروشی بدون ارزش افزوده"
+                  label="مبلغ سود خرده بدون مالیات"
                   size="2"
                   required={false}
                   value={
@@ -1031,7 +1031,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailPriceWithoutValueAdded"
-                  label="قیمت خرده فروشی بدون ارزش افزوده"
+                  label="قیمت خرده بدون مالیات"
                   size="2"
                   required={false}
                   value={
@@ -1045,8 +1045,8 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="retailPriceFinalWithoutValueAdded"
-                  label="قیمت نهایی خرده فروشی بدون ارزش افزوده"
-                  size="2"
+                  label="قیمت نهایی خرده بدون مالیات"
+                  size="3"
                   required={false}
                   value={
                     this.state.data.retailPriceFinalWithoutValueAdded &&
@@ -1064,7 +1064,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="marketPlaceProfitPercent"
-                  label="درصد سود مارکت پلیس"
+                  label="درصد سود مارکت"
                   size="2"
                   required={false}
                   value={PersianNum(this.state.data.marketPlaceProfitPercent)}
@@ -1073,7 +1073,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="marketPlaceProfitDiffPrice"
-                  label="مبلغ سود مارکت پلیس"
+                  label="مبلغ سود مارکت"
                   size="2"
                   required={false}
                   value={
@@ -1087,7 +1087,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="marketPlacePrice"
-                  label="قیمت مارکت پلیس"
+                  label="قیمت مارکت"
                   size="2"
                   required={false}
                   value={
@@ -1101,8 +1101,8 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="marketPlacePriceFinal"
-                  label="قیمت نهایی مارکت پلیس"
-                  size="2"
+                  label="قیمت نهایی مارکت"
+                  size="3"
                   required={false}
                   value={
                     this.state.data.marketPlacePriceFinal &&
@@ -1117,7 +1117,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="marketPlaceProfitPercentWithoutValueAdded"
-                  label="درصد سود مارکت پلیس بدون ارزش افزوده"
+                  label="درصد سود مارکت بدون مالیات"
                   size="2"
                   required={false}
                   value={PersianNum(
@@ -1128,7 +1128,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="marketPlaceProfitDiffPriceWithoutValueAdded"
-                  label="مبلغ سود مارکت پلیس بدون ارزش افزوده"
+                  label="مبلغ سود مارکت بدون مالیات"
                   size="2"
                   required={false}
                   value={
@@ -1143,7 +1143,7 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="marketPlacePriceWithoutValueAdded"
-                  label="قیمت مارکت پلیس بدون ارزش افزوده"
+                  label="قیمت مارکت بدون مالیات"
                   size="2"
                   required={false}
                   value={
@@ -1157,8 +1157,8 @@ class Trade extends Form {
                 <Input
                   type="text"
                   name="marketPlacePriceFinalWithoutValueAdded"
-                  label="قیمت نهایی مارکت پلیس بدون ارزش افزوده"
-                  size="2"
+                  label="قیمت نهایی مارکت بدون مالیات"
+                  size="3"
                   required={false}
                   value={
                     this.state.data.marketPlacePriceFinalWithoutValueAdded &&

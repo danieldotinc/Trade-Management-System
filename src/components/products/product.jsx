@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import { NotificationManager } from "react-notifications";
 import auth from "../../services/authService";
 import { connect } from "react-redux";
 import {
@@ -29,7 +29,7 @@ export class Product extends Component {
   onDelete = item => {
     this.props.deleteProductItem(item._id);
     this.props.history.push("/Products");
-    toast.info(`${item.name} با موفقیت حذف شد.`);
+    NotificationManager.success(`${item.name} با موفقیت حذف شد.`);
   };
 
   onEdit = item => {
@@ -73,7 +73,7 @@ export class Product extends Component {
                 >
                   <i className="fa fa-arrow-right" />
                 </button>
-                {(settings[0].processAccess || user.isAdmin) && (
+                {((settings && settings[0].processAccess) || user.isAdmin) && (
                   <button
                     className="btn btn-lg btn-success m-2 shadow rounded"
                     style={{
@@ -85,7 +85,7 @@ export class Product extends Component {
                     <i className="fa fa-sync" />
                   </button>
                 )}
-                {(settings[0].editAction || user.isAdmin) && (
+                {((settings && settings[0].editAction) || user.isAdmin) && (
                   <button
                     className="btn btn-lg btn-dark m-2 shadow rounded"
                     onClick={() => this.onEdit(product)}
@@ -93,7 +93,7 @@ export class Product extends Component {
                     <i className="fa fa-wrench" />
                   </button>
                 )}
-                {(settings[0].deleteAction || user.isAdmin) && (
+                {((settings && settings[0].deleteAction) || user.isAdmin) && (
                   <Delete
                     onDelete={this.onDelete}
                     item={product}
@@ -104,14 +104,9 @@ export class Product extends Component {
               <div className="row">
                 <div className="m-2 col-6">
                   {product.img[0] && (
-                    <img
-                      style={{
-                        height: "500px",
-                        width: "500px",
-                        borderRadius: "10px"
-                      }}
-                      src={require(`../../../public/${product.img}`)}
-                    />
+                    <div class="thumbnail">
+                      <img src={require(`../../../public/${product.img}`)} />
+                    </div>
                   )}
 
                   <br />
@@ -128,7 +123,7 @@ export class Product extends Component {
                       />
                     ))}
                 </div>
-                <div className="list-group m-2 mt-5 col-5">
+                <div className="list-group m-2 mt-4 col-5">
                   <div className="row shadow rounded">
                     <ListGroupItem
                       label="عنوان"

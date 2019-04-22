@@ -24,7 +24,7 @@ export class Navigation extends Component {
                     to="/Dashboard"
                     onClick={() => onRoute("/Dashboard")}
                   >
-                    داشبورد <span className="sr-only">(current)</span>
+                    داشبورد
                   </NavLink>
                 </li>
 
