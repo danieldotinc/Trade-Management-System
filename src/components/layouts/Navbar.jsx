@@ -118,8 +118,8 @@ export class Navigation extends Component {
               </React.Fragment>
             )}
           </ul>
-          <NavLink className="navbar-brand mr-auto ml-5" to="/Dashboard">
-            مدیریت کسب و کار
+          <NavLink className="navbar-brand mr-auto ml-5" to="/">
+            سیستم مدیریت بازرگانی
           </NavLink>
         </div>
       </nav>
