@@ -143,21 +143,22 @@ export class Product extends Component {
                       float=""
                     />
                     <ListGroupItem label="رنگ" value={product.color} float="" />
+                    <ListGroupItem label="گروه فنی" value={product.proCode} />
                     <ListGroupItem
-                      label="آیتم نامبر"
-                      value={product.itemNumber}
+                      label="کد"
+                      value={
+                        product.diverseCode && parseInt(product.diverseCode)
+                      }
                     />
                     <ListGroupItem
                       label="کد تامین کننده"
                       value={product.taminMallCode}
                     />
-                    <ListGroupItem label="کد محصول" value={product.proCode} />
                     <ListGroupItem
-                      label="کد تنوع"
-                      value={
-                        product.diverseCode && parseInt(product.diverseCode)
-                      }
+                      label="آیتم نامبر"
+                      value={product.itemNumber}
                     />
+
                     <ListGroupItem
                       label="قیمت لیست"
                       value={

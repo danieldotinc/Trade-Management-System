@@ -520,18 +520,18 @@ class Process extends Component {
                   <div className="row shadow rounded mt-3">
                     <div className="shadow rounded col-3 pt-3 pb-3">
                       <ListGroupItem
-                        label="کد محصول"
+                        label="گروه فنی"
                         value={product.proCode}
                         size="12"
                       />
                       <ListGroupItem
-                        label="کد تنوع"
+                        label="کد"
                         value={product.diverseCode}
                         size="12"
                       />
                       <ListGroupItem
-                        label="کد آیتم نامبر"
-                        value={product.itemNumber}
+                        label="کد تنوع مارکت پلیس"
+                        value={product.marketCode}
                         size="12"
                       />
                       <ListGroupItem
@@ -540,8 +540,8 @@ class Process extends Component {
                         size="12"
                       />
                       <ListGroupItem
-                        label="کد نیکراد"
-                        value={product.nikradCode}
+                        label="کد آیتم نامبر"
+                        value={product.itemNumber}
                         size="12"
                       />
                     </div>
