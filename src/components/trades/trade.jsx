@@ -716,15 +716,7 @@ class Trade extends Component {
                       }
                       onChange={this.handleBasicChange}
                     />
-                    <Input
-                      type="text"
-                      name="weight"
-                      label="وزن"
-                      size="2"
-                      required="false"
-                      value={PersianNum(this.state.data.weight)}
-                      onChange={this.handleBasicChange}
-                    />
+
                     <Input
                       type="text"
                       name="length"
@@ -751,6 +743,15 @@ class Trade extends Component {
                       size="2"
                       required="false"
                       value={PersianNum(this.state.data.height)}
+                      onChange={this.handleBasicChange}
+                    />
+                    <Input
+                      type="text"
+                      name="weight"
+                      label="وزن"
+                      size="2"
+                      required="false"
+                      value={PersianNum(this.state.data.weight)}
                       onChange={this.handleBasicChange}
                     />
                     <Input
