@@ -79,6 +79,9 @@ const rtlStyle = {
       fontWeight: "400",
       lineHeight: "1"
     }
+  },
+  textleft: {
+    textAlign: "left !important"
   }
 };
 

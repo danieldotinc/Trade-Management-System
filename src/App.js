@@ -64,6 +64,14 @@ class App extends Component {
         currentPage: 1
       });
     }
+    if (Route == "/Financial/Assets/Funds") {
+      return this.setState({
+        listName: "Funds",
+        addLink: "/AddFund",
+        columns: getCompanyColumns(),
+        currentPage: 1
+      });
+    }
     if (Route == "/AddPerson") {
       return this.setState({
         pageName: "افزودن شخص"

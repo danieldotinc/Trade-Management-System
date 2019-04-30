@@ -72,6 +72,15 @@ export class Navigation extends Component {
                     </NavLink>
                   </li>
                 )}
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    to="/FinDashboard"
+                    onClick={() => onRoute("/FinDashboard")}
+                  >
+                    مالی
+                  </NavLink>
+                </li>
                 {user.isAdmin && (
                   <li className="nav-item">
                     <NavLink

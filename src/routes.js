@@ -15,6 +15,11 @@ import { Register } from "./components/users/register";
 import { Login } from "./components/users/login";
 import Settings from "./components/settings/settings";
 import Trade from "./components/trades/trade";
+import FinDashboard from "./components/financial/finDashboard";
+import Invoice from "./components/financial/invoice";
+import Funds from "./components/financial/assets/funds";
+import Bank from "./components/financial/assets/bank";
+import PettyCash from "./components/financial/assets/pettyCash";
 import TradeProduct from "./components/trades/tradeProduct";
 import EditSettings from "./components/settings/editSettings";
 import Logout from "./components/users/logout";
@@ -111,6 +116,41 @@ let dashboardRoutes = [
     rtlName: "بازرگانی",
     layout: "",
     component: TradeProduct
+  },
+  {
+    path: "/FinDashboard",
+    name: "FinDashboard",
+    rtlName: "مالی",
+    layout: "",
+    component: FinDashboard
+  },
+  {
+    path: "/Financial/Invoice",
+    name: "Invoice",
+    rtlName: "صدور فاکتور",
+    layout: "",
+    component: Invoice
+  },
+  {
+    path: "/Financial/Assets/Funds",
+    name: "Funds",
+    rtlName: "صندوق ها",
+    layout: "",
+    component: Funds
+  },
+  {
+    path: "/Financial/Assets/Bank",
+    name: "Bank",
+    rtlName: "بانک",
+    layout: "",
+    component: Bank
+  },
+  {
+    path: "/Financial/Assets/PettyCash",
+    name: "PettyCash",
+    rtlName: "تنخواه گردان",
+    layout: "",
+    component: PettyCash
   },
   {
     path: "/EditSettings",
