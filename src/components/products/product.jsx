@@ -103,14 +103,15 @@ export class Product extends Component {
               </div>
               <div className="row">
                 <div className="m-2 col-6">
-                  {product.img[0] && (
+                  {product.img && (
                     <div class="thumbnail">
-                      <img src={require(`../../../public/${product.img}`)} />
+                      <img src={product.img && `../${product.img}`} />
                     </div>
                   )}
 
                   <br />
-                  {product.imgs[0] &&
+                  {product.imgs &&
+                    product.imgs[0] &&
                     product.imgs.map(img => (
                       <img
                         style={{
@@ -119,7 +120,7 @@ export class Product extends Component {
                           borderRadius: "5px"
                         }}
                         className="shadow rounded m-2"
-                        src={require(`../../../public/${img}`)}
+                        src={img && `../${img}`}
                       />
                     ))}
                 </div>

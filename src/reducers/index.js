@@ -1,4 +1,7 @@
 import { combineReducers } from "redux";
+import accountReducer from "./accountReducer";
+import accountTypeReducer from "./accountTypeReducer";
+import accountLevelReducer from "./accountLevelReducer";
 import settingReducer from "./settingReducer";
 import productReducer from "./productReducer";
 import personReducer from "./personReducer";
@@ -14,6 +17,9 @@ import marketSectorReducer from "./marketSectorReducer";
 import officeSectorReducer from "./officeSectorReducer";
 
 export default combineReducers({
+  account: accountReducer,
+  accountLevel: accountLevelReducer,
+  accountType: accountTypeReducer,
   setting: settingReducer,
   product: productReducer,
   person: personReducer,

@@ -12,15 +12,17 @@ const Select = ({ name, label, value, options, size, onChange }) => {
         value={value}
         onChange={onChange}
       >
-        {options.map(option => (
-          <option
-            key={`option${option._id}`}
-            id={option._id}
-            value={option.name}
-          >
-            {option.name}
-          </option>
-        ))}
+        {options &&
+          options[0] &&
+          options.map(option => (
+            <option
+              key={`option${option._id}`}
+              id={option._id}
+              value={option.name}
+            >
+              {option.name}
+            </option>
+          ))}
       </select>
     </div>
   );

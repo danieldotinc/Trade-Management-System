@@ -44,8 +44,8 @@ export const companyColumns = [
 export const productColumns = [
   { label: "عکس", path: "img" },
   { label: "دسته بندی", path: "category" },
-  { label: "کد محصول", path: "proCode" },
-  { label: "کد تنوع", path: "diverseCode" },
+  { label: "گروه فنی", path: "proCode" },
+  { label: "کد", path: "diverseCode" },
   { label: "عنوان", path: "name" },
   { label: "رنگ", path: "color" },
   { label: "عمده", path: "wholePrice" },

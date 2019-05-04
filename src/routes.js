@@ -17,6 +17,7 @@ import Settings from "./components/settings/settings";
 import Trade from "./components/trades/trade";
 import FinDashboard from "./components/financial/finDashboard";
 import Invoice from "./components/financial/invoice";
+import AddAccount from "./components/financial/account/addAccount";
 import Funds from "./components/financial/assets/funds";
 import Bank from "./components/financial/assets/bank";
 import PettyCash from "./components/financial/assets/pettyCash";
@@ -132,6 +133,13 @@ let dashboardRoutes = [
     component: Invoice
   },
   {
+    path: "/Financial/AddAccount",
+    name: "AddAccount",
+    rtlName: "افزودن حساب",
+    layout: "",
+    component: AddAccount
+  },
+  {
     path: "/Financial/Assets/Funds",
     name: "Funds",
     rtlName: "صندوق ها",
@@ -160,17 +168,17 @@ let dashboardRoutes = [
     component: EditSettings
   },
   {
-    path: "/:id",
+    path: "/Product/:id",
     name: "Product",
     rtlName: "محصول",
-    layout: "/Product",
+    layout: "",
     component: Product
   },
   {
-    path: "/:id",
+    path: "/Process/:id",
     name: "Process",
     rtlName: "پردازش محصول",
-    layout: "/Process",
+    layout: "",
     component: Process
   },
   {

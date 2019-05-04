@@ -42,7 +42,7 @@ export class Login extends Form {
         <Card>
           <CardHeader color="info">
             <h4>ورود کاربران</h4>
-            <p>ورود به سامانه مدیریت کسب و کار</p>
+            <p>ورود به سامانه مدیریت بازرگانی</p>
           </CardHeader>
           <CardBody>
             <form
@@ -51,12 +51,17 @@ export class Login extends Form {
               className="container"
             >
               <div className="row">
-                <div className="col-6">
-                  {this.renderInput("username", "نام کاربری", "8", true)}
+                <div className="col-sm-12 col-md-6 col-lg-5 col-xl-5 col-12">
+                  {this.renderInput(
+                    "username",
+                    "نام کاربری",
+                    "12 col-md-8 col-lg-8",
+                    true
+                  )}
                   {this.renderInput(
                     "password",
                     "رمز عبور",
-                    "8",
+                    "12 col-md-8 col-lg-8",
                     true,
                     "password"
                   )}
@@ -65,8 +70,11 @@ export class Login extends Form {
                   </div>
                 </div>
 
-                <div className="col-5 mt-5 mr-5">
-                  <img src="../../2.2.jpg" style={{ width: "300px" }} />
+                <div
+                  className="col-sm-12 col-md-6 col-lg-5 col-xl-5 mt-5 mr-2"
+                  style={{ overflow: "hidden" }}
+                >
+                  <img src="../../2.2.jpg" style={{ maxWidth: "300px" }} />
                 </div>
               </div>
             </form>

@@ -26,8 +26,7 @@ class TableBody extends Component {
           <img
             className="shadow rounded"
             src={
-              _.get(item, column.path) &&
-              require(`../../../../public/${_.get(item, column.path)}`)
+              _.get(item, column.path) && `../../${_.get(item, column.path)}`
             }
           />
         </div>

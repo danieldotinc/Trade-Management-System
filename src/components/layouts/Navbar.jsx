@@ -14,6 +14,20 @@ export class Navigation extends Component {
     const { onRoute, settings } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <NavLink className="navbar-brand mr-auto ml-5" to="/">
+          سیستم مدیریت بازرگانی
+        </NavLink>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon" />
+        </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
             {user && (
@@ -127,9 +141,6 @@ export class Navigation extends Component {
               </React.Fragment>
             )}
           </ul>
-          <NavLink className="navbar-brand mr-auto ml-5" to="/">
-            سیستم مدیریت بازرگانی
-          </NavLink>
         </div>
       </nav>
     );

@@ -103,6 +103,8 @@ export default class Form extends Component {
         type="submit"
         name="submit"
         className={`btn btn-lg btn-${color} m-2 shadow-lg rounded`}
+        data-placement="top"
+        title="ذخیره"
         style={getSubmitStyle(style)}
       >
         {label === "" && <i className="fa fa-arrow-down" />}
@@ -115,6 +117,8 @@ export default class Form extends Component {
     return (
       <span
         className="btn btn-lg btn-secondary m-2 shadow-lg rounded"
+        data-placement="top"
+        title="لغو"
         onClick={this.handleBack}
       >
         <i className="fa fa-times" />

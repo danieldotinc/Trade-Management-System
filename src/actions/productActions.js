@@ -56,6 +56,7 @@ export const addProductItem = product => async dispatch => {
       type: ADD_PRODUCT,
       payload: product
     });
+    setTimeout(() => dispatch(getProductItems()), 2000);
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
       NotificationManager.error(ex.response.data);
@@ -84,6 +85,7 @@ export const updateProductItem = product => async dispatch => {
       type: UPDATE_PRODUCT,
       payload: product
     });
+    setTimeout(() => dispatch(getProductItems()), 2000);
   } catch (ex) {
     if (ex.response && ex.response.status === 404) {
       NotificationManager.error(ex.response.data);
