@@ -432,7 +432,10 @@ export class AddProduct extends Form {
       for (let img of result.files) finaldata.append("file", img);
 
     this.props.match.params.id
-      ? this.props.updateProductItem({ item: finaldata, id: result._id })
+      ? this.props.updateProductItem({
+          item: finaldata,
+          id: this.props.match.params.id
+        })
       : this.props.addProductItem(finaldata);
 
     this.handleBack();

@@ -34,7 +34,13 @@ class Account extends Form {
   componentDidMount() {
     this.props.getAccountLevelItems();
     this.props.getAccountTypeItems();
+    this.handleEditForm();
   }
+
+  handleEditForm = () => {
+    const id = this.props.match.params.id;
+    id && this.props.getAccountItem(id);
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.id) {
@@ -163,5 +169,11 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getAccountLevelItems, getAccountTypeItems, addAccountItem, getAccountItem }
+  {
+    getAccountLevelItems,
+    getAccountTypeItems,
+    addAccountItem,
+    updateAccountItem,
+    getAccountItem
+  }
 )(withStyles(rtlStyle)(Account));

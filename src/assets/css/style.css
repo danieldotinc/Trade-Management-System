@@ -23,6 +23,10 @@
   text-align: left;
 }
 
+#anti-treelist * {
+  text-align: right;
+}
+
 .loader {
   position: fixed;
   top: 50%;

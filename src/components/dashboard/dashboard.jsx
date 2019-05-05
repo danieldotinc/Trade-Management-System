@@ -2,6 +2,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getProductItems } from "../../actions/productActions";
+import { getNewCount } from "../../actions/counterActions";
 import { getPersonItems } from "../../actions/personActions";
 import PropTypes from "prop-types";
 // react plugin for creating charts
@@ -75,6 +76,10 @@ class Dashboard extends React.Component {
     this.props.getPersonItems();
   }
 
+  handleNewCount = () => {
+    this.props.getNewCount();
+  };
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -83,7 +88,23 @@ class Dashboard extends React.Component {
     this.setState({ value: index });
   };
   render() {
-    const { classes, products, loading, persons, loadingPersons } = this.props;
+    const ColoredLine = ({ color }) => (
+      <hr
+        style={{
+          backgroundColor: color,
+          width: "90%"
+        }}
+      />
+    );
+    const {
+      classes,
+      products,
+      loading,
+      persons,
+      loadingPersons,
+      counter,
+      loadingCounter
+    } = this.props;
     if (!products || loading || !persons || loadingPersons)
       return (
         <div className="loader">
@@ -276,6 +297,26 @@ class Dashboard extends React.Component {
                   color="info"
                 />
               </CardBody>
+              <CardBody>
+                <ColoredLine color="black" />
+                <div className="container">
+                  <div className="row">
+                    <div className="">
+                      <p>
+                        <span
+                          className="btn btn-info m-2 ml-5"
+                          onClick={() => this.handleNewCount()}
+                        >
+                          گرفتن شماره
+                        </span>
+                        <span className="btn btn-warning btn-lg m-2">
+                          {counter ? counter.count : "000"}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardBody>
             </Card>
           </GridItem>
         </GridContainer>
@@ -292,10 +333,12 @@ const mapStateToProps = state => ({
   products: state.product.products,
   loading: state.product.loading,
   persons: state.person.persons,
-  loadingPersons: state.person.loadiong
+  loadingPersons: state.person.loadiong,
+  counter: state.counter.counter,
+  loadingCounter: state.counter.loading
 });
 
 export default connect(
   mapStateToProps,
-  { getProductItems, getPersonItems }
+  { getProductItems, getPersonItems, getNewCount }
 )(withStyles(rtlStyle)(Dashboard));

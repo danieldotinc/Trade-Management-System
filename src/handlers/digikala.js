@@ -1,4 +1,5 @@
 export function getDigiKalaShipping(length, width, height, weight) {
+  if (!length || !width || !height || !weight) return 9000 + 8000;
   const sizeUnit = getSize(parseInt(length), parseInt(width), parseInt(height));
   const weightUnit = getWeight(parseInt(weight) / 1000, sizeUnit);
 

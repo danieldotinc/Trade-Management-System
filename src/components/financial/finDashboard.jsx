@@ -1,17 +1,23 @@
 import React, { Component } from "react";
 import TreeMenu from "react-simple-tree-menu";
 import { connect } from "react-redux";
-import { getAccountItems } from "../../actions/accountActions";
+import {
+  getAccountItems,
+  deleteAccountItem
+} from "../../actions/accountActions";
 import { Link } from "react-router-dom";
+import { PersianNum } from "../table/common/persiandigit";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
+import DeleteIcon from "../modal/deleteIcon";
 import CardBody from "../Card/CardBody";
 import { BeatLoader } from "react-spinners";
+import Notifications from "../dashboard/Notifications";
 import CardHeader from "../Card/CardHeader";
 import withStyles from "@material-ui/core/styles/withStyles";
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
-class FinDahsboard extends Component {
+class FinDahsboard extends Notifications {
   state = {
     treeData: [{ title: "Chicken", children: [{ title: "Egg" }] }]
   };
@@ -25,9 +31,13 @@ class FinDahsboard extends Component {
     this.props.onRoute(link);
   };
 
+  handleDelete = item => {
+    this.props.deleteAccountItem(item._id);
+    this.showNotification(`${item.name} با موفقیت حذف شد.`, "danger");
+  };
+
   handleShow = item => {
     const state = {};
-    console.log(item);
     Object.keys(this.state).map(key => {
       state[key] = false;
     });
@@ -41,7 +51,6 @@ class FinDahsboard extends Component {
       details[key] = false;
     });
     details[item] = true;
-    console.log(details);
     this.setState({ details });
   };
 
@@ -106,24 +115,39 @@ class FinDahsboard extends Component {
     if (!accounts || loading)
       return (
         <div className="loader">
-          <BeatLoader sizeUnit={"px"} size={20} color={"#C70039"} />
+          <BeatLoader sizeUnit={"px"} size={20} color={"#20B2AA"} />
         </div>
       );
 
     const treeData = [];
     let newAccounts = [...accounts];
     newAccounts.map((account, i) => {
-      console.log(account.code.toString().length);
       if (account.code.toString().length <= 2)
         treeData.push({
           key: account._id,
           code: account.code,
-          label: account.name,
+          label: (
+            <p>
+              <Link to={`/Financial/EditAccount/${account._id}`}>
+                <i
+                  className="fa fa-wrench ml-3 text-dark"
+                  data-placement="top"
+                  title="ویرایش"
+                />
+              </Link>
+              <DeleteIcon
+                key={`del-${account._id}`}
+                item={account}
+                onDelete={this.handleDelete}
+                classes="ml-3"
+              />
+              <span>{PersianNum(`${account.name} : ${account.code}`)}</span>
+            </p>
+          ),
           nodes: []
         });
     });
 
-    console.log(treeData);
     newAccounts.map(account => {
       if (account.code.toString().length == 3) {
         let index = treeData.findIndex(
@@ -132,13 +156,108 @@ class FinDahsboard extends Component {
         treeData[index] &&
           treeData[index].nodes.push({
             key: account._id,
-            label: account.name,
+            code: account.code,
+            label: (
+              <p>
+                <Link to={`/Financial/EditAccount/${account._id}`}>
+                  <i
+                    className="fa fa-wrench ml-3 text-dark"
+                    data-placement="top"
+                    title="ویرایش"
+                  />
+                </Link>
+                <DeleteIcon
+                  key={`del-${account._id}`}
+                  item={account}
+                  onDelete={this.handleDelete}
+                  classes="ml-3"
+                />
+                <span>{PersianNum(`${account.name} : ${account.code}`)}</span>
+              </p>
+            ),
             nodes: []
           });
       }
     });
 
-    console.log(treeData);
+    newAccounts.map(account => {
+      if (account.code.toString().length == 6) {
+        let index = treeData.findIndex(
+          x => account.code.toString()[0] === x.code.toString()
+        );
+        let nodeIndex =
+          treeData[index] &&
+          treeData[index].nodes.findIndex(
+            x => account.code.toString().slice(0, 3) === x.code.toString()
+          );
+        treeData[index].nodes[nodeIndex] &&
+          treeData[index].nodes[nodeIndex].nodes.push({
+            key: account._id,
+            code: account.code,
+            label: (
+              <p>
+                <Link to={`/Financial/EditAccount/${account._id}`}>
+                  <i
+                    className="fa fa-wrench ml-3 text-dark"
+                    data-placement="top"
+                    title="ویرایش"
+                  />
+                </Link>
+                <DeleteIcon
+                  key={`del-${account._id}`}
+                  item={account}
+                  onDelete={this.handleDelete}
+                  classes="ml-3"
+                />
+                <span>{PersianNum(`${account.name} : ${account.code}`)}</span>
+              </p>
+            ),
+            nodes: []
+          });
+      }
+    });
+
+    newAccounts.map(account => {
+      if (account.code.toString().length == 9) {
+        let index = treeData.findIndex(
+          x => account.code.toString()[0] === x.code.toString()
+        );
+        let nodeIndex =
+          treeData[index] &&
+          treeData[index].nodes.findIndex(
+            x => account.code.toString().slice(0, 3) === x.code.toString()
+          );
+        let childNodeIndex =
+          treeData[index] &&
+          treeData[index].nodes[nodeIndex].nodes.findIndex(
+            x => account.code.toString().slice(0, 6) === x.code.toString()
+          );
+        treeData[index].nodes[nodeIndex].nodes[childNodeIndex] &&
+          treeData[index].nodes[nodeIndex].nodes[childNodeIndex].nodes.push({
+            key: account._id,
+            code: account.code,
+            label: (
+              <p>
+                <Link to={`/Financial/EditAccount/${account._id}`}>
+                  <i
+                    className="fa fa-wrench ml-3 text-dark"
+                    data-placement="top"
+                    title="ویرایش"
+                  />
+                </Link>
+                <DeleteIcon
+                  key={`del-${account._id}`}
+                  item={account}
+                  onDelete={this.handleDelete}
+                  classes="ml-3"
+                />
+                <span>{PersianNum(`${account.name} : ${account.code}`)}</span>
+              </p>
+            ),
+            nodes: []
+          });
+      }
+    });
 
     return (
       <GridItem xs={12} sm={12} md={12}>
@@ -152,6 +271,12 @@ class FinDahsboard extends Component {
               <div className="row">
                 <div className="list-group p-4 text-center col-12">
                   <div className="row d-flex justify-content-center">
+                    <Link
+                      className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
+                      to="/Financial/Payment"
+                    >
+                      دریافت / پرداخت
+                    </Link>
                     <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
                       to="/Financial/Invoice"
@@ -187,5 +312,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getAccountItems }
+  { getAccountItems, deleteAccountItem }
 )(withStyles(rtlStyle)(FinDahsboard));
