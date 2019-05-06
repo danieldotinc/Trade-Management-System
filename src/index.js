@@ -6,6 +6,7 @@ import "react-notifications/lib/notifications.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
 import "react-sortable-tree/style.css";
+import "perfect-scrollbar/css/perfect-scrollbar.css";
 // import "bootstrap-material-design/dist/css/bootstrap-material-design.css";
 import $ from "jquery";
 import Popper from "popper.js";

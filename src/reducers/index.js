@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import paymentReducer from "./paymentReducer";
 import counterReducer from "./counterReducer";
 import accountReducer from "./accountReducer";
 import accountTypeReducer from "./accountTypeReducer";
@@ -18,6 +19,7 @@ import marketSectorReducer from "./marketSectorReducer";
 import officeSectorReducer from "./officeSectorReducer";
 
 export default combineReducers({
+  payment: paymentReducer,
   counter: counterReducer,
   account: accountReducer,
   accountLevel: accountLevelReducer,

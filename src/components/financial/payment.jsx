@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import Form from "../form/form";
 import uuid from "uuid";
+import { NotificationManager } from "react-notifications";
+import {
+  addPaymentItem,
+  updatePaymentItem
+} from "../../actions/paymentActions";
 import { getAccountItems } from "../../actions/accountActions";
+import { getPersonItems } from "../../actions/personActions";
 import { getAccountTypeItems } from "../../actions/accountTypeActions";
 import GridItem from "../Grid/GridItem";
 import { connect } from "react-redux";
@@ -26,19 +32,59 @@ class Payment extends Form {
       person: "",
       personId: ""
     },
+    allOptions: [],
+    suggestions: [],
+    value: "",
     errors: {}
   };
 
   componentDidMount() {
+    this.props.getPersonItems();
     this.props.getAccountItems();
     this.props.getAccountTypeItems();
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.persons) this.setState({ allOptions: nextProps.persons });
+  }
+
+  handleNotify = name => {
+    let msg = this.props.match.params.id
+      ? " با موفقیت به روزرسانی شد."
+      : " با موفقیت اضافه شد.";
+    NotificationManager.success(name + msg);
+  };
+
+  handlePreparingForm = data => {
+    const { accounts } = this.props;
+
+    data.account = !data.accountId ? accounts[0].name : data.account;
+    data.accountId = !data.accountId ? accounts[0]._id : data.accountId;
+
+    delete data.accountType;
+    delete data.accountTypeId;
+
+    return data;
+  };
 
   handleBack = () => {
     const { state } = this.props.location;
     const path = state ? state.from.pathname : "/FinDashboard";
     this.props.onRoute(path);
     this.props.history.push(path);
+  };
+
+  doSubmit = data => {
+    const prepared = this.handlePreparingForm(data);
+    this.props.match.params.id
+      ? this.props.updatePaymentItem({
+          item: prepared,
+          id: this.props.match.params.id
+        })
+      : this.props.addPaymentItem(prepared);
+
+    this.handleBack();
+    this.handleNotify(prepared.name);
   };
 
   render() {
@@ -96,13 +142,8 @@ class Payment extends Form {
               </div>
               <div className="row col-12">
                 <div className="row col-12">
-                  {this.renderSelect("type", "نوع عملیات", types, "3")}
-                  {this.renderSelect(
-                    "accountType",
-                    "نوع حساب",
-                    accountTypes,
-                    "4"
-                  )}
+                  {this.renderSelect("type", "نوع عملیات", types)}
+                  {this.renderSelect("accountType", "نوع حساب", accountTypes)}
                   {this.renderSelect(
                     "account",
                     "عنوان حساب",
@@ -114,8 +155,9 @@ class Payment extends Form {
                 <ColoredLine color="black" />
                 <div className="row col-12">
                   {this.renderInput("name", "شرح عملیات", "5")}
-                  {this.renderInput("person", "نام شخص", "3")}
-                  {this.renderInput("price", "مبلغ", "3")}
+                  {/* {this.renderInput("person", "نام شخص", "3")} */}
+                  {this.renderAutoSuggestInput("person", "نام شخص", true)}
+                  {this.renderInput("price", "مبلغ", "3", true)}
                 </div>
               </div>
             </form>
@@ -127,6 +169,7 @@ class Payment extends Form {
 }
 
 const mapStateToProps = state => ({
+  persons: state.person.persons,
   accounts: state.account.accounts,
   accountTypes: state.accountType.accountTypes,
   loadingAccount: state.account.loading
@@ -136,6 +179,9 @@ export default connect(
   mapStateToProps,
   {
     getAccountItems,
-    getAccountTypeItems
+    getAccountTypeItems,
+    addPaymentItem,
+    updatePaymentItem,
+    getPersonItems
   }
 )(withStyles(rtlStyle)(Payment));

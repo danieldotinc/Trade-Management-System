@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Autosuggest from "react-autosuggest";
+import AutosuggestHighlightMatch from "autosuggest-highlight/match";
+import AutosuggestHighlightParse from "autosuggest-highlight/parse";
 import FormValidate from "./formValidate";
 import uuid from "uuid";
 import { PersianNum, EngNum } from "../table/common/persiandigit";
@@ -39,7 +42,7 @@ export default class Form extends Component {
         this.setState({ data });
       }
     } else if (e.target.type === "select-one") {
-      data[e.target.name] = PersianNum(e.target.value);
+      data[e.target.name] = e.target.value;
       var index = e.target.selectedIndex;
       var optionElement = e.target.childNodes[index];
       var optionId = optionElement.getAttribute("id");
@@ -113,6 +116,63 @@ export default class Form extends Component {
     );
   };
 
+  // Teach Autosuggest how to calculate suggestions for any given input value.
+  getSuggestions = value => {
+    const inputLength = value.length;
+
+    return inputLength === 0
+      ? []
+      : this.state.allOptions.filter(lang => lang.name.includes(value));
+  };
+
+  // Autosuggest will call this function every time you need to update suggestions.
+  // You already implemented this logic above, so just use it.
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: this.getSuggestions(value)
+    });
+  };
+
+  // Autosuggest will call this function every time you need to clear suggestions.
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
+
+  // When suggestion is clicked, Autosuggest needs to populate the input
+  // based on the clicked suggestion. Teach Autosuggest how to calculate the
+  // input value for every given suggestion.
+  getSuggestionValue = suggestion => suggestion.name;
+
+  // Use your imagination to render suggestions.
+  renderSuggestion = (suggestion, { query }) => {
+    const matches = AutosuggestHighlightMatch(suggestion.name, query);
+    const parts = AutosuggestHighlightParse(suggestion.name, matches);
+
+    return (
+      <span>
+        {parts.map((part, index) => {
+          const className = part.highlight
+            ? "react-autosuggest__suggestion-match"
+            : null;
+
+          return (
+            <span className={className} key={index}>
+              {part.text}
+            </span>
+          );
+        })}
+      </span>
+    );
+  };
+
+  onChange = (event, { newValue }) => {
+    data[event.target.name + "Id"] = "";
+    data[event.target.name] = newValue;
+    this.setState({ value: newValue });
+  };
+
   renderCancelBtn = label => {
     return (
       <span
@@ -165,6 +225,38 @@ export default class Form extends Component {
         value={data[name]}
         onChange={this.handleFormChange}
       />
+    );
+  };
+
+  renderAutoSuggestInput = (
+    name,
+    label,
+    required = false,
+    size = "3",
+    placeholder = "..."
+  ) => {
+    const { data, suggestions, value } = this.state;
+    const inputProps = {
+      className: "form-control shadow rounded",
+      id: `${name}Input`,
+      required,
+      name,
+      placeholder,
+      value,
+      onChange: this.onChange
+    };
+    return (
+      <div className={`form-group m-3 col-${size}`}>
+        <label htmlFor={`${name}Input`}>{label}</label>
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+        />
+      </div>
     );
   };
 

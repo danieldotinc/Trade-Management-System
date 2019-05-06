@@ -258,7 +258,6 @@ class FinDahsboard extends Notifications {
           });
       }
     });
-
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
