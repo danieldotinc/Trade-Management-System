@@ -19,9 +19,7 @@ import FinDashboard from "./components/financial/finDashboard";
 import Invoice from "./components/financial/invoice";
 import Payment from "./components/financial/payment";
 import AddAccount from "./components/financial/account/addAccount";
-import Funds from "./components/financial/assets/funds";
-import Bank from "./components/financial/assets/bank";
-import PettyCash from "./components/financial/assets/pettyCash";
+import Payments from "./components/financial/payments";
 import TradeProduct from "./components/trades/tradeProduct";
 import EditSettings from "./components/settings/editSettings";
 import Logout from "./components/users/logout";
@@ -127,16 +125,23 @@ let dashboardRoutes = [
     component: FinDashboard
   },
   {
-    path: "/Financial/Invoice",
-    name: "Invoice",
+    path: "/Financial/AddInvoice",
+    name: "AddInvoice",
     rtlName: "صدور فاکتور",
     layout: "",
     component: Invoice
   },
   {
-    path: "/Financial/Payment",
-    name: "Payment",
-    rtlName: "دریافت / پرداخت",
+    path: "/Financial/EditPayment/:id",
+    name: "EditPayment",
+    rtlName: "ویرایش دریافت / پرداخت",
+    layout: "",
+    component: Payment
+  },
+  {
+    path: "/Financial/AddPayment",
+    name: "AddPayment",
+    rtlName: "افزودن دریافت / پرداخت",
     layout: "",
     component: Payment
   },
@@ -155,25 +160,11 @@ let dashboardRoutes = [
     component: AddAccount
   },
   {
-    path: "/Financial/Assets/Funds",
-    name: "Funds",
-    rtlName: "صندوق ها",
+    path: "/Financial/Payments/:id",
+    name: "Payments",
+    rtlName: "دریافت / پرداخت",
     layout: "",
-    component: Funds
-  },
-  {
-    path: "/Financial/Assets/Bank",
-    name: "Bank",
-    rtlName: "بانک",
-    layout: "",
-    component: Bank
-  },
-  {
-    path: "/Financial/Assets/PettyCash",
-    name: "PettyCash",
-    rtlName: "تنخواه گردان",
-    layout: "",
-    component: PettyCash
+    component: Payments
   },
   {
     path: "/EditSettings",

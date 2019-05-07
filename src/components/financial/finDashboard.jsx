@@ -26,9 +26,10 @@ class FinDahsboard extends Notifications {
     this.props.getAccountItems();
   }
 
-  handleLink = link => {
+  handleLink = id => {
+    const link = `/Financial/Payments/${id}`;
     this.props.history.push(link);
-    this.props.onRoute(link);
+    this.props.onRoute(`/Financial/Payments`);
   };
 
   handleDelete = item => {
@@ -68,7 +69,7 @@ class FinDahsboard extends Notifications {
     //             key: "third-level-node-1",
     //             label: (
     //               <span
-    //                 onClick={() => this.handleLink("/Financial/Assets/Funds")}
+    //                 onClick={() => this.this.handleLink("/Financial/Assets/Funds")}
     //               >
     //                 صندوق
     //               </span>
@@ -172,7 +173,9 @@ class FinDahsboard extends Notifications {
                   onDelete={this.handleDelete}
                   classes="ml-3"
                 />
-                <span>{PersianNum(`${account.name} : ${account.code}`)}</span>
+                <span onClick={() => this.handleLink(account._id)}>
+                  {PersianNum(`${account.name} : ${account.code}`)}
+                </span>
               </p>
             ),
             nodes: []
@@ -209,7 +212,9 @@ class FinDahsboard extends Notifications {
                   onDelete={this.handleDelete}
                   classes="ml-3"
                 />
-                <span>{PersianNum(`${account.name} : ${account.code}`)}</span>
+                <span onClick={() => this.handleLink(account._id)}>
+                  {PersianNum(`${account.name} : ${account.code}`)}
+                </span>
               </p>
             ),
             nodes: []
@@ -251,7 +256,9 @@ class FinDahsboard extends Notifications {
                   onDelete={this.handleDelete}
                   classes="ml-3"
                 />
-                <span>{PersianNum(`${account.name} : ${account.code}`)}</span>
+                <span onClick={() => this.handleLink(account._id)}>
+                  {PersianNum(`${account.name} : ${account.code}`)}
+                </span>
               </p>
             ),
             nodes: []
@@ -272,13 +279,13 @@ class FinDahsboard extends Notifications {
                   <div className="row d-flex justify-content-center">
                     <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
-                      to="/Financial/Payment"
+                      to="/Financial/AddPayment"
                     >
                       دریافت / پرداخت
                     </Link>
                     <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
-                      to="/Financial/Invoice"
+                      to="/Financial/AddInvoice"
                     >
                       صدور فاکتور جدید
                     </Link>

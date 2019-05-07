@@ -4,6 +4,7 @@ import uuid from "uuid";
 import { NotificationManager } from "react-notifications";
 import {
   addPaymentItem,
+  getPaymentItem,
   updatePaymentItem
 } from "../../actions/paymentActions";
 import { getAccountItems } from "../../actions/accountActions";
@@ -35,6 +36,7 @@ class Payment extends Form {
     allOptions: [],
     suggestions: [],
     value: "",
+    id: "",
     errors: {}
   };
 
@@ -42,10 +44,25 @@ class Payment extends Form {
     this.props.getPersonItems();
     this.props.getAccountItems();
     this.props.getAccountTypeItems();
+    this.handleEditPayment();
   }
+
+  handleEditPayment = () => {
+    const id = this.props.match.params.id;
+    id && this.props.getPaymentItem(id);
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.persons) this.setState({ allOptions: nextProps.persons });
+    if (this.props.match.params.id) {
+      if (nextProps.payment) {
+        this.setState({
+          data: nextProps.payment,
+          value: nextProps.payment.person,
+          id: nextProps.payment.person
+        });
+      }
+    }
   }
 
   handleNotify = name => {
@@ -56,13 +73,22 @@ class Payment extends Form {
   };
 
   handlePreparingForm = data => {
-    const { accounts } = this.props;
+    const { accounts, accountTypes } = this.props;
 
-    data.account = !data.accountId ? accounts[0].name : data.account;
-    data.accountId = !data.accountId ? accounts[0]._id : data.accountId;
+    const accountTypeId = this.state.data.accountTypeId
+      ? this.state.data.accountTypeId
+      : accountTypes[0]._id;
 
-    delete data.accountType;
-    delete data.accountTypeId;
+    const subIndex = accounts.filter(e => e.accountTypeId == accountTypeId);
+
+    data.account = !data.accountId ? subIndex[0].name : data.account;
+    data.accountId = !data.accountId ? subIndex[0]._id : data.accountId;
+
+    data.person = this.state.value;
+    data.personId = this.state.id;
+
+    delete data.typeId;
+    delete data.statusId;
 
     return data;
   };
@@ -169,6 +195,7 @@ class Payment extends Form {
 }
 
 const mapStateToProps = state => ({
+  payment: state.payment.payment,
   persons: state.person.persons,
   accounts: state.account.accounts,
   accountTypes: state.accountType.accountTypes,
@@ -182,6 +209,7 @@ export default connect(
     getAccountTypeItems,
     addPaymentItem,
     updatePaymentItem,
-    getPersonItems
+    getPersonItems,
+    getPaymentItem
   }
 )(withStyles(rtlStyle)(Payment));

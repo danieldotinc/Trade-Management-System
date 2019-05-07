@@ -10,6 +10,18 @@ const FormValidate = e => {
     case "name":
       pname = "نام";
       break;
+    case "person":
+      pname = "نام شخص";
+      break;
+    case "password":
+      pname = "رمز عبور";
+      break;
+    case "username":
+      pname = "نام کاربری";
+      break;
+    case "price":
+      pname = "مبلغ";
+      break;
     case "mobile":
       pname = "موبایل";
       break;

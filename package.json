@@ -21,6 +21,7 @@
     "jwt-decoder": "0.0.0",
     "material-ui": "^0.20.2",
     "perfect-scrollbar": "^1.4.0",
+    "persian-date": "^1.0.5",
     "persianjs": "^0.4.0",
     "popper.js": "^1.14.7",
     "react": "^16.8.6",

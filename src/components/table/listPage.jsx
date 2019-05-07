@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { PersianNum } from "./common/persiandigit";
 import FullList from "../table/fullList";
 import GridItem from "../Grid/GridItem";
 import Card from "../Card/Card";
@@ -13,6 +14,7 @@ import Button from "../../components/CustomButtons/Button.jsx";
 class ListPage extends Component {
   render() {
     const {
+      title,
       classes,
       onNewForm,
       onRoute,
@@ -26,7 +28,9 @@ class ListPage extends Component {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="info">
-            <h4 className={classes.cardTitleWhite}>{properties.rtlName}</h4>
+            <h4 className={classes.cardTitleWhite}>
+              {PersianNum(title) || PersianNum(properties.rtlName)}
+            </h4>
             <p className={classes.cardCategoryWhite}>
               {links.map(link => {
                 return (
@@ -41,7 +45,8 @@ class ListPage extends Component {
               })}
             </p>
             <p className={this.props.classes.cardCategoryWhite}>
-              لیست جدیدترین {properties.rtlName}
+              لیست جدیدترین{" "}
+              {PersianNum(title) || PersianNum(properties.rtlName)}
             </p>
             <div />
           </CardHeader>

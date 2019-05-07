@@ -41,6 +41,15 @@ export const companyColumns = [
   { label: "آدرس", path: "address" }
 ];
 
+export const paymentColumns = [
+  { label: "عملیات", path: "type" },
+  { label: "شرح", path: "name" },
+  { label: "نام شخص", path: "person" },
+  { label: "مبلغ", path: "price" },
+  { label: "وضعیت", path: "status" },
+  { label: "تاریخ", path: "date" }
+];
+
 export const productColumns = [
   { label: "عکس", path: "img" },
   { label: "دسته بندی", path: "category" },
@@ -58,6 +67,10 @@ export function getBusinessColumns() {
 
 export function getCompanyColumns() {
   return companyColumns.filter(g => g);
+}
+
+export function getPaymentColumns() {
+  return paymentColumns.filter(g => g);
 }
 
 export function getEmployeeColumns() {

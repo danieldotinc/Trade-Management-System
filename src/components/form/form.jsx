@@ -143,7 +143,10 @@ export default class Form extends Component {
   // When suggestion is clicked, Autosuggest needs to populate the input
   // based on the clicked suggestion. Teach Autosuggest how to calculate the
   // input value for every given suggestion.
-  getSuggestionValue = suggestion => suggestion.name;
+  getSuggestionValue = suggestion => {
+    this.setState({ id: suggestion._id });
+    return suggestion.name;
+  };
 
   // Use your imagination to render suggestions.
   renderSuggestion = (suggestion, { query }) => {
@@ -168,8 +171,6 @@ export default class Form extends Component {
   };
 
   onChange = (event, { newValue }) => {
-    data[event.target.name + "Id"] = "";
-    data[event.target.name] = newValue;
     this.setState({ value: newValue });
   };
 

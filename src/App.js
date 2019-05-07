@@ -11,7 +11,8 @@ import { Register } from "./components/users/register";
 import {
   getBusinessColumns,
   getCompanyColumns,
-  getProductColumns
+  getProductColumns,
+  getPaymentColumns
 } from "./services/fakeColumnService";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/css/style.css";
@@ -64,11 +65,11 @@ class App extends Component {
         currentPage: 1
       });
     }
-    if (Route == "/Financial/Assets/Funds") {
+    if (Route.includes("/Financial/Payments")) {
       return this.setState({
-        listName: "Funds",
-        addLink: "/AddFund",
-        columns: getCompanyColumns(),
+        listName: "Payments",
+        addLink: "/Financial/AddPayment",
+        columns: getPaymentColumns(),
         currentPage: 1
       });
     }

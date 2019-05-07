@@ -1,21 +1,20 @@
 import React, { Component } from "react";
-import { toast } from "react-toastify";
-import ListPage from "../../table/listPage";
+import ListPage from "../table/listPage";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import {
-  getCompanyItems,
-  deleteCompanyItem
-} from "../../../actions/companyActions";
-import Notifications from "../../dashboard/Notifications";
+  getPaymentItems,
+  deletePaymentItem
+} from "../../actions/paymentActions";
+import Notifications from "../dashboard/Notifications";
 import { BeatLoader } from "react-spinners";
-import { getSettingItems } from "../../../actions/settingActions";
-import rtlStyle from "../../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
+import { getSettingItems } from "../../actions/settingActions";
+import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
-class Funds extends Notifications {
+class Payments extends Notifications {
   componentDidMount() {
-    this.props.getCompanyItems();
     this.props.getSettingItems();
+    this.props.getPaymentItems();
   }
 
   handleProfileDetail = item => {
@@ -23,38 +22,37 @@ class Funds extends Notifications {
   };
 
   handleEditTableItem = item => {
-    this.props.history.push(`/EditCompany/${item._id}`);
+    this.props.history.push(`/Financial/EditPayment/${item._id}`);
   };
 
   handleDeleteTableItem = item => {
-    this.props.deleteCompanyItem(item._id);
+    this.props.deletePaymentItem(item._id);
     this.showNotification(`${item.name} با موفقیت حذف شد.`, "danger");
   };
 
   render() {
     const {
-      companies,
-      loadingCompanies,
+      payments,
+      loadingPayment,
       settings,
       loadingSetting,
       ...rest
     } = this.props;
-    if (loadingCompanies || !companies)
+    if (loadingPayment || !payments)
       return (
         <div className="loader">
-          <BeatLoader
-            // css={override}
-            sizeUnit={"px"}
-            size={20}
-            color={"#20B2AA"}
-          />
+          <BeatLoader sizeUnit={"px"} size={20} color={"#20B2AA"} />
         </div>
       );
+
+    const id = this.props.match.params.id;
+    const filtered = id ? payments.filter(e => e.accountId == id) : payments;
     return (
       <React.Fragment>
         {this.renderNotification()}
         <ListPage
-          items={companies}
+          title={filtered[0].account}
+          items={filtered}
           onDetail={this.handleProfileDetail}
           onEdit={this.handleEditTableItem}
           onDelete={this.handleDeleteTableItem}
@@ -67,13 +65,13 @@ class Funds extends Notifications {
 }
 
 const mapStateToProps = state => ({
-  companies: state.company.companies,
-  loadingCompanies: state.company.loading,
+  payments: state.payment.payments,
+  loadingPayment: state.payment.loading,
   settings: state.setting.settings,
   loadingSetting: state.setting.loading
 });
 
 export default connect(
   mapStateToProps,
-  { getCompanyItems, deleteCompanyItem, getSettingItems }
-)(withStyles(rtlStyle)(Funds));
+  { getSettingItems, getPaymentItems, deletePaymentItem }
+)(withStyles(rtlStyle)(Payments));

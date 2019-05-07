@@ -13,7 +13,7 @@ export async function savePayment(item) {
 }
 
 export async function updatePayment(item) {
-  return http.put(`/payments/${item._id}`, item);
+  return http.put(`/payments/${item.id}`, item.item);
 }
 
 export async function deletePayment(id) {
