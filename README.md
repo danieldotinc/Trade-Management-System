@@ -1,5 +1,19 @@
-![](imgs/Dashboard.PNG)
-![](imgs/Products.PNG)
+## APPLICATION DEMO
+
+![](demo/trademanagement.gif)
+
+![](demo/Dashboard.PNG)
+![](demo/Products.PNG)
+
+## Embeded Technologies
+
+I have used Node.js & Express.js (for building RESTfull APIs), MongoDB & Mongoose (for No-Sql database & Object Relational Mapper), React.js (as main front-end library / framework), Redux.js & thunk (for State Management) Unit & Integration Testing using Jest & Supertest, HTML/CSS & Bootstrap, bcrypt & jsonwebtoken & joi (building middlewares) for server side and client side authorization and authentication, axios (for web requests in client side), winston (for logging), config (for development, production and testing configuration settings) and many more libraries.
+
+## What is this project about?
+
+This trade management system is for Trading Businesses which buy and sell all kind of goods in large scales.
+A trading tool is embedded in the application which helps managers to decide which product to buy and don't buy.
+It also has a products section that can store thousands of products with all of their properties and features with a high performance response rate.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
