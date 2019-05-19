@@ -27,7 +27,7 @@ class App extends Component {
     selectedGenre: "all",
     sortColumn: { path: "proCode", order: "desc" },
     currentPage: 1,
-    pageSize: 15,
+    pageSize: 50,
     personInfo: false,
     personId: 1,
     activePage: "Home",
