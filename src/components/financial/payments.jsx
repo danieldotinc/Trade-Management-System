@@ -51,7 +51,7 @@ class Payments extends Notifications {
       <React.Fragment>
         {this.renderNotification()}
         <ListPage
-          title={filtered[0].account}
+          title={filtered[0] && filtered[0].account}
           items={filtered}
           onDetail={this.handleProfileDetail}
           onEdit={this.handleEditTableItem}
