@@ -52,7 +52,7 @@ class ListPage extends Component {
           </CardHeader>
           <CardBody>
             <div className="row m-2">
-              {(settings[0].addAction || user.isAdmin) && (
+              {((settings[0] && settings[0].addAction) || user.isAdmin) && (
                 <Link
                   to={addLink}
                   className="btn btn-lg btn-info m-2 shadow-lg rounded"

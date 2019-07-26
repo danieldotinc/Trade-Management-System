@@ -196,7 +196,7 @@ export default class Form extends Component {
         label={label}
         size={size}
         required={required}
-        value={PersianNum(data[name])}
+        value={data && PersianNum(data[name])}
         onChange={this.handleFormChange}
       />
     );
@@ -210,7 +210,7 @@ export default class Form extends Component {
         label={label}
         size={size}
         options={options}
-        value={data[name]}
+        value={data && data[name]}
         onChange={this.handleFormChange}
       />
     );
@@ -223,7 +223,7 @@ export default class Form extends Component {
         name={name}
         label={label}
         size={size}
-        value={data[name]}
+        value={data && data[name]}
         onChange={this.handleFormChange}
       />
     );

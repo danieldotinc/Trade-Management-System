@@ -47,19 +47,31 @@ class Settings extends Component {
                     <div className="shadow rounded col-3 pt-3 pb-3">
                       <ListGroupItem
                         label="درصد ارزش افزوده برای مالیات"
-                        value={`${settings[0].valueAdded} %`}
+                        value={
+                          settings &&
+                          settings[0] &&
+                          `${settings[0].valueAdded} %`
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label="درصد ارزش افزوده مارکت پلیس"
-                        value={`${settings[0].valueAdded} %`}
+                        value={
+                          settings &&
+                          settings[0] &&
+                          `${settings[0].valueAdded} %`
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label="هزینه حمل و نقل به مارکت پلیس  "
-                        value={`${settings[0].shippingCosts}`}
+                        value={
+                          settings &&
+                          settings[0] &&
+                          `${settings[0].shippingCosts}`
+                        }
                         size="12"
                         float="left"
                       />
@@ -67,19 +79,31 @@ class Settings extends Component {
                     <div className="shadow rounded col-3 pt-3 pb-3">
                       <ListGroupItem
                         label="درصد سود پیش فرض از عمده فروشی"
-                        value={`${settings[0].wholeProfit} %`}
+                        value={
+                          settings &&
+                          settings[0] &&
+                          `${settings[0].wholeProfit} %`
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label="درصد سود پیش فرض از خرده فروشی"
-                        value={`${settings[0].retailProfit} %`}
+                        value={
+                          settings &&
+                          settings[0] &&
+                          `${settings[0].retailProfit} %`
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label="درصد سود پیش فرض از مارکت پلیس"
-                        value={`${settings[0].marketPlaceProfit} %`}
+                        value={
+                          settings &&
+                          settings[0] &&
+                          `${settings[0].marketPlaceProfit} %`
+                        }
                         size="12"
                         float="left"
                       />
@@ -87,19 +111,31 @@ class Settings extends Component {
                     <div className="shadow rounded col-3 pt-3 pb-3">
                       <ListGroupItem
                         label={`امکان انجام فرآیند "افزودن" برای کاربران`}
-                        value={settings[0].addAction ? "بله" : "خیر"}
+                        value={
+                          settings && settings[0] && settings[0].addAction
+                            ? "بله"
+                            : "خیر"
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label={`امکان انجام فرآیند "ویرایش" برای کاربران`}
-                        value={settings[0].editAction ? "بله" : "خیر"}
+                        value={
+                          settings && settings[0] && settings[0].editAction
+                            ? "بله"
+                            : "خیر"
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label={`امکان انجام فرآیند "حذف" برای کاربران`}
-                        value={settings[0].deleteAction ? "بله" : "خیر"}
+                        value={
+                          settings && settings[0] && settings[0].deleteAction
+                            ? "بله"
+                            : "خیر"
+                        }
                         size="12"
                         float="left"
                       />
@@ -107,25 +143,41 @@ class Settings extends Component {
                     <div className="shadow rounded col-3 pt-3 pb-3">
                       <ListGroupItem
                         label={`دسترسی به "پردازش" برای کاربران`}
-                        value={settings[0].processAccess ? "بله" : "خیر"}
+                        value={
+                          settings && settings[0] && settings[0].processAccess
+                            ? "بله"
+                            : "خیر"
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label={`دسترسی به "اشخاص" برای کاربران`}
-                        value={settings[0].personsAccess ? "بله" : "خیر"}
+                        value={
+                          settings && settings[0] && settings[0].personsAccess
+                            ? "بله"
+                            : "خیر"
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label={`دسترسی به "شرکت ها" برای کاربران`}
-                        value={settings[0].companiesAccess ? "بله" : "خیر"}
+                        value={
+                          settings && settings[0] && settings[0].companiesAccess
+                            ? "بله"
+                            : "خیر"
+                        }
                         size="12"
                         float="left"
                       />
                       <ListGroupItem
                         label={`دسترسی به "بازرگانی" برای کاربران`}
-                        value={settings[0].tradeAccess ? "بله" : "خیر"}
+                        value={
+                          settings && settings[0] && settings[0].tradeAccess
+                            ? "بله"
+                            : "خیر"
+                        }
                         size="12"
                         float="left"
                       />

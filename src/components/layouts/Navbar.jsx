@@ -52,7 +52,8 @@ export class Navigation extends Component {
                   </NavLink>
                 </li>
 
-                {((settings && settings[0].personsAccess) || user.isAdmin) && (
+                {((settings && settings[0] && settings[0].personsAccess) ||
+                  user.isAdmin) && (
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"
@@ -63,7 +64,7 @@ export class Navigation extends Component {
                     </NavLink>
                   </li>
                 )}
-                {((settings && settings[0].companiesAccess) ||
+                {((settings && settings[0] && settings[0].companiesAccess) ||
                   user.isAdmin) && (
                   <li className="nav-item">
                     <NavLink
@@ -75,7 +76,8 @@ export class Navigation extends Component {
                     </NavLink>
                   </li>
                 )}
-                {((settings && settings[0].tradeAccess) || user.isAdmin) && (
+                {((settings && settings[0] && settings[0].tradeAccess) ||
+                  user.isAdmin) && (
                   <li className="nav-item">
                     <NavLink
                       className="nav-link"

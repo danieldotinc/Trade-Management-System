@@ -471,7 +471,7 @@ export class AddProduct extends Form {
 
     const categoryId = this.state.data.categoryId
       ? this.state.data.categoryId
-      : categories[0]._id;
+      : categories[0] && categories[0]._id;
 
     subCategories = subCategories.filter(e => e.category == categoryId);
     materials = materials.filter(e => e.category == categoryId);

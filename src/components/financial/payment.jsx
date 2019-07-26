@@ -143,7 +143,7 @@ class Payment extends Form {
 
     const accountTypeId = this.state.data.accountTypeId
       ? this.state.data.accountTypeId
-      : accountTypes[0]._id;
+      : accountTypes[0] && accountTypes[0]._id;
 
     const filteredAccounts = accounts.filter(
       e => e.accountTypeId == accountTypeId
