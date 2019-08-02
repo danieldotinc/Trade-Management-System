@@ -20,18 +20,21 @@ class TableBody extends Component {
   };
 
   renderCell = (item, column) => {
-    if (column.path == "img")
+    if (column.path == "img") {
+      let path = "../../";
+      if (_.get(item, column.path) && _.get(item, column.path).includes("http"))
+        path = "";
       return (
         <div className="thumbnail-small">
           <img
             className="shadow rounded"
             src={
-              _.get(item, column.path) && `../../${_.get(item, column.path)}`
+              _.get(item, column.path) && `${path}${_.get(item, column.path)}`
             }
           />
         </div>
       );
-    else if (column.path.includes("Price"))
+    } else if (column.path.includes("Price"))
       return (
         _.get(item, column.path) &&
         PersianNum(parseInt(_.get(item, column.path)).toLocaleString())
@@ -95,7 +98,8 @@ class TableBody extends Component {
                 </a>
               )}
               {listName == "Product" &&
-                ((settings && settings[0].addAction) || user.isAdmin) && (
+                ((settings && settings[0] && settings[0].addAction) ||
+                  user.isAdmin) && (
                   <Diversity
                     onDiversity={onDiversity}
                     item={item}
@@ -103,7 +107,8 @@ class TableBody extends Component {
                   />
                 )}
               {listName == "Product" &&
-                ((settings && settings[0].processAction) || user.isAdmin) && (
+                ((settings && settings[0] && settings[0].processAction) ||
+                  user.isAdmin) && (
                   <button
                     className="btn btn-raised btn-secondary ml-2 shadow rounded"
                     data-placement="top"
@@ -113,7 +118,8 @@ class TableBody extends Component {
                     <i className="fa fa-calculator" />
                   </button>
                 )}
-              {((settings && settings[0].editAction) || user.isAdmin) && (
+              {((settings && settings[0] && settings[0].editAction) ||
+                user.isAdmin) && (
                 <button
                   className="btn btn-raised btn-dark ml-2 shadow rounded"
                   data-placement="top"
@@ -124,9 +130,8 @@ class TableBody extends Component {
                 </button>
               )}
 
-              {((settings && settings[0].deleteAction) || user.isAdmin) && (
-                <Delete onDelete={onDelete} item={item} />
-              )}
+              {((settings && settings[0] && settings[0].deleteAction) ||
+                user.isAdmin) && <Delete onDelete={onDelete} item={item} />}
             </td>
           </tr>
         ))}

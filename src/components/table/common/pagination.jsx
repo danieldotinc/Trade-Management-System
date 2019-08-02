@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { PersianNum } from "./persiandigit";
 import _ from "lodash";
 
 const Pagination = props => {
@@ -13,18 +14,31 @@ const Pagination = props => {
         className="pagination justify-content-center"
         style={{ direction: "ltr" }}
       >
-        {pages.map(page => (
-          <li
-            className={
-              props.currentPage == page ? "page-item active" : "page-item"
-            }
-            style={{ cursor: "pointer" }}
-            key={page}
-            onClick={() => props.onPageChange(page)}
-          >
-            <a className="page-link">{page}</a>
-          </li>
-        ))}
+        <li
+          className={"page-item"}
+          style={{ cursor: "pointer" }}
+          onClick={
+            props.currentPage == 1 ? "" : () => props.onPageChange("previous")
+          }
+        >
+          <a className="page-link">قبلی</a>
+        </li>
+        <li className={"page-item"} style={{ cursor: "pointer" }}>
+          <a className="page-link">
+            {PersianNum(props.currentPage)} از {PersianNum(pages.length)}
+          </a>
+        </li>
+        <li
+          className={"page-item"}
+          style={{ cursor: "pointer" }}
+          onClick={
+            props.currentPage == pages.length
+              ? ""
+              : () => props.onPageChange("next")
+          }
+        >
+          <a className="page-link">بعدی</a>
+        </li>
       </ul>
     </nav>
   );

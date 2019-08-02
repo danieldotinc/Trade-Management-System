@@ -59,42 +59,48 @@ class Tasks extends React.Component {
                   }}
                 />
               </TableCell>
-              <TableCell className={tableCellClasses}>{tasks[value]}</TableCell>
+              <TableCell className={tableCellClasses}>
+                {tasks[value].descr}
+              </TableCell>
               <TableCell className={classes.tableActions}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Edit Task"
-                  placement="top"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <IconButton
-                    aria-label="Edit"
-                    className={classes.tableActionButton}
+                <div onClick={() => this.props.checkAction(tasks[value])}>
+                  <Tooltip
+                    id="tooltip-top"
+                    title="تایید"
+                    placement="top"
+                    classes={{ tooltip: classes.tooltip }}
                   >
-                    <Edit
-                      className={
-                        classes.tableActionButtonIcon + " " + classes.edit
-                      }
-                    />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top-start"
-                  title="Remove"
-                  placement="top"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <IconButton
-                    aria-label="Close"
-                    className={classes.tableActionButton}
+                    <IconButton
+                      aria-label="تایید"
+                      className={classes.tableActionButton}
+                    >
+                      <Check
+                        className={
+                          classes.tableActionButtonIcon + " " + classes.Check
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                <div onClick={() => this.props.cancelAction(tasks[value])}>
+                  <Tooltip
+                    id="tooltip-top-start"
+                    title="حذف کاربر"
+                    placement="top"
+                    classes={{ tooltip: classes.tooltip }}
                   >
-                    <Close
-                      className={
-                        classes.tableActionButtonIcon + " " + classes.close
-                      }
-                    />
-                  </IconButton>
-                </Tooltip>
+                    <IconButton
+                      aria-label="حذف کاربر"
+                      className={classes.tableActionButton}
+                    >
+                      <Close
+                        className={
+                          classes.tableActionButtonIcon + " " + classes.close
+                        }
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </div>
               </TableCell>
             </TableRow>
           ))}

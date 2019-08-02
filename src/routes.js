@@ -11,8 +11,6 @@ import Products from "./components/products/products";
 import Product from "./components/products/product";
 import AddProduct from "./components/products/addProduct";
 import Dashboard from "./components/dashboard/dashboard";
-import { Register } from "./components/users/register";
-import { Login } from "./components/users/login";
 import Settings from "./components/settings/settings";
 import Trade from "./components/trades/trade";
 import FinDashboard from "./components/financial/finDashboard";
@@ -22,7 +20,6 @@ import AddAccount from "./components/financial/account/addAccount";
 import Payments from "./components/financial/payments";
 import TradeProduct from "./components/trades/tradeProduct";
 import EditSettings from "./components/settings/editSettings";
-import Logout from "./components/users/logout";
 import Process from "./components/products/process";
 
 let dashboardRoutes = [
@@ -214,13 +211,6 @@ let dashboardRoutes = [
     rtlName: "داشبورد",
     layout: "",
     component: Dashboard
-  },
-  {
-    path: "/Logout",
-    name: "Logout",
-    rtlName: "خروج از حساب",
-    layout: "",
-    component: Logout
   }
 ];
 

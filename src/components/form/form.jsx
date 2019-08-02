@@ -269,9 +269,11 @@ export default class Form extends Component {
     type = "file",
     multiple = false
   ) => {
+    let imgpath = "../";
     const { data } = this.state;
     let img = null;
     if (data.img) {
+      if (data.img.includes("http")) imgpath = "";
       img = (
         <div className="fadein">
           <div
@@ -292,7 +294,7 @@ export default class Form extends Component {
                 borderRadius: "50%"
               }}
               className="shadow rounded"
-              src={data.imgFile || `../${data.img}`}
+              src={data.imgFile || `${imgpath}${data.img}`}
             />
           </div>
         </div>

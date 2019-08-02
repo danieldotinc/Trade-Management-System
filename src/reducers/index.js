@@ -1,12 +1,15 @@
 import { combineReducers } from "redux";
 import paymentReducer from "./paymentReducer";
 import counterReducer from "./counterReducer";
+import defaultReducer from "./defaultReducer";
+import syncReducer from "./syncReducer";
 import accountReducer from "./accountReducer";
 import accountTypeReducer from "./accountTypeReducer";
 import accountLevelReducer from "./accountLevelReducer";
 import settingReducer from "./settingReducer";
 import productReducer from "./productReducer";
 import personReducer from "./personReducer";
+import userReducer from "./userReducer";
 import categoryReducer from "./categoryReducer";
 import colorReducer from "./colorReducer";
 import materialReducer from "./materialReducer";
@@ -20,6 +23,8 @@ import officeSectorReducer from "./officeSectorReducer";
 
 export default combineReducers({
   payment: paymentReducer,
+  default: defaultReducer,
+  sync: syncReducer,
   counter: counterReducer,
   account: accountReducer,
   accountLevel: accountLevelReducer,
@@ -27,6 +32,7 @@ export default combineReducers({
   setting: settingReducer,
   product: productReducer,
   person: personReducer,
+  user: userReducer,
   company: companyReducer,
   category: categoryReducer,
   color: colorReducer,

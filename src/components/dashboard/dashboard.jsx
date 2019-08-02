@@ -3,7 +3,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { getProductItems } from "../../actions/productActions";
 import { getNewCount } from "../../actions/counterActions";
+import { setDefaultSettings } from "../../actions/defaultActions";
+import { syncProductsNow } from "../../actions/syncActions";
 import { getPersonItems } from "../../actions/personActions";
+import {
+  getUserItems,
+  updateUserItem,
+  deleteUserItem
+} from "../../actions/userActions";
 import PropTypes from "prop-types";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
@@ -13,7 +20,7 @@ import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
 import DataUsage from "@material-ui/icons/DataUsage";
-import Warning from "@material-ui/icons/Warning";
+// import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
 import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
@@ -39,23 +46,13 @@ import CardFooter from "../Card/CardFooter.jsx";
 import SnackbarContent from "../Snackbar/SnackbarContent.jsx";
 import { PersianNum } from "../table/common/persiandigit";
 import { BeatLoader } from "react-spinners";
-
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
-} from "../../variables/charts.jsx";
+import Warning from "../Modal/warning";
+import auth from "../../services/authService";
 
 import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.jsx";
 
 import avatar from "../../assets/img/faces/marc.jpg";
 
-let bugs = [
-  "طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن؟",
-  "	نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند؟",
-  "همان حال کار آنها به نوعی وابسته به متن می‌باشد",
-  "	آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند"
-];
 let website = [
   "بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته",
   "اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید؟"
@@ -74,10 +71,33 @@ class Dashboard extends React.Component {
   componentDidMount() {
     this.props.getProductItems();
     this.props.getPersonItems();
+    this.props.getUserItems();
   }
+
+  cancelUser = user => this.props.deleteUserItem(user._id);
+
+  checkUser = user => {
+    user.isActive = true;
+    delete user.descr;
+    this.props.updateUserItem(user);
+  };
+
+  makeAdmin = user => {
+    user.isAdmin = true;
+    delete user.descr;
+    this.props.updateUserItem(user);
+  };
 
   handleNewCount = () => {
     this.props.getNewCount();
+  };
+
+  handleDefaultSettings = () => {
+    this.props.setDefaultSettings();
+  };
+
+  handleNikradSync = () => {
+    this.props.syncProductsNow();
   };
 
   handleChange = (event, value) => {
@@ -88,29 +108,58 @@ class Dashboard extends React.Component {
     this.setState({ value: index });
   };
   render() {
-    const ColoredLine = ({ color }) => (
-      <hr
-        style={{
-          backgroundColor: color,
-          width: "90%"
-        }}
-      />
-    );
+    const user = auth.getCurrentUser();
     const {
       classes,
       products,
       loading,
       persons,
+      users,
       loadingPersons,
+      loadingUsers,
       counter,
       loadingCounter
     } = this.props;
-    if (!products || loading || !persons || loadingPersons)
+    if (
+      !products ||
+      loading ||
+      !persons ||
+      loadingPersons ||
+      !users ||
+      loadingUsers
+    )
       return (
         <div className="loader">
           <BeatLoader sizeUnit={"px"} size={20} color={"#20B2AA"} />
         </div>
       );
+
+    let inActiveUsers = [];
+    let activeUsers = [];
+    let inActiveUserIndexes = [];
+    let activeUserIndexes = [];
+    let activeUserIndex = 0;
+    let inActiveUserIndex = 0;
+
+    for (let user of users) {
+      let inActive = {
+        ...user,
+        descr: `آیا اجازه فعالیت "${user.name}" را صادر می کنید؟`
+      };
+      let active = {
+        ...user,
+        descr: `آیا سطح دسترسی مدیریت برای "${user.name}" را فعال می کنید؟`
+      };
+      if (!user.isActive) {
+        inActiveUsers.push(inActive);
+        inActiveUserIndexes.push(inActiveUserIndex++);
+      }
+      if (user.isActive && !user.isAdmin) {
+        activeUsers.push(active);
+        activeUserIndexes.push(activeUserIndex++);
+      }
+    }
+
     return (
       <div>
         <GridContainer>
@@ -207,55 +256,72 @@ class Dashboard extends React.Component {
         </GridContainer>
 
         <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomTabs
-              title="وظایف:"
-              headerColor="info"
-              rtlActive
-              tabs={[
-                {
-                  tabName: "باگ‌ها",
-                  tabIcon: BugReport,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0, 3]}
-                      tasksIndexes={[0, 1, 2, 3]}
-                      tasks={bugs}
-                      rtlActive
-                    />
-                  )
-                },
-                {
-                  tabName: "وبسایت",
-                  tabIcon: Code,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0]}
-                      tasksIndexes={[0, 1]}
-                      tasks={website}
-                      rtlActive
-                    />
-                  )
-                },
-                {
-                  tabName: " سرور",
-                  tabIcon: Cloud,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[1]}
-                      tasksIndexes={[0, 1, 2]}
-                      tasks={server}
-                      rtlActive
-                    />
-                  )
-                }
-              ]}
-            />
-          </GridItem>
+          {user.isAdmin && (
+            <GridItem xs={12} sm={12} md={6}>
+              <Card>
+                <CardHeader color="info">
+                  <h4 className={classes.cardTitleWhite}>عملیات های سیستم</h4>
+                </CardHeader>
+                <CardBody>
+                  <div className="container">
+                    <div className="d-flex justify-content-center">
+                      {/* <p>
+                        <span
+                          className="btn btn-info m-2 ml-5"
+                          onClick={() => this.handleNewCount()}
+                        >
+                          گرفتن شماره
+                        </span>
+                        <span className="btn btn-warning btn-lg m-2">
+                          {counter ? counter.count : "000"}
+                        </span>
+                      </p> */}
 
-          <GridItem xs={12} sm={12} md={6}>
+                      <div className="col-6">
+                        <Warning
+                          item={{
+                            _id: 13,
+                            title: "همگام سازی محصولات با نیکراد"
+                          }}
+                          onWarn={this.handleNikradSync}
+                          classes="btn-block"
+                        />
+                      </div>
+                      <div className="col-6">
+                        <Warning
+                          item={{
+                            _id: 12,
+                            title: "برگشتن به تنظیمات اولیه",
+                            descr: "حذف تمام اطلاعات موجود در سیستم!"
+                          }}
+                          onWarn={this.handleDefaultSettings}
+                          classes="btn-block"
+                        />
+                      </div>
+                      {/* <p>
+                        <span
+                          className="btn btn-warning btn-block m-2 ml-5"
+                          onClick={() => this.handleDefaultSettings()}
+                        >
+                          برگشتن به تنظیمات اولیه
+                        </span>
+                        <span
+                          className="btn btn-warning btn-block m-2 ml-5"
+                          onClick={() => this.handleNikradSync()}
+                        >
+                          همگام سازی محصولات با نیکراد
+                        </span>
+                      </p> */}
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </GridItem>
+          )}
+
+          {/* <GridItem xs={12} sm={12} md={6}>
             <Card>
-              <CardHeader color="success">
+              <CardHeader color="primary">
                 <h4 className={classes.cardTitleWhite}>اعلان ها</h4>
                 <p className={classes.cardCategoryWhite}>
                   يدويا من قبل أصدقائنا من{" "}
@@ -267,10 +333,6 @@ class Dashboard extends React.Component {
                     الإبداعية تيم
                   </a>
                   . يرجى التحقق من{" "}
-                  <a href="#pablo" target="_blank">
-                    وثائق كاملة
-                  </a>
-                  .
                 </p>
               </CardHeader>
               <CardBody>
@@ -294,31 +356,61 @@ class Dashboard extends React.Component {
                   message={"این یک اعلان با دکمه بستن و آیکن است"}
                   close
                   rtlActive
-                  color="info"
+                  color="success"
                 />
               </CardBody>
-              <CardBody>
-                <ColoredLine color="black" />
-                <div className="container">
-                  <div className="row">
-                    <div className="">
-                      <p>
-                        <span
-                          className="btn btn-info m-2 ml-5"
-                          onClick={() => this.handleNewCount()}
-                        >
-                          گرفتن شماره
-                        </span>
-                        <span className="btn btn-warning btn-lg m-2">
-                          {counter ? counter.count : "000"}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardBody>
             </Card>
-          </GridItem>
+          </GridItem> */}
+          {user.isAdmin && (
+            <GridItem xs={12} sm={12} md={6}>
+              <CustomTabs
+                title="وظایف:"
+                headerColor="primary"
+                rtlActive
+                tabs={[
+                  {
+                    tabName: "کاربران غیر فعال",
+                    tabIcon: BugReport,
+                    tabContent: (
+                      <Tasks
+                        checkAction={this.checkUser}
+                        cancelAction={this.cancelUser}
+                        checkedIndexes={[]}
+                        tasksIndexes={inActiveUserIndexes}
+                        tasks={inActiveUsers}
+                        rtlActive
+                      />
+                    )
+                  },
+                  {
+                    tabName: "کاربران فعال",
+                    tabIcon: Code,
+                    tabContent: (
+                      <Tasks
+                        checkAction={this.makeAdmin}
+                        checkedIndexes={[]}
+                        tasksIndexes={activeUserIndexes}
+                        tasks={activeUsers}
+                        rtlActive
+                      />
+                    )
+                  },
+                  {
+                    tabName: " سرور",
+                    tabIcon: Cloud,
+                    tabContent: (
+                      <Tasks
+                        checkedIndexes={[]}
+                        tasksIndexes={[]}
+                        tasks={[]}
+                        rtlActive
+                      />
+                    )
+                  }
+                ]}
+              />
+            </GridItem>
+          )}
         </GridContainer>
       </div>
     );
@@ -333,12 +425,23 @@ const mapStateToProps = state => ({
   products: state.product.products,
   loading: state.product.loading,
   persons: state.person.persons,
+  users: state.user.users,
   loadingPersons: state.person.loadiong,
+  loadingUsers: state.user.loadiong,
   counter: state.counter.counter,
   loadingCounter: state.counter.loading
 });
 
 export default connect(
   mapStateToProps,
-  { getProductItems, getPersonItems, getNewCount }
+  {
+    getProductItems,
+    getPersonItems,
+    getUserItems,
+    updateUserItem,
+    deleteUserItem,
+    getNewCount,
+    setDefaultSettings,
+    syncProductsNow
+  }
 )(withStyles(rtlStyle)(Dashboard));

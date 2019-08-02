@@ -7,6 +7,7 @@ import Navigation from "./components/layouts/Navbar";
 import ProtectedRoute from "./components/protectedRoute";
 import { Login } from "./components/users/login";
 import { Register } from "./components/users/register";
+import Logout from "./components/users/logout";
 
 import {
   getBusinessColumns,
@@ -27,7 +28,7 @@ class App extends Component {
     selectedGenre: "all",
     sortColumn: { path: "proCode", order: "desc" },
     currentPage: 1,
-    pageSize: 50,
+    pageSize: 20,
     personInfo: false,
     personId: 1,
     activePage: "Home",
@@ -103,7 +104,12 @@ class App extends Component {
       });
   };
 
-  handlePageChange = (page, listName) => this.setState({ currentPage: page });
+  handlePageChange = (page, listName) => {
+    if (page == "next") page = this.state.currentPage + 1;
+    if (page == "previous") page = this.state.currentPage - 1;
+
+    this.setState({ currentPage: page });
+  };
 
   handleSort = (sortColumn, listName) => this.setState({ sortColumn });
 
@@ -130,6 +136,7 @@ class App extends Component {
                 />
               );
             })}
+            <Route path="/Logout" component={Logout} />
             <Route path="/Login" component={Login} />
             <Route path="/Register" component={Register} />
             <Redirect from="/" to="/Dashboard" />

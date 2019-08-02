@@ -47,6 +47,7 @@ export class Product extends Component {
 
   render() {
     const user = auth.getCurrentUser();
+    let imgpath = "../";
     const { product, loading, settings, loadingSetting } = this.props;
     if (loading || !product || loadingSetting || !settings)
       return (
@@ -55,6 +56,7 @@ export class Product extends Component {
         </div>
       );
 
+    if (product.img && product.img.includes("http")) imgpath = "";
     return (
       <GridItem xs={12} sm={12} md={12}>
         <Card>
@@ -73,7 +75,8 @@ export class Product extends Component {
                 >
                   <i className="fa fa-arrow-right" />
                 </button>
-                {((settings && settings[0].processAccess) || user.isAdmin) && (
+                {((settings && settings[0] && settings[0].processAccess) ||
+                  user.isAdmin) && (
                   <button
                     className="btn btn-lg btn-success m-2 shadow rounded"
                     style={{
@@ -85,7 +88,8 @@ export class Product extends Component {
                     <i className="fa fa-sync" />
                   </button>
                 )}
-                {((settings && settings[0].editAction) || user.isAdmin) && (
+                {((settings && settings[0] && settings[0].editAction) ||
+                  user.isAdmin) && (
                   <button
                     className="btn btn-lg btn-dark m-2 shadow rounded"
                     onClick={() => this.onEdit(product)}
@@ -93,7 +97,8 @@ export class Product extends Component {
                     <i className="fa fa-wrench" />
                   </button>
                 )}
-                {((settings && settings[0].deleteAction) || user.isAdmin) && (
+                {((settings && settings[0] && settings[0].deleteAction) ||
+                  user.isAdmin) && (
                   <Delete
                     onDelete={this.onDelete}
                     item={product}
@@ -105,7 +110,7 @@ export class Product extends Component {
                 <div className="m-2 col-6">
                   {product.img && (
                     <div class="thumbnail">
-                      <img src={product.img && `../${product.img}`} />
+                      <img src={product.img && `${imgpath}${product.img}`} />
                     </div>
                   )}
 

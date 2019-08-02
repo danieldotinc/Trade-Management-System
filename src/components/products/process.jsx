@@ -630,9 +630,10 @@ class Process extends Component {
                     <div className="shadow rounded col-4 pt-3 pb-3">
                       <ListGroupItem
                         label="هزینه بسته بندی و ارسال به مارکت پلیس"
-                        value={parseInt(
-                          settings[0].shippingCosts
-                        ).toLocaleString()}
+                        value={
+                          settings[0] &&
+                          parseInt(settings[0].shippingCosts).toLocaleString()
+                        }
                         size="12"
                       />
                       <ListGroupItem
@@ -645,17 +646,23 @@ class Process extends Component {
                     <div className="shadow rounded col-4 pt-3 pb-3">
                       <ListGroupItem
                         label="درصد ارزش افزوده عمده فروشی"
-                        value={parseInt(settings[0].valueAdded) + " %"}
+                        value={
+                          settings[0] && parseInt(settings[0].valueAdded) + " %"
+                        }
                         size="12"
                       />
                       <ListGroupItem
                         label="درصد ارزش افزوده خرده فروشی"
-                        value={parseInt(settings[0].valueAdded) + " %"}
+                        value={
+                          settings[0] && parseInt(settings[0].valueAdded) + " %"
+                        }
                         size="12"
                       />
                       <ListGroupItem
                         label="درصد ارزش افزوده مارکت پلیس"
-                        value={parseInt(settings[0].valueAdded) + " %"}
+                        value={
+                          settings[0] && parseInt(settings[0].valueAdded) + " %"
+                        }
                         size="12"
                       />
                     </div>
@@ -663,6 +670,7 @@ class Process extends Component {
                       <ListGroupItem
                         label="مبلغ ارزش افزوده عمده فروشی"
                         value={
+                          settings[0] &&
                           Math.round(
                             ((parseInt(settings[0].valueAdded) / 100) *
                               product.wholePrice) /
@@ -674,6 +682,7 @@ class Process extends Component {
                       <ListGroupItem
                         label="مبلغ ارزش افزوده خرده فروشی"
                         value={
+                          settings[0] &&
                           Math.round(
                             ((parseInt(settings[0].valueAdded) / 100) *
                               product.retailPrice) /
@@ -685,6 +694,7 @@ class Process extends Component {
                       <ListGroupItem
                         label="مبلغ ارزش افزوده مارکت پلیس"
                         value={
+                          settings[0] &&
                           Math.round(
                             ((parseInt(settings[0].valueAdded) / 100) *
                               this.getMarketPlaceCosts() -
