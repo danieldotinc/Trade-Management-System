@@ -117,34 +117,64 @@ export default class Form extends Component {
   };
 
   // Teach Autosuggest how to calculate suggestions for any given input value.
-  getSuggestions = value => {
+  getPersonSuggestions = value => {
     const inputLength = value.length;
 
     return inputLength === 0
       ? []
-      : this.state.allOptions.filter(lang => lang.name.includes(value));
+      : this.state.allPersonOptions.filter(lang => lang.name.includes(value));
+  };
+  getProductSuggestions = value => {
+    const inputLength = value.length;
+
+    return inputLength === 0
+      ? []
+      : this.state.allProductOptions.filter(lang => lang.name.includes(value));
   };
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
+  onPersonSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      suggestions: this.getSuggestions(value)
+      personSuggestions: this.getPersonSuggestions(value)
+    });
+  };
+  onProductSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      productSuggestions: this.getProductSuggestions(value)
     });
   };
 
   // Autosuggest will call this function every time you need to clear suggestions.
-  onSuggestionsClearRequested = () => {
+  onPersonSuggestionsClearRequested = () => {
     this.setState({
-      suggestions: []
+      personSuggestions: []
+    });
+  };
+  onProductSuggestionsClearRequested = () => {
+    this.setState({
+      productSuggestions: []
     });
   };
 
   // When suggestion is clicked, Autosuggest needs to populate the input
   // based on the clicked suggestion. Teach Autosuggest how to calculate the
   // input value for every given suggestion.
-  getSuggestionValue = suggestion => {
-    this.setState({ id: suggestion._id });
+  getPersonSuggestionValue = suggestion => {
+    let data = { ...this.state.data };
+    data.buyerAddress = suggestion.address;
+    data.buyerPhoneNumber = suggestion.mobile;
+    this.setState({
+      personId: suggestion._id,
+      person: suggestion,
+      data
+    });
+    return suggestion.name;
+  };
+  getProductSuggestionValue = suggestion => {
+    let data = { ...this.state.data };
+    data.productPrice = suggestion.tradeBuyingPrice;
+    this.setState({ productId: suggestion._id, product: suggestion, data });
     return suggestion.name;
   };
 
@@ -170,8 +200,12 @@ export default class Form extends Component {
     );
   };
 
-  onChange = (event, { newValue }) => {
-    this.setState({ value: newValue });
+  onPersonChange = (event, { newValue }) => {
+    this.setState({ personValue: newValue });
+  };
+
+  onProductChange = (event, { newValue }) => {
+    this.setState({ productValue: newValue });
   };
 
   renderCancelBtn = label => {
@@ -229,31 +263,63 @@ export default class Form extends Component {
     );
   };
 
-  renderAutoSuggestInput = (
+  renderPersonAutoSuggest = (
     name,
     label,
     required = false,
     size = "3",
     placeholder = "..."
   ) => {
-    const { data, suggestions, value } = this.state;
+    const { data, personSuggestions, personValue } = this.state;
     const inputProps = {
       className: "form-control shadow rounded",
       id: `${name}Input`,
       required,
       name,
       placeholder,
-      value,
-      onChange: this.onChange
+      value: personValue,
+      onChange: this.onPersonChange
     };
     return (
       <div className={`form-group m-3 col-${size}`}>
         <label htmlFor={`${name}Input`}>{label}</label>
         <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={this.getSuggestionValue}
+          suggestions={personSuggestions}
+          onSuggestionsFetchRequested={this.onPersonSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onPersonSuggestionsClearRequested}
+          getSuggestionValue={this.getPersonSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+        />
+      </div>
+    );
+  };
+
+  renderProductAutoSuggest = (
+    name,
+    label,
+    required = false,
+    size = "3",
+    placeholder = "..."
+  ) => {
+    const { data, productSuggestions, productValue } = this.state;
+    const inputProps = {
+      className: "form-control shadow rounded",
+      id: `${name}Input`,
+      required,
+      name,
+      placeholder,
+      value: productValue,
+      onChange: this.onProductChange
+    };
+    return (
+      <div className={`form-group m-3 col-${size}`}>
+        <label htmlFor={`${name}Input`}>{label}</label>
+        <Autosuggest
+          suggestions={productSuggestions}
+          onSuggestionsFetchRequested={this.onProductSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onProductSuggestionsClearRequested}
+          getSuggestionValue={this.getProductSuggestionValue}
           renderSuggestion={this.renderSuggestion}
           inputProps={inputProps}
         />

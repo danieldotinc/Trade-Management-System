@@ -82,25 +82,27 @@ class Tasks extends React.Component {
                     </IconButton>
                   </Tooltip>
                 </div>
-                <div onClick={() => this.props.cancelAction(tasks[value])}>
-                  <Tooltip
-                    id="tooltip-top-start"
-                    title="حذف کاربر"
-                    placement="top"
-                    classes={{ tooltip: classes.tooltip }}
-                  >
-                    <IconButton
-                      aria-label="حذف کاربر"
-                      className={classes.tableActionButton}
+                {this.props.cancelAction && (
+                  <div onClick={() => this.props.cancelAction(tasks[value])}>
+                    <Tooltip
+                      id="tooltip-top-start"
+                      title="لغو"
+                      placement="top"
+                      classes={{ tooltip: classes.tooltip }}
                     >
-                      <Close
-                        className={
-                          classes.tableActionButtonIcon + " " + classes.close
-                        }
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </div>
+                      <IconButton
+                        aria-label="لغو"
+                        className={classes.tableActionButton}
+                      >
+                        <Close
+                          className={
+                            classes.tableActionButtonIcon + " " + classes.close
+                          }
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                )}
               </TableCell>
             </TableRow>
           ))}

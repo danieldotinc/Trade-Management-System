@@ -33,10 +33,11 @@ class Payment extends Form {
       person: "",
       personId: ""
     },
-    allOptions: [],
-    suggestions: [],
-    value: "",
-    id: "",
+    allPersonOptions: [],
+    personSuggestions: [],
+    personValue: "",
+    personId: "",
+    person: {},
     errors: {}
   };
 
@@ -53,13 +54,14 @@ class Payment extends Form {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.persons) this.setState({ allOptions: nextProps.persons });
+    if (nextProps.persons)
+      this.setState({ allPersonOptions: nextProps.persons });
     if (this.props.match.params.id) {
       if (nextProps.payment) {
         this.setState({
           data: nextProps.payment,
-          value: nextProps.payment.person,
-          id: nextProps.payment.person
+          personValue: nextProps.payment.person,
+          personId: nextProps.payment.person
         });
       }
     }
@@ -84,8 +86,8 @@ class Payment extends Form {
     data.account = !data.accountId ? subIndex[0].name : data.account;
     data.accountId = !data.accountId ? subIndex[0]._id : data.accountId;
 
-    data.person = this.state.value;
-    data.personId = this.state.id;
+    data.person = this.state.personValue;
+    data.personId = this.state.personId;
 
     delete data.typeId;
     delete data.statusId;
@@ -182,7 +184,7 @@ class Payment extends Form {
                 <div className="row col-12">
                   {this.renderInput("name", "شرح عملیات", "5")}
                   {/* {this.renderInput("person", "نام شخص", "3")} */}
-                  {this.renderAutoSuggestInput("person", "نام شخص", true)}
+                  {this.renderPersonAutoSuggest("person", "نام شخص", true)}
                   {this.renderInput("price", "مبلغ", "3", true)}
                 </div>
               </div>

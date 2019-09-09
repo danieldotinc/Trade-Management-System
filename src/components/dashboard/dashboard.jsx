@@ -88,6 +88,12 @@ class Dashboard extends React.Component {
     this.props.updateUserItem(user);
   };
 
+  undoAdmin = user => {
+    user.isAdmin = false;
+    delete user.descr;
+    this.props.updateUserItem(user);
+  };
+
   handleNewCount = () => {
     this.props.getNewCount();
   };
@@ -136,10 +142,13 @@ class Dashboard extends React.Component {
 
     let inActiveUsers = [];
     let activeUsers = [];
+    let adminUsers = [];
     let inActiveUserIndexes = [];
     let activeUserIndexes = [];
+    let adminUserIndexes = [];
     let activeUserIndex = 0;
     let inActiveUserIndex = 0;
+    let adminUserIndex = 0;
 
     for (let user of users) {
       let inActive = {
@@ -150,6 +159,10 @@ class Dashboard extends React.Component {
         ...user,
         descr: `آیا سطح دسترسی مدیریت برای "${user.name}" را فعال می کنید؟`
       };
+      let admin = {
+        ...user,
+        descr: `آیا می خواهید "${user.name}" را به کاربر عادی تبدیل کنید؟`
+      };
       if (!user.isActive) {
         inActiveUsers.push(inActive);
         inActiveUserIndexes.push(inActiveUserIndex++);
@@ -157,6 +170,11 @@ class Dashboard extends React.Component {
       if (user.isActive && !user.isAdmin) {
         activeUsers.push(active);
         activeUserIndexes.push(activeUserIndex++);
+      }
+
+      if (user.isActive && user.isAdmin) {
+        adminUsers.push(admin);
+        adminUserIndexes.push(adminUserIndex++);
       }
     }
 
@@ -396,13 +414,14 @@ class Dashboard extends React.Component {
                     )
                   },
                   {
-                    tabName: " سرور",
+                    tabName: " مدیران",
                     tabIcon: Cloud,
                     tabContent: (
                       <Tasks
+                        checkAction={this.undoAdmin}
                         checkedIndexes={[]}
-                        tasksIndexes={[]}
-                        tasks={[]}
+                        tasksIndexes={adminUserIndexes}
+                        tasks={adminUsers}
                         rtlActive
                       />
                     )

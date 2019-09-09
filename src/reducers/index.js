@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import paymentReducer from "./paymentReducer";
+import invoiceReducer from "./invoiceReducer";
 import counterReducer from "./counterReducer";
 import defaultReducer from "./defaultReducer";
 import syncReducer from "./syncReducer";
@@ -23,6 +24,7 @@ import officeSectorReducer from "./officeSectorReducer";
 
 export default combineReducers({
   payment: paymentReducer,
+  invoice: invoiceReducer,
   default: defaultReducer,
   sync: syncReducer,
   counter: counterReducer,

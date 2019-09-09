@@ -110,7 +110,7 @@ class Settings extends Component {
                     </div>
                     <div className="shadow rounded col-3 pt-3 pb-3">
                       <ListGroupItem
-                        label={`امکان انجام فرآیند "افزودن" برای کاربران`}
+                        label={`انجام فرآیند "افزودن" برای کاربران`}
                         value={
                           settings && settings[0] && settings[0].addAction
                             ? "بله"
@@ -120,7 +120,7 @@ class Settings extends Component {
                         float="left"
                       />
                       <ListGroupItem
-                        label={`امکان انجام فرآیند "ویرایش" برای کاربران`}
+                        label={`انجام فرآیند "ویرایش" برای کاربران`}
                         value={
                           settings && settings[0] && settings[0].editAction
                             ? "بله"
@@ -130,7 +130,7 @@ class Settings extends Component {
                         float="left"
                       />
                       <ListGroupItem
-                        label={`امکان انجام فرآیند "حذف" برای کاربران`}
+                        label={`انجام فرآیند "حذف" برای کاربران`}
                         value={
                           settings && settings[0] && settings[0].deleteAction
                             ? "بله"
