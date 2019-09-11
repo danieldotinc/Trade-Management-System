@@ -96,7 +96,9 @@ class Payment extends Form {
 
   handleBack = () => {
     const { state } = this.props.location;
-    const path = state ? state.from.pathname : "/FinDashboard";
+    let path = state ? state.from.pathname : "/FinDashboard";
+    const id = this.props.match.params.id;
+    if (id) path = `/Financial/Payments/${this.state.data.accountId}`;
     this.props.onRoute(path);
     this.props.history.push(path);
   };

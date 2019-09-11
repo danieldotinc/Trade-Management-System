@@ -157,7 +157,7 @@ class Invoice extends Form {
 
   handleBack = () => {
     const { state } = this.props.location;
-    const path = state ? state.from.pathname : "/FinDashboard";
+    const path = state ? state.from.pathname : "/Financial/Invoices";
     this.props.onRoute(path);
     this.props.history.push(path);
   };

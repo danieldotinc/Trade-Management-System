@@ -279,9 +279,9 @@ class FinDahsboard extends Notifications {
                   <div className="row d-flex justify-content-center">
                     <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
-                      to="/Financial/AddPayment"
+                      to="/Financial/AllPayments"
                     >
-                      دریافت / پرداخت
+                      دریافت ها / پرداخت ها
                     </Link>
                     {/* <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
@@ -293,13 +293,13 @@ class FinDahsboard extends Notifications {
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
                       to="/Financial/Invoices"
                     >
-                      فاکتورها
+                      فاکتور ها
                     </Link>
                     <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
                       to="/Financial/AddAccount"
                     >
-                      ساخت حساب جدید
+                      حساب جدید
                     </Link>
                   </div>
 

@@ -19,6 +19,7 @@ import Invoices from "./components/financial/invoices";
 import Payment from "./components/financial/payment";
 import AddAccount from "./components/financial/account/addAccount";
 import Payments from "./components/financial/payments";
+import AllPayments from "./components/financial/allPayments";
 import TradeProduct from "./components/trades/tradeProduct";
 import EditSettings from "./components/settings/editSettings";
 import Process from "./components/products/process";
@@ -130,7 +131,7 @@ let dashboardRoutes = [
     component: Invoice
   },
   {
-    path: "/Financial/EditInvoice",
+    path: "/Financial/EditInvoice/:id",
     name: "EditInvoice",
     rtlName: "صدور فاکتور",
     layout: "",
@@ -163,6 +164,13 @@ let dashboardRoutes = [
     rtlName: "ویرایش حساب",
     layout: "",
     component: AddAccount
+  },
+  {
+    path: "/Financial/AllPayments",
+    name: "AllPayments",
+    rtlName: "دریافت ها / پرداخت ها",
+    layout: "",
+    component: AllPayments
   },
   {
     path: "/Financial/Payments/:id",
