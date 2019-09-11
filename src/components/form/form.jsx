@@ -131,6 +131,13 @@ export default class Form extends Component {
       ? []
       : this.state.allProductOptions.filter(lang => lang.name.includes(value));
   };
+  getInvoiceSuggestions = value => {
+    const inputLength = value.length;
+
+    return inputLength === 0
+      ? []
+      : this.state.allInvoiceOptions.filter(lang => lang.name.includes(value));
+  };
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
@@ -142,6 +149,11 @@ export default class Form extends Component {
   onProductSuggestionsFetchRequested = ({ value }) => {
     this.setState({
       productSuggestions: this.getProductSuggestions(value)
+    });
+  };
+  onInvoiceSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      invoiceSuggestions: this.getInvoiceSuggestions(value)
     });
   };
 
@@ -156,12 +168,18 @@ export default class Form extends Component {
       productSuggestions: []
     });
   };
+  onInvoiceSuggestionsClearRequested = () => {
+    this.setState({
+      invoiceSuggestions: []
+    });
+  };
 
   // When suggestion is clicked, Autosuggest needs to populate the input
   // based on the clicked suggestion. Teach Autosuggest how to calculate the
   // input value for every given suggestion.
   getPersonSuggestionValue = suggestion => {
     let data = { ...this.state.data };
+    data.buyerId = suggestion._id;
     data.buyerAddress = suggestion.address;
     data.buyerPhoneNumber = suggestion.mobile;
     this.setState({
@@ -175,6 +193,17 @@ export default class Form extends Component {
     let data = { ...this.state.data };
     data.productPrice = suggestion.tradeBuyingPrice;
     this.setState({ productId: suggestion._id, product: suggestion, data });
+    return suggestion.name;
+  };
+
+  getInvoiceSuggestionValue = suggestion => {
+    let data = { ...this.state.data };
+    data.price = suggestion.totalPrice;
+    data.person = suggestion.buyerName;
+    data.personId = suggestion.buyerId;
+    data.invoice = suggestion.name;
+    data.invoiceId = suggestion._id;
+    this.setState({ invoiceId: suggestion._id, invoice: suggestion, data });
     return suggestion.name;
   };
 
@@ -206,6 +235,10 @@ export default class Form extends Component {
 
   onProductChange = (event, { newValue }) => {
     this.setState({ productValue: newValue });
+  };
+
+  onInvoiceChange = (event, { newValue }) => {
+    this.setState({ invoiceValue: newValue });
   };
 
   renderCancelBtn = label => {
@@ -320,6 +353,38 @@ export default class Form extends Component {
           onSuggestionsFetchRequested={this.onProductSuggestionsFetchRequested}
           onSuggestionsClearRequested={this.onProductSuggestionsClearRequested}
           getSuggestionValue={this.getProductSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={inputProps}
+        />
+      </div>
+    );
+  };
+
+  renderInvoiceAutoSuggest = (
+    name,
+    label,
+    required = false,
+    size = "3",
+    placeholder = "..."
+  ) => {
+    const { data, invoiceSuggestions, invoiceValue } = this.state;
+    const inputProps = {
+      className: "form-control shadow rounded",
+      id: `${name}Input`,
+      required,
+      name,
+      placeholder,
+      value: invoiceValue,
+      onChange: this.onInvoiceChange
+    };
+    return (
+      <div className={`form-group m-3 col-${size}`}>
+        <label htmlFor={`${name}Input`}>{label}</label>
+        <Autosuggest
+          suggestions={invoiceSuggestions}
+          onSuggestionsFetchRequested={this.onInvoiceSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onInvoiceSuggestionsClearRequested}
+          getSuggestionValue={this.getInvoiceSuggestionValue}
           renderSuggestion={this.renderSuggestion}
           inputProps={inputProps}
         />

@@ -13,7 +13,8 @@ import {
   getBusinessColumns,
   getCompanyColumns,
   getProductColumns,
-  getPaymentColumns
+  getPaymentColumns,
+  getInvoiceColumns
 } from "./services/fakeColumnService";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/css/style.css";
@@ -71,6 +72,14 @@ class App extends Component {
         listName: "Payments",
         addLink: "/Financial/AddPayment",
         columns: getPaymentColumns(),
+        currentPage: 1
+      });
+    }
+    if (Route.includes("/Financial/Invoices")) {
+      return this.setState({
+        listName: "Invoices",
+        addLink: "/Financial/AddInvoice",
+        columns: getInvoiceColumns(),
         currentPage: 1
       });
     }

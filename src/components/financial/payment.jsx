@@ -8,7 +8,7 @@ import {
   updatePaymentItem
 } from "../../actions/paymentActions";
 import { getAccountItems } from "../../actions/accountActions";
-import { getPersonItems } from "../../actions/personActions";
+import { getInvoiceItems } from "../../actions/invoiceActions";
 import { getAccountTypeItems } from "../../actions/accountTypeActions";
 import GridItem from "../Grid/GridItem";
 import { connect } from "react-redux";
@@ -26,23 +26,24 @@ class Payment extends Form {
       accountTypeId: "",
       account: "",
       accountId: "",
-      name: "",
+      invoice: "",
+      invoiceId: "",
+      person: "",
+      personId: "",
       price: "",
       type: "",
-      status: "",
-      person: "",
-      personId: ""
+      status: ""
     },
-    allPersonOptions: [],
-    personSuggestions: [],
-    personValue: "",
-    personId: "",
-    person: {},
+    allInvoiceOptions: [],
+    invoiceSuggestions: [],
+    invoiceValue: "",
+    invoiceId: "",
+    invoice: {},
     errors: {}
   };
 
   componentDidMount() {
-    this.props.getPersonItems();
+    this.props.getInvoiceItems();
     this.props.getAccountItems();
     this.props.getAccountTypeItems();
     this.handleEditPayment();
@@ -54,14 +55,14 @@ class Payment extends Form {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.persons)
-      this.setState({ allPersonOptions: nextProps.persons });
+    if (nextProps.invoices)
+      this.setState({ allInvoiceOptions: nextProps.invoices });
     if (this.props.match.params.id) {
       if (nextProps.payment) {
         this.setState({
           data: nextProps.payment,
-          personValue: nextProps.payment.person,
-          personId: nextProps.payment.person
+          invoiceValue: nextProps.payment.invoice,
+          invoiceId: nextProps.payment.invoiceId
         });
       }
     }
@@ -74,7 +75,8 @@ class Payment extends Form {
     NotificationManager.success(name + msg);
   };
 
-  handlePreparingForm = data => {
+  handlePreparingForm = payload => {
+    let data = { ...payload };
     const { accounts, accountTypes } = this.props;
 
     const accountTypeId = this.state.data.accountTypeId
@@ -85,9 +87,6 @@ class Payment extends Form {
 
     data.account = !data.accountId ? subIndex[0].name : data.account;
     data.accountId = !data.accountId ? subIndex[0]._id : data.accountId;
-
-    data.person = this.state.personValue;
-    data.personId = this.state.personId;
 
     delete data.typeId;
     delete data.statusId;
@@ -112,7 +111,7 @@ class Payment extends Form {
       : this.props.addPaymentItem(prepared);
 
     this.handleBack();
-    this.handleNotify(prepared.name);
+    this.handleNotify(prepared.person);
   };
 
   render() {
@@ -182,9 +181,15 @@ class Payment extends Form {
                 </div>
                 <ColoredLine color="black" />
                 <div className="row col-12">
-                  {this.renderInput("name", "شرح عملیات", "5")}
-                  {/* {this.renderInput("person", "نام شخص", "3")} */}
-                  {this.renderPersonAutoSuggest("person", "نام شخص", true)}
+                  {/* {this.renderInput("name", "شرح عملیات", "5")} */}
+                  {this.renderInvoiceAutoSuggest(
+                    "invoice",
+                    "عنوان فاکتور",
+                    true,
+                    "5"
+                  )}
+                  {this.renderInput("person", "نام شخص", "3", true)}
+                  {/* {this.renderPersonAutoSuggest("person", "نام شخص", true)} */}
                   {this.renderInput("price", "مبلغ", "3", true)}
                 </div>
               </div>
@@ -197,8 +202,8 @@ class Payment extends Form {
 }
 
 const mapStateToProps = state => ({
+  invoices: state.invoice.invoices,
   payment: state.payment.payment,
-  persons: state.person.persons,
   accounts: state.account.accounts,
   accountTypes: state.accountType.accountTypes,
   loadingAccount: state.account.loading
@@ -211,7 +216,7 @@ export default connect(
     getAccountTypeItems,
     addPaymentItem,
     updatePaymentItem,
-    getPersonItems,
+    getInvoiceItems,
     getPaymentItem
   }
 )(withStyles(rtlStyle)(Payment));

@@ -283,11 +283,17 @@ class FinDahsboard extends Notifications {
                     >
                       دریافت / پرداخت
                     </Link>
-                    <Link
+                    {/* <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
                       to="/Financial/AddInvoice"
                     >
                       صدور فاکتور جدید
+                    </Link> */}
+                    <Link
+                      className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
+                      to="/Financial/Invoices"
+                    >
+                      فاکتورها
                     </Link>
                     <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}

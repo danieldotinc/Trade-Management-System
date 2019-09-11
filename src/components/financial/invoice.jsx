@@ -23,12 +23,14 @@ import rtlStyle from "../../assets/jss/material-dashboard-react/views/rtlStyle.j
 class Invoice extends Form {
   state = {
     data: {
+      name: "",
       product: "",
       productPrice: "",
       invoiceType: "",
       sellerName: "",
       sellerAddress: "",
       sellerPhoneNumber: "",
+      buyerId: "",
       buyerName: "",
       buyerAddress: "",
       buyerPhoneNumber: "",
@@ -51,7 +53,13 @@ class Invoice extends Form {
   componentDidMount() {
     this.props.getPersonItems();
     this.props.getProductItems();
+    this.handleEditInvoice();
   }
+
+  handleEditInvoice = () => {
+    const id = this.props.match.params.id;
+    id && this.props.getInvoiceItem(id);
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.products)
@@ -62,10 +70,8 @@ class Invoice extends Form {
       if (nextProps.invoice) {
         this.setState({
           data: nextProps.invoice,
-          personValue: nextProps.invoice.person,
-          personId: nextProps.invoice.person,
-          productValue: nextProps.invoice.product,
-          productId: nextProps.invoice.product
+          personValue: nextProps.invoice.buyerName,
+          personId: nextProps.invoice.buyerId
         });
       }
     }
@@ -156,9 +162,12 @@ class Invoice extends Form {
     this.props.history.push(path);
   };
 
-  doSubmit = data => {
+  doSubmit = payload => {
+    let data = { ...payload };
     const prepared = this.preparingInvoice(data);
     if (prepared) {
+      data.buyerId = this.state.personId;
+      data.name = `${data.invoiceType} مربوط به ${data.buyerName}`;
       this.props.match.params.id
         ? this.props.updateInvoiceItem({
             item: data,
@@ -309,6 +318,7 @@ class Invoice extends Form {
 }
 
 const mapStateToProps = state => ({
+  invoice: state.invoice.invoice,
   persons: state.person.persons,
   products: state.product.products
 });

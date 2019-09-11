@@ -43,10 +43,18 @@ export const companyColumns = [
 
 export const paymentColumns = [
   { label: "عملیات", path: "type" },
-  { label: "شرح", path: "name" },
+  { label: "شرح", path: "invoice" },
   { label: "نام شخص", path: "person" },
   { label: "مبلغ", path: "price" },
   { label: "وضعیت", path: "status" },
+  { label: "تاریخ", path: "date" }
+];
+
+export const invoiceColumns = [
+  { label: "نوع فاکتور", path: "invoiceType" },
+  { label: "نام خریدار", path: "buyerName" },
+  { label: "نام فروشنده", path: "sellerName" },
+  { label: "مبلغ", path: "totalPrice" },
   { label: "تاریخ", path: "date" }
 ];
 
@@ -71,6 +79,10 @@ export function getCompanyColumns() {
 
 export function getPaymentColumns() {
   return paymentColumns.filter(g => g);
+}
+
+export function getInvoiceColumns() {
+  return invoiceColumns.filter(g => g);
 }
 
 export function getEmployeeColumns() {

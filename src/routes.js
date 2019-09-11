@@ -15,6 +15,7 @@ import Settings from "./components/settings/settings";
 import Trade from "./components/trades/trade";
 import FinDashboard from "./components/financial/finDashboard";
 import Invoice from "./components/financial/invoice";
+import Invoices from "./components/financial/invoices";
 import Payment from "./components/financial/payment";
 import AddAccount from "./components/financial/account/addAccount";
 import Payments from "./components/financial/payments";
@@ -129,6 +130,13 @@ let dashboardRoutes = [
     component: Invoice
   },
   {
+    path: "/Financial/EditInvoice",
+    name: "EditInvoice",
+    rtlName: "صدور فاکتور",
+    layout: "",
+    component: Invoice
+  },
+  {
     path: "/Financial/EditPayment/:id",
     name: "EditPayment",
     rtlName: "ویرایش دریافت / پرداخت",
@@ -162,6 +170,13 @@ let dashboardRoutes = [
     rtlName: "دریافت / پرداخت",
     layout: "",
     component: Payments
+  },
+  {
+    path: "/Financial/Invoices",
+    name: "Invoices",
+    rtlName: "فاکتورهای صادر شده",
+    layout: "",
+    component: Invoices
   },
   {
     path: "/EditSettings",
