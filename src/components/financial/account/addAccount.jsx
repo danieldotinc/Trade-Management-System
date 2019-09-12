@@ -123,38 +123,32 @@ class Account extends Form {
         : accountTypes;
 
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="rose">
-            <h4 className={this.props.classes.cardTitleWhite}>افزودن حساب</h4>
-            <p className={this.props.classes.cardCategoryWhite}>افزودن حساب</p>
-          </CardHeader>
-          <CardBody>
-            <form onSubmit={this.handleFormSubmission} id="addAccountform">
-              <div className="row m-2">
-                {this.renderSubmitBtn()}
-                {this.renderCancelBtn("لغو")}
+      <React.Fragment>
+        <CardHeader color="rose">
+          <h4 className={this.props.classes.cardTitleWhite}>افزودن حساب</h4>
+          <p className={this.props.classes.cardCategoryWhite}>افزودن حساب</p>
+        </CardHeader>
+        <CardBody>
+          <form onSubmit={this.handleFormSubmission} id="addAccountform">
+            <div className="row m-2">
+              {this.renderSubmitBtn()}
+              {this.renderCancelBtn("لغو")}
+            </div>
+            <div className="row p-4">
+              <div className="row col-12">
+                {this.renderSelect("accountLevel", "سطح حساب", accountLevels)}
+                {this.renderSelect("accountType", "نقش حساب", accountTypeItems)}
               </div>
-              <div className="row p-4">
-                <div className="row col-12">
-                  {this.renderSelect("accountLevel", "سطح حساب", accountLevels)}
-                  {this.renderSelect(
-                    "accountType",
-                    "نقش حساب",
-                    accountTypeItems
-                  )}
-                </div>
-                <ColoredLine color="black" />
-                <div className="row col-12">
-                  {this.renderInput("code", "کد")}
-                  {this.renderInput("name", "عنوان", "4", true)}
-                  {this.renderInput("description", "شرح", "5", true)}
-                </div>
+              <ColoredLine color="black" />
+              <div className="row col-12">
+                {this.renderInput("code", "کد")}
+                {this.renderInput("name", "عنوان", "4", true)}
+                {this.renderInput("description", "شرح", "5", true)}
               </div>
-            </form>
-          </CardBody>
-        </Card>
-      </GridItem>
+            </div>
+          </form>
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

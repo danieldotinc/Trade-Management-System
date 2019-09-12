@@ -28,7 +28,10 @@ function Card({ ...props }) {
     [className]: className !== undefined
   });
   return (
-    <div className={cardClasses + " shadow-lg mb-5 bg-white rounded"} {...rest}>
+    <div
+      className={cardClasses + " shadow-lg mb-5 bg-white rounded no-margin"}
+      {...rest}
+    >
       {children}
     </div>
   );

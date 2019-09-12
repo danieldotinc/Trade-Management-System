@@ -67,61 +67,57 @@ class EditSettings extends Form {
 
   render() {
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="rose">
-            <h4 className={this.props.classes.cardTitleWhite}>
-              ویرایش تنظیمات
-            </h4>
-            <p className={this.props.classes.cardCategoryWhite}>
-              ویرایش تمامی تنظیمات
-            </p>
-          </CardHeader>
-          <CardBody>
-            <form onSubmit={this.handleFormSubmission} id="addnewform1">
-              <div className="row m-2">
-                {this.renderSubmitBtn()}
-                {this.renderCancelBtn("لغو")}
-              </div>
-              <div className="row">
-                {this.renderInput("valueAdded", "ارزش افزوده برای مالیات")}
-                {this.renderInput("shippingCosts", "هزینه ارسال به دیجیکالا")}
-                {this.renderInput("wholeProfit", "درصد سود عمده فروشی")}
-                {this.renderInput("retailProfit", "درصد سود خرده فروشی")}
-                {this.renderInput("marketPlaceProfit", "درصد سود مارکت پلیس")}
-                {this.renderCheck(
-                  "addAction",
-                  `امکان انجام فرآیند "افزودن" برای کاربران`
-                )}
-                {this.renderCheck(
-                  "editAction",
-                  `امکان انجام فرآیند "ویرایش" برای کاربران`
-                )}
-                {this.renderCheck(
-                  "deleteAction",
-                  `امکان انجام فرآیند "حذف" برای کاربران`
-                )}
-                {this.renderCheck(
-                  "processAccess",
-                  `دسترسی به "پردازش" برای کاربران`
-                )}
-                {this.renderCheck(
-                  "personsAccess",
-                  `دسترسی به "اشخاص" برای کاربران`
-                )}
-                {this.renderCheck(
-                  "companiesAccess",
-                  `دسترسی به "شرکت ها" برای کاربران`
-                )}
-                {this.renderCheck(
-                  "tradeAccess",
-                  `دسترسی به "بازرگانی" برای کاربران`
-                )}
-              </div>
-            </form>
-          </CardBody>
-        </Card>
-      </GridItem>
+      <React.Fragment>
+        <CardHeader color="rose">
+          <h4 className={this.props.classes.cardTitleWhite}>ویرایش تنظیمات</h4>
+          <p className={this.props.classes.cardCategoryWhite}>
+            ویرایش تمامی تنظیمات
+          </p>
+        </CardHeader>
+        <CardBody>
+          <form onSubmit={this.handleFormSubmission} id="addnewform1">
+            <div className="row m-2">
+              {this.renderSubmitBtn()}
+              {this.renderCancelBtn("لغو")}
+            </div>
+            <div className="row">
+              {this.renderInput("valueAdded", "ارزش افزوده برای مالیات")}
+              {this.renderInput("shippingCosts", "هزینه ارسال به دیجیکالا")}
+              {this.renderInput("wholeProfit", "درصد سود عمده فروشی")}
+              {this.renderInput("retailProfit", "درصد سود خرده فروشی")}
+              {this.renderInput("marketPlaceProfit", "درصد سود مارکت پلیس")}
+              {this.renderCheck(
+                "addAction",
+                `امکان انجام فرآیند "افزودن" برای کاربران`
+              )}
+              {this.renderCheck(
+                "editAction",
+                `امکان انجام فرآیند "ویرایش" برای کاربران`
+              )}
+              {this.renderCheck(
+                "deleteAction",
+                `امکان انجام فرآیند "حذف" برای کاربران`
+              )}
+              {this.renderCheck(
+                "processAccess",
+                `دسترسی به "پردازش" برای کاربران`
+              )}
+              {this.renderCheck(
+                "personsAccess",
+                `دسترسی به "اشخاص" برای کاربران`
+              )}
+              {this.renderCheck(
+                "companiesAccess",
+                `دسترسی به "شرکت ها" برای کاربران`
+              )}
+              {this.renderCheck(
+                "tradeAccess",
+                `دسترسی به "بازرگانی" برای کاربران`
+              )}
+            </div>
+          </form>
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

@@ -188,87 +188,75 @@ export class AddPerson extends Form {
 
     return (
       <React.Fragment>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card>
-            <CardHeader color="rose">
-              <h4 className={this.props.classes.cardTitleWhite}>افزودن شخص</h4>
-              <p className={this.props.classes.cardCategoryWhite}>
-                افزودن شخص جدید
-              </p>
-            </CardHeader>
-            <CardBody>
-              <form onSubmit={this.handleFormSubmission} id="addnewform1">
-                <div className="row m-2">
-                  {this.renderSubmitBtn("")}
-                  {this.renderCancelBtn("لغو")}
-                  <button
-                    type="button"
-                    className={`btn btn-dark shadow rounded btn-lg m-2`}
-                    onClick={() => this.setState({ modal: true })}
-                    data-toggle="modal"
-                    data-target={"#abc2"}
-                  >
-                    واحدهای سازمان
-                  </button>
-                  {this.state.modal && (
-                    <ItemsModalView
-                      id="abc2"
-                      title="واحدهای سازمان"
-                      items={officeSectors}
-                      onAdd={this.onAddOfficeSectorItem}
-                      onEdit={this.onEditOfficeSectorItem}
-                      onDelete={this.onDeleteOfficeSectorItem}
-                      classes="btn-lg m-2"
-                    />
-                  )}
-                  <button
-                    type="button"
-                    className={`btn btn-dark shadow rounded btn-lg m-2`}
-                    onClick={() => this.setState({ modal: true })}
-                    data-toggle="modal"
-                    data-target={"#abc1"}
-                  >
-                    حوزه های فعالیت
-                  </button>
-                  {this.state.modal && (
-                    <ItemsModalView
-                      title="حوزه های فعالیت"
-                      id="abc1"
-                      items={marketSectors}
-                      onAdd={this.onAddMarketSectorItem}
-                      onEdit={this.onEditMarketSectorItem}
-                      onDelete={this.onDeleteMarketSectorItem}
-                      classes="btn-lg m-2"
-                    />
-                  )}
-                </div>
-                <div className="row">
-                  {this.renderInput("name", "نام و نام خانوادگی", "3", true)}
-                  {this.renderSelect("identity", "هویت", identities)}
-                  {this.renderSelect(
-                    "officeSector",
-                    "واحد سازمانی",
-                    officeSectors
-                  )}
-                  {this.renderSelect(
-                    "marketSector",
-                    "حوزه فعالیت",
-                    marketSectors
-                  )}
-                  {this.renderSelect("company", "نام کسب و کار", companies)}
-                  {this.renderInput("mobile", "شماره موبایل", "3", true)}
-                  {this.renderInput("telephone", "تلفن")}
-                  {this.renderInput("telExtention", "تلفن داخلی")}
-                  {this.renderInput("postalCode", "کد پستی")}
-                  {this.renderInput("state", "استان")}
-                  {this.renderInput("city", "شهر")}
-                  {this.renderInput("address", "آدرس", "5", false)}
-                  {this.renderInput("credit", "اعتبار")}
-                </div>
-              </form>
-            </CardBody>
-          </Card>
-        </GridItem>
+        <CardHeader color="rose">
+          <h4 className={this.props.classes.cardTitleWhite}>افزودن شخص</h4>
+          <p className={this.props.classes.cardCategoryWhite}>
+            افزودن شخص جدید
+          </p>
+        </CardHeader>
+        <CardBody>
+          <form onSubmit={this.handleFormSubmission} id="addnewform1">
+            <div className="row m-2">
+              {this.renderSubmitBtn("")}
+              {this.renderCancelBtn("لغو")}
+              <button
+                type="button"
+                className={`btn btn-dark shadow rounded btn-lg m-2`}
+                onClick={() => this.setState({ modal: true })}
+                data-toggle="modal"
+                data-target={"#abc2"}
+              >
+                واحدهای سازمان
+              </button>
+              {this.state.modal && (
+                <ItemsModalView
+                  id="abc2"
+                  title="واحدهای سازمان"
+                  items={officeSectors}
+                  onAdd={this.onAddOfficeSectorItem}
+                  onEdit={this.onEditOfficeSectorItem}
+                  onDelete={this.onDeleteOfficeSectorItem}
+                  classes="btn-lg m-2"
+                />
+              )}
+              <button
+                type="button"
+                className={`btn btn-dark shadow rounded btn-lg m-2`}
+                onClick={() => this.setState({ modal: true })}
+                data-toggle="modal"
+                data-target={"#abc1"}
+              >
+                حوزه های فعالیت
+              </button>
+              {this.state.modal && (
+                <ItemsModalView
+                  title="حوزه های فعالیت"
+                  id="abc1"
+                  items={marketSectors}
+                  onAdd={this.onAddMarketSectorItem}
+                  onEdit={this.onEditMarketSectorItem}
+                  onDelete={this.onDeleteMarketSectorItem}
+                  classes="btn-lg m-2"
+                />
+              )}
+            </div>
+            <div className="row">
+              {this.renderInput("name", "نام و نام خانوادگی", "3", true)}
+              {this.renderSelect("identity", "هویت", identities)}
+              {this.renderSelect("officeSector", "واحد سازمانی", officeSectors)}
+              {this.renderSelect("marketSector", "حوزه فعالیت", marketSectors)}
+              {this.renderSelect("company", "نام کسب و کار", companies)}
+              {this.renderInput("mobile", "شماره موبایل", "3", true)}
+              {this.renderInput("telephone", "تلفن")}
+              {this.renderInput("telExtention", "تلفن داخلی")}
+              {this.renderInput("postalCode", "کد پستی")}
+              {this.renderInput("state", "استان")}
+              {this.renderInput("city", "شهر")}
+              {this.renderInput("address", "آدرس", "5", false)}
+              {this.renderInput("credit", "اعتبار")}
+            </div>
+          </form>
+        </CardBody>
       </React.Fragment>
     );
   }

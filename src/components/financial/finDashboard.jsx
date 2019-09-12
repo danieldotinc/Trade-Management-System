@@ -266,53 +266,51 @@ class FinDahsboard extends Notifications {
       }
     });
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="info">
-            <h4 className={this.props.classes.cardTitleWhite}>داشبورد مالی</h4>
-            <p className={this.props.classes.cardCategoryWhite}>داشبورد مالی</p>
-          </CardHeader>
-          <CardBody>
-            <React.Fragment>
-              <div className="row">
-                <div className="list-group p-4 text-center col-12">
-                  <div className="row d-flex justify-content-center">
-                    <Link
-                      className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
-                      to="/Financial/AllPayments"
-                    >
-                      دریافت ها / پرداخت ها
-                    </Link>
-                    {/* <Link
+      <React.Fragment>
+        <CardHeader color="info">
+          <h4 className={this.props.classes.cardTitleWhite}>داشبورد مالی</h4>
+          <p className={this.props.classes.cardCategoryWhite}>داشبورد مالی</p>
+        </CardHeader>
+        <CardBody>
+          <React.Fragment>
+            <div className="row">
+              <div className="list-group p-4 text-center col-12">
+                <div className="row d-flex justify-content-center">
+                  <Link
+                    className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
+                    to="/Financial/AllPayments"
+                  >
+                    دریافت ها / پرداخت ها
+                  </Link>
+                  {/* <Link
                       className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
                       to="/Financial/AddInvoice"
                     >
                       صدور فاکتور جدید
                     </Link> */}
-                    <Link
-                      className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
-                      to="/Financial/Invoices"
-                    >
-                      فاکتور ها
-                    </Link>
-                    <Link
-                      className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
-                      to="/Financial/AddAccount"
-                    >
-                      حساب جدید
-                    </Link>
-                  </div>
+                  <Link
+                    className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
+                    to="/Financial/Invoices"
+                  >
+                    فاکتور ها
+                  </Link>
+                  <Link
+                    className={`btn btn-info btn-block btn-lg m-2 col-3 shadow`}
+                    to="/Financial/AddAccount"
+                  >
+                    حساب جدید
+                  </Link>
+                </div>
 
-                  <ColoredLine color="black" />
-                  <div id="treelist">
-                    <TreeMenu data={treeData} />
-                  </div>
+                <ColoredLine color="black" />
+                <div id="treelist">
+                  <TreeMenu data={treeData} />
                 </div>
               </div>
-            </React.Fragment>
-          </CardBody>
-        </Card>
-      </GridItem>
+            </div>
+          </React.Fragment>
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

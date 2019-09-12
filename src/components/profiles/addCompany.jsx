@@ -102,38 +102,30 @@ export class AddCompany extends Form {
 
     return (
       <React.Fragment>
-        <GridItem xs={12} sm={12} md={12}>
-          <Card>
-            <CardHeader color="rose">
-              <h4 className={this.props.classes.cardTitleWhite}>افزودن شرکت</h4>
-              <p className={this.props.classes.cardCategoryWhite}>
-                افزودن شرکت جدید
-              </p>
-            </CardHeader>
-            <CardBody>
-              <form onSubmit={this.handleFormSubmission} id="addnewform1">
-                <div className="row m-2">
-                  {this.renderSubmitBtn("")}
-                  {this.renderCancelBtn("لغو")}
-                </div>
-                <div className="row">
-                  {this.renderInput("name", "نام", "3", true)}
-                  {this.renderInput("city", "شهر")}
-                  {this.renderSelect(
-                    "marketSector",
-                    "حوزه فعالیت",
-                    marketSectors
-                  )}
-                  {this.renderInput("telephone1", "تلفن 1")}
-                  {this.renderInput("telephone2", "تلفن 2")}
-                  {this.renderInput("address", "آدرس", "5", false)}
-                  {this.renderInput("postalCode", "کد پستی")}
-                  {this.renderInput("explanation", "توضیح", "5", false)}
-                </div>
-              </form>
-            </CardBody>
-          </Card>
-        </GridItem>
+        <CardHeader color="rose">
+          <h4 className={this.props.classes.cardTitleWhite}>افزودن شرکت</h4>
+          <p className={this.props.classes.cardCategoryWhite}>
+            افزودن شرکت جدید
+          </p>
+        </CardHeader>
+        <CardBody>
+          <form onSubmit={this.handleFormSubmission} id="addnewform1">
+            <div className="row m-2">
+              {this.renderSubmitBtn("")}
+              {this.renderCancelBtn("لغو")}
+            </div>
+            <div className="row">
+              {this.renderInput("name", "نام", "3", true)}
+              {this.renderInput("city", "شهر")}
+              {this.renderSelect("marketSector", "حوزه فعالیت", marketSectors)}
+              {this.renderInput("telephone1", "تلفن 1")}
+              {this.renderInput("telephone2", "تلفن 2")}
+              {this.renderInput("address", "آدرس", "5", false)}
+              {this.renderInput("postalCode", "کد پستی")}
+              {this.renderInput("explanation", "توضیح", "5", false)}
+            </div>
+          </form>
+        </CardBody>
       </React.Fragment>
     );
   }

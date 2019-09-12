@@ -47,6 +47,7 @@ class Invoices extends Notifications {
         </div>
       );
     const modifiedState = { ...state };
+    modifiedState.listName = "Invoices";
     modifiedState.addLink = "/Financial/AddInvoice";
     modifiedState.columns = getInvoiceColumns();
     // const id = this.props.match.params.id;

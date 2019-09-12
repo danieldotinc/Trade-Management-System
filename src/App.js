@@ -67,22 +67,22 @@ class App extends Component {
         currentPage: 1
       });
     }
-    if (Route.includes("/Financial/Payments")) {
-      return this.setState({
-        listName: "Payments",
-        addLink: "/Financial/AddPayment",
-        columns: getPaymentColumns(),
-        currentPage: 1
-      });
-    }
-    if (Route.includes("/Financial/Invoices")) {
-      return this.setState({
-        listName: "Invoices",
-        addLink: "/Financial/AddInvoice",
-        columns: getInvoiceColumns(),
-        currentPage: 1
-      });
-    }
+    // if (Route.includes("/Financial/Payments")) {
+    //   return this.setState({
+    //     listName: "Payments",
+    //     addLink: "/Financial/AddPayment",
+    //     columns: getPaymentColumns(),
+    //     currentPage: 1
+    //   });
+    // }
+    // if (Route.includes("/Financial/Invoices")) {
+    //   return this.setState({
+    //     listName: "Invoices",
+    //     addLink: "/Financial/AddInvoice",
+    //     columns: getInvoiceColumns(),
+    //     currentPage: 1
+    //   });
+    // }
     if (Route == "/AddPerson") {
       return this.setState({
         pageName: "افزودن شخص"

@@ -6,6 +6,7 @@ import {
   getPaymentItems,
   deletePaymentItem
 } from "../../actions/paymentActions";
+import { getPaymentColumns } from "../../services/fakeColumnService";
 import Notifications from "../dashboard/Notifications";
 import { BeatLoader } from "react-spinners";
 import { getSettingItems } from "../../actions/settingActions";
@@ -36,6 +37,7 @@ class Payments extends Notifications {
       loadingPayment,
       settings,
       loadingSetting,
+      state,
       ...rest
     } = this.props;
     if (loadingPayment || !payments)
@@ -45,12 +47,17 @@ class Payments extends Notifications {
         </div>
       );
 
+    const modifiedState = { ...state };
+    modifiedState.listName = "";
+    modifiedState.addLink = "/Financial/AddPayment";
+    modifiedState.columns = getPaymentColumns();
     const id = this.props.match.params.id;
     const filtered = id ? payments.filter(e => e.accountId == id) : payments;
     return (
       <React.Fragment>
         {this.renderNotification()}
         <ListPage
+          state={modifiedState}
           title={filtered[0] && filtered[0].account}
           items={filtered}
           onDetail={this.handleProfileDetail}

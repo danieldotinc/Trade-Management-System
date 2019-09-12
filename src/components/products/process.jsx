@@ -477,237 +477,236 @@ class Process extends Component {
     );
 
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={this.props.classes.cardTitleWhite}>پردازش محصول</h4>
-            <p className={this.props.classes.cardCategoryWhite}>
-              پردازش {product.name}
-            </p>
-          </CardHeader>
-          <CardBody>
-            <React.Fragment>
-              <div className="row m-2">
-                <button
-                  className="btn btn-lg btn-info m-2 shadow rounded"
-                  onClick={this.handleBack}
-                >
-                  <i className="fa fa-arrow-right" />
-                </button>
-                <button
-                  className="btn btn-lg btn-dark m-2 shadow rounded"
-                  onClick={() => this.onEdit(product)}
-                >
-                  <i className="fa fa-wrench" />
-                </button>
-              </div>
-              <div className="row">
-                <div className="list-group p-4 text-center col-12">
-                  <div className="row shadow rounded p-3">
+      <React.Fragment>
+        <CardHeader color="primary">
+          <h4 className={this.props.classes.cardTitleWhite}>پردازش محصول</h4>
+          <p className={this.props.classes.cardCategoryWhite}>
+            پردازش {product.name}
+          </p>
+        </CardHeader>
+        <CardBody>
+          <React.Fragment>
+            <div className="row m-2">
+              <button
+                className="btn btn-lg btn-info m-2 shadow rounded"
+                onClick={this.handleBack}
+              >
+                <i className="fa fa-arrow-right" />
+              </button>
+              <button
+                className="btn btn-lg btn-dark m-2 shadow rounded"
+                onClick={() => this.onEdit(product)}
+              >
+                <i className="fa fa-wrench" />
+              </button>
+            </div>
+            <div className="row">
+              <div className="list-group p-4 text-center col-12">
+                <div className="row shadow rounded p-3">
+                  <ListGroupItem
+                    label="عنوان"
+                    value={product.name}
+                    float=""
+                    size="6"
+                  />
+                  <ListGroupItem
+                    label="دسته بندی"
+                    value={product.category}
+                    float=""
+                    size="6"
+                  />
+                </div>
+                <div className="row shadow rounded mt-3">
+                  <div className="shadow rounded col-3 pt-3 pb-3">
                     <ListGroupItem
-                      label="عنوان"
-                      value={product.name}
-                      float=""
-                      size="6"
+                      label="گروه فنی"
+                      value={product.proCode}
+                      size="12"
                     />
                     <ListGroupItem
-                      label="دسته بندی"
-                      value={product.category}
-                      float=""
-                      size="6"
+                      label="کد"
+                      value={product.diverseCode}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="کد تنوع مارکت پلیس"
+                      value={product.marketCode}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="کد تامین کننده"
+                      value={product.taminMallCode}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="کد آیتم نامبر"
+                      value={product.itemNumber}
+                      size="12"
                     />
                   </div>
-                  <div className="row shadow rounded mt-3">
-                    <div className="shadow rounded col-3 pt-3 pb-3">
-                      <ListGroupItem
-                        label="گروه فنی"
-                        value={product.proCode}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="کد"
-                        value={product.diverseCode}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="کد تنوع مارکت پلیس"
-                        value={product.marketCode}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="کد تامین کننده"
-                        value={product.taminMallCode}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="کد آیتم نامبر"
-                        value={product.itemNumber}
-                        size="12"
-                      />
-                    </div>
-                    <div className="shadow rounded col-3 pt-3 pb-3">
-                      <ListGroupItem
-                        label="قیمت لیست"
-                        value={parseInt(product.tradeListPrice)}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="قیمت خرید"
-                        value={parseInt(product.tradeBuyingPrice)}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="قیمت عمده فروشی"
-                        value={parseInt(product.wholePrice)}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="قیمت خرده فروشی"
-                        value={parseInt(product.retailPrice)}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="قیمت مارکت پلیس"
-                        value={parseInt(product.marketPlacePrice)}
-                        size="12"
-                      />
-                    </div>
-                    <div className="shadow rounded col-3 pt-3 pb-3">
-                      <ListGroupItem
-                        label="درصد تخفیف مرجع"
-                        value={buyingDiscoutPercent}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="درصد تخفیف بازرگان"
-                        value={buyingDiscoutPercent}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="درصد سود عمده فروشی"
-                        value={wholeProfitPercent}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="درصد سود خرده فروشی"
-                        value={retailProfitPercent}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="درصد سود مارکت پلیس"
-                        value={marketPlaceProfitPercent}
-                        size="12"
-                      />
-                    </div>
-                    <div className="shadow rounded col-3 pt-3 pb-3">
-                      <ListGroupItem
-                        label="مبلغ تخفیف مرجع"
-                        value={buyingDiscoutDiffPrice}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="مبلغ تخفیف بازرگان"
-                        value={buyingDiscoutDiffPrice}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="مبلغ سود عمده فروشی"
-                        value={wholeProfitDiffPrice}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="مبلغ سود خرده فروشی"
-                        value={retailProfitDiffPrice}
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="مبلغ سود مارکت پلیس"
-                        value={marketPlaceProfitDiffPrice}
-                        size="12"
-                      />
-                    </div>
+                  <div className="shadow rounded col-3 pt-3 pb-3">
+                    <ListGroupItem
+                      label="قیمت لیست"
+                      value={parseInt(product.tradeListPrice)}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="قیمت خرید"
+                      value={parseInt(product.tradeBuyingPrice)}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="قیمت عمده فروشی"
+                      value={parseInt(product.wholePrice)}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="قیمت خرده فروشی"
+                      value={parseInt(product.retailPrice)}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="قیمت مارکت پلیس"
+                      value={parseInt(product.marketPlacePrice)}
+                      size="12"
+                    />
+                  </div>
+                  <div className="shadow rounded col-3 pt-3 pb-3">
+                    <ListGroupItem
+                      label="درصد تخفیف مرجع"
+                      value={buyingDiscoutPercent}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="درصد تخفیف بازرگان"
+                      value={buyingDiscoutPercent}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="درصد سود عمده فروشی"
+                      value={wholeProfitPercent}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="درصد سود خرده فروشی"
+                      value={retailProfitPercent}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="درصد سود مارکت پلیس"
+                      value={marketPlaceProfitPercent}
+                      size="12"
+                    />
+                  </div>
+                  <div className="shadow rounded col-3 pt-3 pb-3">
+                    <ListGroupItem
+                      label="مبلغ تخفیف مرجع"
+                      value={buyingDiscoutDiffPrice}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="مبلغ تخفیف بازرگان"
+                      value={buyingDiscoutDiffPrice}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="مبلغ سود عمده فروشی"
+                      value={wholeProfitDiffPrice}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="مبلغ سود خرده فروشی"
+                      value={retailProfitDiffPrice}
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="مبلغ سود مارکت پلیس"
+                      value={marketPlaceProfitDiffPrice}
+                      size="12"
+                    />
+                  </div>
 
-                    <div className="shadow rounded col-4 pt-3 pb-3">
-                      <ListGroupItem
-                        label="هزینه بسته بندی و ارسال به مارکت پلیس"
-                        value={
-                          settings[0] &&
-                          parseInt(settings[0].shippingCosts).toLocaleString()
-                        }
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="هزینه پردازش و حمل و نقل مارکت پلیس"
-                        value={shippingPrice}
-                        size="12"
-                      />
-                    </div>
+                  <div className="shadow rounded col-4 pt-3 pb-3">
+                    <ListGroupItem
+                      label="هزینه بسته بندی و ارسال به مارکت پلیس"
+                      value={
+                        settings[0] &&
+                        parseInt(settings[0].shippingCosts).toLocaleString()
+                      }
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="هزینه پردازش و حمل و نقل مارکت پلیس"
+                      value={shippingPrice}
+                      size="12"
+                    />
+                  </div>
 
-                    <div className="shadow rounded col-4 pt-3 pb-3">
-                      <ListGroupItem
-                        label="درصد ارزش افزوده عمده فروشی"
-                        value={
-                          settings[0] && parseInt(settings[0].valueAdded) + " %"
-                        }
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="درصد ارزش افزوده خرده فروشی"
-                        value={
-                          settings[0] && parseInt(settings[0].valueAdded) + " %"
-                        }
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="درصد ارزش افزوده مارکت پلیس"
-                        value={
-                          settings[0] && parseInt(settings[0].valueAdded) + " %"
-                        }
-                        size="12"
-                      />
-                    </div>
-                    <div className="shadow rounded col-4 pt-3 pb-3">
-                      <ListGroupItem
-                        label="مبلغ ارزش افزوده عمده فروشی"
-                        value={
-                          settings[0] &&
-                          Math.round(
-                            ((parseInt(settings[0].valueAdded) / 100) *
-                              product.wholePrice) /
-                              10
-                          ) * 10
-                        }
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="مبلغ ارزش افزوده خرده فروشی"
-                        value={
-                          settings[0] &&
-                          Math.round(
-                            ((parseInt(settings[0].valueAdded) / 100) *
-                              product.retailPrice) /
-                              10
-                          ) * 10
-                        }
-                        size="12"
-                      />
-                      <ListGroupItem
-                        label="مبلغ ارزش افزوده مارکت پلیس"
-                        value={
-                          settings[0] &&
-                          Math.round(
-                            ((parseInt(settings[0].valueAdded) / 100) *
-                              this.getMarketPlaceCosts() -
-                              this.getCostAndTax() +
-                              this.getMarketPlaceCommission() *
-                                parseInt(product.marketPlacePrice)) /
-                              10
-                          ) * 10
-                        }
-                        size="12"
-                      />
-                    </div>
-                    {/* <div className="shadow rounded col-12 pt-3 pb-3">
+                  <div className="shadow rounded col-4 pt-3 pb-3">
+                    <ListGroupItem
+                      label="درصد ارزش افزوده عمده فروشی"
+                      value={
+                        settings[0] && parseInt(settings[0].valueAdded) + " %"
+                      }
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="درصد ارزش افزوده خرده فروشی"
+                      value={
+                        settings[0] && parseInt(settings[0].valueAdded) + " %"
+                      }
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="درصد ارزش افزوده مارکت پلیس"
+                      value={
+                        settings[0] && parseInt(settings[0].valueAdded) + " %"
+                      }
+                      size="12"
+                    />
+                  </div>
+                  <div className="shadow rounded col-4 pt-3 pb-3">
+                    <ListGroupItem
+                      label="مبلغ ارزش افزوده عمده فروشی"
+                      value={
+                        settings[0] &&
+                        Math.round(
+                          ((parseInt(settings[0].valueAdded) / 100) *
+                            product.wholePrice) /
+                            10
+                        ) * 10
+                      }
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="مبلغ ارزش افزوده خرده فروشی"
+                      value={
+                        settings[0] &&
+                        Math.round(
+                          ((parseInt(settings[0].valueAdded) / 100) *
+                            product.retailPrice) /
+                            10
+                        ) * 10
+                      }
+                      size="12"
+                    />
+                    <ListGroupItem
+                      label="مبلغ ارزش افزوده مارکت پلیس"
+                      value={
+                        settings[0] &&
+                        Math.round(
+                          ((parseInt(settings[0].valueAdded) / 100) *
+                            this.getMarketPlaceCosts() -
+                            this.getCostAndTax() +
+                            this.getMarketPlaceCommission() *
+                              parseInt(product.marketPlacePrice)) /
+                            10
+                        ) * 10
+                      }
+                      size="12"
+                    />
+                  </div>
+                  {/* <div className="shadow rounded col-12 pt-3 pb-3">
                       <div className="row">
                         <Input
                           type="text"
@@ -937,13 +936,12 @@ class Process extends Component {
                         />
                       </div>
                     </div> */}
-                  </div>
                 </div>
               </div>
-            </React.Fragment>
-          </CardBody>
-        </Card>
-      </GridItem>
+            </div>
+          </React.Fragment>
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

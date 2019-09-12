@@ -164,3 +164,19 @@ input {
   color: red;
   font-weight: bold;
 }
+
+@media print {
+  .no-print {
+    display: none;
+  }
+  .no-margin {
+    margin: 0px !important;
+    padding: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+    top: 0px !important;
+    bottom: 0px !important;
+    background-color: #ffffff !important;
+    box-shadow: #ffffff !important;
+  }
+}

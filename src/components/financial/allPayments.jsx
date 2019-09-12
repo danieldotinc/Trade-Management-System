@@ -48,6 +48,7 @@ class AllPayments extends Notifications {
       );
 
     const modifiedState = { ...state };
+    modifiedState.listName = "AllPayments";
     modifiedState.addLink = "/Financial/AddPayment";
     modifiedState.columns = getAllPaymentsColumns();
     // const filtered = id ? payments.filter(e => e.accountId == id) : payments;

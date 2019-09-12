@@ -685,478 +685,471 @@ class Trade extends Component {
     if (loadingSettings || !settings) return <h1>Loading...</h1>;
 
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="info">
-            <h4 className={this.props.classes.cardTitleWhite}>
-              بازرگانی محصولات
-            </h4>
-            <p className={this.props.classes.cardCategoryWhite}>
-              بازرگانی محصولات
-            </p>
-          </CardHeader>
-          <CardBody>
-            <React.Fragment>
-              <div className="row">
-                <div className="list-group p-4 text-center col-12">
-                  <div className="row">
-                    <Input
-                      type="text"
-                      name="tradeBuyingPrice"
-                      label="قیمت خرید"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.tradeBuyingPrice &&
-                        PersianNum(
-                          parseInt(
-                            this.state.data.tradeBuyingPrice
-                          ).toLocaleString()
-                        )
-                      }
-                      onChange={this.handleBasicChange}
-                    />
+      <React.Fragment>
+        <CardHeader color="info">
+          <h4 className={this.props.classes.cardTitleWhite}>
+            بازرگانی محصولات
+          </h4>
+          <p className={this.props.classes.cardCategoryWhite}>
+            بازرگانی محصولات
+          </p>
+        </CardHeader>
+        <CardBody>
+          <React.Fragment>
+            <div className="row">
+              <div className="list-group p-4 text-center col-12">
+                <div className="row">
+                  <Input
+                    type="text"
+                    name="tradeBuyingPrice"
+                    label="قیمت خرید"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.tradeBuyingPrice &&
+                      PersianNum(
+                        parseInt(
+                          this.state.data.tradeBuyingPrice
+                        ).toLocaleString()
+                      )
+                    }
+                    onChange={this.handleBasicChange}
+                  />
 
-                    <Input
-                      type="text"
-                      name="length"
-                      label="طول"
-                      size="2"
-                      required="false"
-                      value={PersianNum(this.state.data.length)}
-                      onChange={this.handleBasicChange}
-                    />
-                    <Input
-                      type="text"
-                      name="width"
-                      label="عرض"
-                      size="2"
-                      required="false"
-                      value={PersianNum(this.state.data.width)}
-                      onChange={this.handleBasicChange}
-                    />
+                  <Input
+                    type="text"
+                    name="length"
+                    label="طول"
+                    size="2"
+                    required="false"
+                    value={PersianNum(this.state.data.length)}
+                    onChange={this.handleBasicChange}
+                  />
+                  <Input
+                    type="text"
+                    name="width"
+                    label="عرض"
+                    size="2"
+                    required="false"
+                    value={PersianNum(this.state.data.width)}
+                    onChange={this.handleBasicChange}
+                  />
 
-                    <Input
-                      type="text"
-                      name="height"
-                      label="ارتفاع"
-                      size="2"
-                      required="false"
-                      value={PersianNum(this.state.data.height)}
-                      onChange={this.handleBasicChange}
-                    />
-                    <Input
-                      type="text"
-                      name="weight"
-                      label="وزن"
-                      size="2"
-                      required="false"
-                      value={PersianNum(this.state.data.weight)}
-                      onChange={this.handleBasicChange}
-                    />
-                    <Input
-                      type="text"
-                      name="otherCosts"
-                      label="سایر هزینه ها"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.otherCosts &&
-                        PersianNum(
-                          parseInt(this.state.data.otherCosts).toLocaleString()
-                        )
-                      }
-                      onChange={this.handleBasicChange}
-                    />
-                    <Input
-                      type="text"
-                      name="stock"
-                      label="تعداد آیتم ها"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.stock &&
-                        PersianNum(
-                          parseInt(this.state.data.stock).toLocaleString()
-                        )
-                      }
-                      onChange={this.handleOtherCosts}
-                    />
-                    <Input
-                      type="text"
-                      name="eachItemOtherCosts"
-                      label="هزینه سرشکن"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.eachItemOtherCosts &&
-                        PersianNum(
-                          parseInt(
-                            this.state.data.eachItemOtherCosts
-                          ).toLocaleString()
-                        )
-                      }
-                      onChange={this.handleOtherCosts}
-                    />
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <Input
-                      type="text"
-                      name="wholeProfitPercent"
-                      label="درصد سود عمده"
-                      size="2"
-                      required="false"
-                      value={PersianNum(this.state.data.wholeProfitPercent)}
-                      onChange={this.handleProfitChangeWholePrice}
-                    />
-                    <Input
-                      type="text"
-                      name="wholeProfitDiffPrice"
-                      label="مبلغ سود عمده"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.wholeProfitDiffPrice &&
-                        PersianNum(
-                          this.state.data.wholeProfitDiffPrice.toLocaleString()
-                        )
-                      }
-                      onChange={this.handleProfitChangeWholePrice}
-                    />
-                    <Input
-                      type="text"
-                      name="wholePrice"
-                      label="قیمت عمده"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.wholePrice &&
-                        PersianNum(this.state.data.wholePrice.toLocaleString())
-                      }
-                      onChange={this.handleProfitChangeWholePrice}
-                    />
-                    <Input
-                      type="text"
-                      name="wholePriceFinal"
-                      label="قیمت نهایی عمده"
-                      size="3"
-                      required="false"
-                      value={
-                        this.state.data.wholePriceFinal &&
-                        PersianNum(
-                          this.state.data.wholePriceFinal.toLocaleString()
-                        )
-                      }
-                      onChange={this.handleProfitChangeWholePrice}
-                    />
-                  </div>
-                  <div className="row">
-                    <Input
-                      type="text"
-                      name="wholeProfitPercentWithoutValueAdded"
-                      label="درصد سود عمده بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={PersianNum(
-                        this.state.data.wholeProfitPercentWithoutValueAdded
-                      )}
-                      onChange={
-                        this.handleProfitChangeWholePriceWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="wholeProfitDiffPriceWithoutValueAdded"
-                      label="مبلغ سود عمده بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.wholeProfitDiffPriceWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.wholeProfitDiffPriceWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleProfitChangeWholePriceWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="wholePriceWithoutValueAdded"
-                      label="قیمت عمده بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.wholePriceWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.wholePriceWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleProfitChangeWholePriceWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="wholePriceFinalWithoutValueAdded"
-                      label="قیمت نهایی عمده بدون مالیات"
-                      size="3"
-                      required="false"
-                      value={
-                        this.state.data.wholePriceFinalWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.wholePriceFinalWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleProfitChangeWholePriceWithoutValueAdded
-                      }
-                    />
-                  </div>
-                  <div className="row">
-                    <Input
-                      type="text"
-                      name="retailProfitPercent"
-                      label="درصد سود خرده"
-                      size="2"
-                      required="false"
-                      value={PersianNum(this.state.data.retailProfitPercent)}
-                      onChange={this.handleProfitChangeRetailPrice}
-                    />
-                    <Input
-                      type="text"
-                      name="retailProfitDiffPrice"
-                      label="مبلغ سود خرده"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.retailProfitDiffPrice &&
-                        PersianNum(
-                          this.state.data.retailProfitDiffPrice.toLocaleString()
-                        )
-                      }
-                      onChange={this.handleProfitChangeRetailPrice}
-                    />
-                    <Input
-                      type="text"
-                      name="retailPrice"
-                      label="قیمت خرده"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.retailPrice &&
-                        PersianNum(this.state.data.retailPrice.toLocaleString())
-                      }
-                      onChange={this.handleProfitChangeRetailPrice}
-                    />
-                    <Input
-                      type="text"
-                      name="retailPriceFinal"
-                      label="قیمت نهایی خرده"
-                      size="3"
-                      required="false"
-                      value={
-                        this.state.data.retailPriceFinal &&
-                        PersianNum(
-                          this.state.data.retailPriceFinal.toLocaleString()
-                        )
-                      }
-                      onChange={this.handleProfitChangeRetailPrice}
-                    />
-                  </div>
-                  <div className="row">
-                    <Input
-                      type="text"
-                      name="retailProfitPercentWithoutValueAdded"
-                      label="درصد سود خرده بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={PersianNum(
-                        this.state.data.retailProfitPercentWithoutValueAdded
-                      )}
-                      onChange={
-                        this.handleProfitChangeRetailPriceWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="retailProfitDiffPriceWithoutValueAdded"
-                      label="مبلغ سود خرده بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data
-                          .retailProfitDiffPriceWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.retailProfitDiffPriceWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleProfitChangeRetailPriceWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="retailPriceWithoutValueAdded"
-                      label="قیمت خرده بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.retailPriceWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.retailPriceWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleProfitChangeRetailPriceWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="retailPriceFinalWithoutValueAdded"
-                      label="قیمت نهایی خرده بدون مالیات"
-                      size="3"
-                      required="false"
-                      value={
-                        this.state.data.retailPriceFinalWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.retailPriceFinalWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleProfitChangeRetailPriceWithoutValueAdded
-                      }
-                    />
-                  </div>
+                  <Input
+                    type="text"
+                    name="height"
+                    label="ارتفاع"
+                    size="2"
+                    required="false"
+                    value={PersianNum(this.state.data.height)}
+                    onChange={this.handleBasicChange}
+                  />
+                  <Input
+                    type="text"
+                    name="weight"
+                    label="وزن"
+                    size="2"
+                    required="false"
+                    value={PersianNum(this.state.data.weight)}
+                    onChange={this.handleBasicChange}
+                  />
+                  <Input
+                    type="text"
+                    name="otherCosts"
+                    label="سایر هزینه ها"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.otherCosts &&
+                      PersianNum(
+                        parseInt(this.state.data.otherCosts).toLocaleString()
+                      )
+                    }
+                    onChange={this.handleBasicChange}
+                  />
+                  <Input
+                    type="text"
+                    name="stock"
+                    label="تعداد آیتم ها"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.stock &&
+                      PersianNum(
+                        parseInt(this.state.data.stock).toLocaleString()
+                      )
+                    }
+                    onChange={this.handleOtherCosts}
+                  />
+                  <Input
+                    type="text"
+                    name="eachItemOtherCosts"
+                    label="هزینه سرشکن"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.eachItemOtherCosts &&
+                      PersianNum(
+                        parseInt(
+                          this.state.data.eachItemOtherCosts
+                        ).toLocaleString()
+                      )
+                    }
+                    onChange={this.handleOtherCosts}
+                  />
+                </div>
+                <hr />
+                <div className="row">
+                  <Input
+                    type="text"
+                    name="wholeProfitPercent"
+                    label="درصد سود عمده"
+                    size="2"
+                    required="false"
+                    value={PersianNum(this.state.data.wholeProfitPercent)}
+                    onChange={this.handleProfitChangeWholePrice}
+                  />
+                  <Input
+                    type="text"
+                    name="wholeProfitDiffPrice"
+                    label="مبلغ سود عمده"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.wholeProfitDiffPrice &&
+                      PersianNum(
+                        this.state.data.wholeProfitDiffPrice.toLocaleString()
+                      )
+                    }
+                    onChange={this.handleProfitChangeWholePrice}
+                  />
+                  <Input
+                    type="text"
+                    name="wholePrice"
+                    label="قیمت عمده"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.wholePrice &&
+                      PersianNum(this.state.data.wholePrice.toLocaleString())
+                    }
+                    onChange={this.handleProfitChangeWholePrice}
+                  />
+                  <Input
+                    type="text"
+                    name="wholePriceFinal"
+                    label="قیمت نهایی عمده"
+                    size="3"
+                    required="false"
+                    value={
+                      this.state.data.wholePriceFinal &&
+                      PersianNum(
+                        this.state.data.wholePriceFinal.toLocaleString()
+                      )
+                    }
+                    onChange={this.handleProfitChangeWholePrice}
+                  />
+                </div>
+                <div className="row">
+                  <Input
+                    type="text"
+                    name="wholeProfitPercentWithoutValueAdded"
+                    label="درصد سود عمده بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={PersianNum(
+                      this.state.data.wholeProfitPercentWithoutValueAdded
+                    )}
+                    onChange={
+                      this.handleProfitChangeWholePriceWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="wholeProfitDiffPriceWithoutValueAdded"
+                    label="مبلغ سود عمده بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.wholeProfitDiffPriceWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.wholeProfitDiffPriceWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleProfitChangeWholePriceWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="wholePriceWithoutValueAdded"
+                    label="قیمت عمده بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.wholePriceWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.wholePriceWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleProfitChangeWholePriceWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="wholePriceFinalWithoutValueAdded"
+                    label="قیمت نهایی عمده بدون مالیات"
+                    size="3"
+                    required="false"
+                    value={
+                      this.state.data.wholePriceFinalWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.wholePriceFinalWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleProfitChangeWholePriceWithoutValueAdded
+                    }
+                  />
+                </div>
+                <div className="row">
+                  <Input
+                    type="text"
+                    name="retailProfitPercent"
+                    label="درصد سود خرده"
+                    size="2"
+                    required="false"
+                    value={PersianNum(this.state.data.retailProfitPercent)}
+                    onChange={this.handleProfitChangeRetailPrice}
+                  />
+                  <Input
+                    type="text"
+                    name="retailProfitDiffPrice"
+                    label="مبلغ سود خرده"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.retailProfitDiffPrice &&
+                      PersianNum(
+                        this.state.data.retailProfitDiffPrice.toLocaleString()
+                      )
+                    }
+                    onChange={this.handleProfitChangeRetailPrice}
+                  />
+                  <Input
+                    type="text"
+                    name="retailPrice"
+                    label="قیمت خرده"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.retailPrice &&
+                      PersianNum(this.state.data.retailPrice.toLocaleString())
+                    }
+                    onChange={this.handleProfitChangeRetailPrice}
+                  />
+                  <Input
+                    type="text"
+                    name="retailPriceFinal"
+                    label="قیمت نهایی خرده"
+                    size="3"
+                    required="false"
+                    value={
+                      this.state.data.retailPriceFinal &&
+                      PersianNum(
+                        this.state.data.retailPriceFinal.toLocaleString()
+                      )
+                    }
+                    onChange={this.handleProfitChangeRetailPrice}
+                  />
+                </div>
+                <div className="row">
+                  <Input
+                    type="text"
+                    name="retailProfitPercentWithoutValueAdded"
+                    label="درصد سود خرده بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={PersianNum(
+                      this.state.data.retailProfitPercentWithoutValueAdded
+                    )}
+                    onChange={
+                      this.handleProfitChangeRetailPriceWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="retailProfitDiffPriceWithoutValueAdded"
+                    label="مبلغ سود خرده بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.retailProfitDiffPriceWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.retailProfitDiffPriceWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleProfitChangeRetailPriceWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="retailPriceWithoutValueAdded"
+                    label="قیمت خرده بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.retailPriceWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.retailPriceWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleProfitChangeRetailPriceWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="retailPriceFinalWithoutValueAdded"
+                    label="قیمت نهایی خرده بدون مالیات"
+                    size="3"
+                    required="false"
+                    value={
+                      this.state.data.retailPriceFinalWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.retailPriceFinalWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleProfitChangeRetailPriceWithoutValueAdded
+                    }
+                  />
+                </div>
 
-                  <div className="row">
-                    <Input
-                      type="text"
-                      name="marketPlaceProfitPercent"
-                      label="درصد سود مارکت"
-                      size="2"
-                      required="false"
-                      value={PersianNum(
-                        this.state.data.marketPlaceProfitPercent
-                      )}
-                      onChange={this.handleMarketPlaceProfitChange}
-                    />
-                    <Input
-                      type="text"
-                      name="marketPlaceProfitDiffPrice"
-                      label="مبلغ سود مارکت"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.marketPlaceProfitDiffPrice &&
-                        PersianNum(
-                          this.state.data.marketPlaceProfitDiffPrice.toLocaleString()
-                        )
-                      }
-                      onChange={this.handleMarketPlaceProfitChange}
-                    />
-                    <Input
-                      type="text"
-                      name="marketPlacePrice"
-                      label="قیمت مارکت"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.marketPlacePrice &&
-                        PersianNum(
-                          this.state.data.marketPlacePrice.toLocaleString()
-                        )
-                      }
-                      onChange={this.handleMarketPlaceProfitChange}
-                    />
-                    <Input
-                      type="text"
-                      name="marketPlacePriceFinal"
-                      label="قیمت نهایی مارکت"
-                      size="3"
-                      required="false"
-                      value={
-                        this.state.data.marketPlacePriceFinal &&
-                        PersianNum(
-                          this.state.data.marketPlacePriceFinal.toLocaleString()
-                        )
-                      }
-                      onChange={this.handleMarketPlaceProfitChange}
-                    />
-                  </div>
-                  <div className="row">
-                    <Input
-                      type="text"
-                      name="marketPlaceProfitPercentWithoutValueAdded"
-                      label="درصد سود مارکت بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={PersianNum(
-                        this.state.data
-                          .marketPlaceProfitPercentWithoutValueAdded
-                      )}
-                      onChange={
-                        this.handleMarketPlaceProfitChangeWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="marketPlaceProfitDiffPriceWithoutValueAdded"
-                      label="مبلغ سود مارکت بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data
-                          .marketPlaceProfitDiffPriceWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.marketPlaceProfitDiffPriceWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleMarketPlaceProfitChangeWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="marketPlacePriceWithoutValueAdded"
-                      label="قیمت مارکت بدون مالیات"
-                      size="2"
-                      required="false"
-                      value={
-                        this.state.data.marketPlacePriceWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.marketPlacePriceWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleMarketPlaceProfitChangeWithoutValueAdded
-                      }
-                    />
-                    <Input
-                      type="text"
-                      name="marketPlacePriceFinalWithoutValueAdded"
-                      label="قیمت نهایی مارکت بدون مالیات"
-                      size="3"
-                      required="false"
-                      value={
-                        this.state.data
-                          .marketPlacePriceFinalWithoutValueAdded &&
-                        PersianNum(
-                          this.state.data.marketPlacePriceFinalWithoutValueAdded.toLocaleString()
-                        )
-                      }
-                      onChange={
-                        this.handleMarketPlaceProfitChangeWithoutValueAdded
-                      }
-                    />
-                  </div>
+                <div className="row">
+                  <Input
+                    type="text"
+                    name="marketPlaceProfitPercent"
+                    label="درصد سود مارکت"
+                    size="2"
+                    required="false"
+                    value={PersianNum(this.state.data.marketPlaceProfitPercent)}
+                    onChange={this.handleMarketPlaceProfitChange}
+                  />
+                  <Input
+                    type="text"
+                    name="marketPlaceProfitDiffPrice"
+                    label="مبلغ سود مارکت"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.marketPlaceProfitDiffPrice &&
+                      PersianNum(
+                        this.state.data.marketPlaceProfitDiffPrice.toLocaleString()
+                      )
+                    }
+                    onChange={this.handleMarketPlaceProfitChange}
+                  />
+                  <Input
+                    type="text"
+                    name="marketPlacePrice"
+                    label="قیمت مارکت"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.marketPlacePrice &&
+                      PersianNum(
+                        this.state.data.marketPlacePrice.toLocaleString()
+                      )
+                    }
+                    onChange={this.handleMarketPlaceProfitChange}
+                  />
+                  <Input
+                    type="text"
+                    name="marketPlacePriceFinal"
+                    label="قیمت نهایی مارکت"
+                    size="3"
+                    required="false"
+                    value={
+                      this.state.data.marketPlacePriceFinal &&
+                      PersianNum(
+                        this.state.data.marketPlacePriceFinal.toLocaleString()
+                      )
+                    }
+                    onChange={this.handleMarketPlaceProfitChange}
+                  />
+                </div>
+                <div className="row">
+                  <Input
+                    type="text"
+                    name="marketPlaceProfitPercentWithoutValueAdded"
+                    label="درصد سود مارکت بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={PersianNum(
+                      this.state.data.marketPlaceProfitPercentWithoutValueAdded
+                    )}
+                    onChange={
+                      this.handleMarketPlaceProfitChangeWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="marketPlaceProfitDiffPriceWithoutValueAdded"
+                    label="مبلغ سود مارکت بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data
+                        .marketPlaceProfitDiffPriceWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.marketPlaceProfitDiffPriceWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleMarketPlaceProfitChangeWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="marketPlacePriceWithoutValueAdded"
+                    label="قیمت مارکت بدون مالیات"
+                    size="2"
+                    required="false"
+                    value={
+                      this.state.data.marketPlacePriceWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.marketPlacePriceWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleMarketPlaceProfitChangeWithoutValueAdded
+                    }
+                  />
+                  <Input
+                    type="text"
+                    name="marketPlacePriceFinalWithoutValueAdded"
+                    label="قیمت نهایی مارکت بدون مالیات"
+                    size="3"
+                    required="false"
+                    value={
+                      this.state.data.marketPlacePriceFinalWithoutValueAdded &&
+                      PersianNum(
+                        this.state.data.marketPlacePriceFinalWithoutValueAdded.toLocaleString()
+                      )
+                    }
+                    onChange={
+                      this.handleMarketPlaceProfitChangeWithoutValueAdded
+                    }
+                  />
                 </div>
               </div>
-            </React.Fragment>
-          </CardBody>
-        </Card>
-      </GridItem>
+            </div>
+          </React.Fragment>
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

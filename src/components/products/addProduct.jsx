@@ -484,191 +484,189 @@ export class AddProduct extends Form {
     groups = groups.filter(e => e.subCategory == subCategoryId);
 
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="rose">
-            <h4 className={this.props.classes.cardTitleWhite}>افزودن محصول</h4>
-            <p className={this.props.classes.cardCategoryWhite}>
-              افزودن محصول جدید
-            </p>
-          </CardHeader>
-          <CardBody>
-            <form onSubmit={this.handleFormSubmission} id="addnewform1">
-              <div className="row m-2">
-                {this.renderSubmitBtn()}
-                {this.renderCancelBtn("لغو")}
-                <button
-                  type="button"
-                  className={`btn btn-dark shadow rounded btn-lg m-2`}
-                  onClick={() => this.setState({ modal: true })}
-                  data-toggle="modal"
-                  data-target={"#abc"}
-                >
-                  دسته بندی ها
-                </button>
-                {this.state.modal && (
-                  <ItemsModalView
-                    id="abc"
-                    title="دسته بندی ها"
-                    items={categories}
-                    onAdd={this.onAddItem}
-                    onEdit={this.onEditItem}
-                    onDelete={this.onDeleteItem}
-                    classes="btn-lg m-2"
-                  />
-                )}
-                <button
-                  type="button"
-                  className={`btn btn-dark shadow rounded btn-lg m-2`}
-                  onClick={() => this.setState({ modal: true })}
-                  data-toggle="modal"
-                  data-target={"#subcat"}
-                >
-                  گروه ها
-                </button>
-                {this.state.modal && (
-                  <ItemsModalView
-                    id="subcat"
-                    title="گروه ها"
-                    items={subCategories}
-                    onAdd={this.onAddSubCategoryItem}
-                    onEdit={this.onEditSubCategoryItem}
-                    onDelete={this.onDeleteSubCategoryItem}
-                    classes="btn-lg m-2"
-                  />
-                )}
-                <button
-                  type="button"
-                  className={`btn btn-dark shadow rounded btn-lg m-2`}
-                  onClick={() => this.setState({ modal: true })}
-                  data-toggle="modal"
-                  data-target={"#groups"}
-                >
-                  زیرگروه ها
-                </button>
-                {this.state.modal && (
-                  <ItemsModalView
-                    id="groups"
-                    title="زیرگروه ها"
-                    items={groups}
-                    onAdd={this.onAddGroupItem}
-                    onEdit={this.onEditGroupItem}
-                    onDelete={this.onDeleteGroupItem}
-                    classes="btn-lg m-2"
-                  />
-                )}
-                <button
-                  type="button"
-                  className={`btn btn-dark shadow rounded btn-lg m-2`}
-                  onClick={() => this.setState({ modal: true })}
-                  data-toggle="modal"
-                  data-target={"#materialmodal"}
-                >
-                  جنس ها
-                </button>
-                {this.state.modal && (
-                  <ItemsModalView
-                    id="materialmodal"
-                    title="جنس ها"
-                    items={materials}
-                    onAdd={this.onAddMaterialItem}
-                    onEdit={this.onEditMaterialItem}
-                    onDelete={this.onDeleteMaterialItem}
-                    classes="btn-lg m-2"
-                  />
-                )}
-                <button
-                  type="button"
-                  className={`btn btn-dark shadow rounded btn-lg m-2`}
-                  onClick={() => this.setState({ modal: true })}
-                  data-toggle="modal"
-                  data-target={"#colormodal"}
-                >
-                  رنگ ها
-                </button>
-                {this.state.modal && (
-                  <ItemsModalView
-                    id="colormodal"
-                    title="رنگ ها"
-                    items={colors}
-                    onAdd={this.onAddColorItem}
-                    onEdit={this.onEditColorItem}
-                    onDelete={this.onDeleteColorItem}
-                    classes="btn-lg m-2"
-                  />
-                )}
-                <button
-                  type="button"
-                  className={`btn btn-dark shadow rounded btn-lg m-2`}
-                  onClick={() => this.setState({ modal: true })}
-                  data-toggle="modal"
-                  data-target={"#suppliermodal"}
-                >
-                  تامین کننده ها
-                </button>
-                {this.state.modal && (
-                  <ItemsModalView
-                    id="suppliermodal"
-                    title="تامین کننده ها"
-                    items={suppliers}
-                    onAdd={this.onAddSupplierItem}
-                    onEdit={this.onEditSupplierItem}
-                    onDelete={this.onDeleteSupplierItem}
-                    classes="btn-lg m-2"
-                  />
-                )}
-              </div>
-              <div className="row">
-                {this.renderInput("marketCode", "کد تنوع مارکت پلیس")}
-                {this.renderInput("taminMallCode", "کد تامین کننده")}
-                {this.renderInput("itemNumber", "آیتم نامبر")}
-                {this.renderInput("webLink", "لینک در سایت", "4")}
-                {this.renderSelect("category", "دسته بندی", categories, "4")}
-                {this.renderSelect("subCategory", "گروه", subCategories, "3")}
-                {this.renderSelect("group", "زیرگروه", groups, "3")}
-                {this.renderInput("name", "عنوان", "4", true)}
-                {this.renderInput("brand", "برند")}
-                {this.renderSelect("supplier", "تامین کننده", suppliers)}
-                {this.renderSelect("color", "رنگ", colors)}
-                {this.renderSelect("material", "جنس", materials)}
-                {this.renderInput("weight", "وزن")}
-                {this.renderInput("length", "طول")}
-                {this.renderInput("width", "عرض")}
-                {this.renderInput("height", "ارتفاع")}
-                {this.renderInput("tradeListPrice", "قیمت لیست")}
-                {this.renderInput("tradeBuyingPrice", "قیمت خرید")}
-                {this.renderInput("commission", "کمیسیون")}
-                {this.renderInput("wholePrice", "قیمت عمده فروشی")}
-                {this.renderInput("retailPrice", "قیمت خرده فروشی")}
-                {this.renderInput("marketPlacePrice", "قیمت مارکت پلیس")}
-                {this.renderInput(
-                  "retailStoreStock",
-                  "موجودی انبار خرده فروشی",
-                  "2"
-                )}
-                {this.renderInput(
-                  "wholeStoreStock",
-                  "موجودی انبار عمده فروشی",
-                  "2"
-                )}
-                {this.renderInput(
-                  "virtualStoreStock",
-                  "موجودی انبار دیجیکالا",
-                  "2"
-                )}
-                {this.renderInput("boxQuantity", "تعداد در جعبه")}
-                {this.renderInput(
-                  "buyingPriceHistory",
-                  "قیمت خرید های قبلی",
-                  "11"
-                )}
-                {this.renderImage("img", " انتخاب عکس اصلی")}
-                {this.renderGallery("imgs", "انتخاب عکس گالری")}
-              </div>
-            </form>
-          </CardBody>
-        </Card>
-      </GridItem>
+      <React.Fragment>
+        <CardHeader color="rose">
+          <h4 className={this.props.classes.cardTitleWhite}>افزودن محصول</h4>
+          <p className={this.props.classes.cardCategoryWhite}>
+            افزودن محصول جدید
+          </p>
+        </CardHeader>
+        <CardBody>
+          <form onSubmit={this.handleFormSubmission} id="addnewform1">
+            <div className="row m-2">
+              {this.renderSubmitBtn()}
+              {this.renderCancelBtn("لغو")}
+              <button
+                type="button"
+                className={`btn btn-dark shadow rounded btn-lg m-2`}
+                onClick={() => this.setState({ modal: true })}
+                data-toggle="modal"
+                data-target={"#abc"}
+              >
+                دسته بندی ها
+              </button>
+              {this.state.modal && (
+                <ItemsModalView
+                  id="abc"
+                  title="دسته بندی ها"
+                  items={categories}
+                  onAdd={this.onAddItem}
+                  onEdit={this.onEditItem}
+                  onDelete={this.onDeleteItem}
+                  classes="btn-lg m-2"
+                />
+              )}
+              <button
+                type="button"
+                className={`btn btn-dark shadow rounded btn-lg m-2`}
+                onClick={() => this.setState({ modal: true })}
+                data-toggle="modal"
+                data-target={"#subcat"}
+              >
+                گروه ها
+              </button>
+              {this.state.modal && (
+                <ItemsModalView
+                  id="subcat"
+                  title="گروه ها"
+                  items={subCategories}
+                  onAdd={this.onAddSubCategoryItem}
+                  onEdit={this.onEditSubCategoryItem}
+                  onDelete={this.onDeleteSubCategoryItem}
+                  classes="btn-lg m-2"
+                />
+              )}
+              <button
+                type="button"
+                className={`btn btn-dark shadow rounded btn-lg m-2`}
+                onClick={() => this.setState({ modal: true })}
+                data-toggle="modal"
+                data-target={"#groups"}
+              >
+                زیرگروه ها
+              </button>
+              {this.state.modal && (
+                <ItemsModalView
+                  id="groups"
+                  title="زیرگروه ها"
+                  items={groups}
+                  onAdd={this.onAddGroupItem}
+                  onEdit={this.onEditGroupItem}
+                  onDelete={this.onDeleteGroupItem}
+                  classes="btn-lg m-2"
+                />
+              )}
+              <button
+                type="button"
+                className={`btn btn-dark shadow rounded btn-lg m-2`}
+                onClick={() => this.setState({ modal: true })}
+                data-toggle="modal"
+                data-target={"#materialmodal"}
+              >
+                جنس ها
+              </button>
+              {this.state.modal && (
+                <ItemsModalView
+                  id="materialmodal"
+                  title="جنس ها"
+                  items={materials}
+                  onAdd={this.onAddMaterialItem}
+                  onEdit={this.onEditMaterialItem}
+                  onDelete={this.onDeleteMaterialItem}
+                  classes="btn-lg m-2"
+                />
+              )}
+              <button
+                type="button"
+                className={`btn btn-dark shadow rounded btn-lg m-2`}
+                onClick={() => this.setState({ modal: true })}
+                data-toggle="modal"
+                data-target={"#colormodal"}
+              >
+                رنگ ها
+              </button>
+              {this.state.modal && (
+                <ItemsModalView
+                  id="colormodal"
+                  title="رنگ ها"
+                  items={colors}
+                  onAdd={this.onAddColorItem}
+                  onEdit={this.onEditColorItem}
+                  onDelete={this.onDeleteColorItem}
+                  classes="btn-lg m-2"
+                />
+              )}
+              <button
+                type="button"
+                className={`btn btn-dark shadow rounded btn-lg m-2`}
+                onClick={() => this.setState({ modal: true })}
+                data-toggle="modal"
+                data-target={"#suppliermodal"}
+              >
+                تامین کننده ها
+              </button>
+              {this.state.modal && (
+                <ItemsModalView
+                  id="suppliermodal"
+                  title="تامین کننده ها"
+                  items={suppliers}
+                  onAdd={this.onAddSupplierItem}
+                  onEdit={this.onEditSupplierItem}
+                  onDelete={this.onDeleteSupplierItem}
+                  classes="btn-lg m-2"
+                />
+              )}
+            </div>
+            <div className="row">
+              {this.renderInput("marketCode", "کد تنوع مارکت پلیس")}
+              {this.renderInput("taminMallCode", "کد تامین کننده")}
+              {this.renderInput("itemNumber", "آیتم نامبر")}
+              {this.renderInput("webLink", "لینک در سایت", "4")}
+              {this.renderSelect("category", "دسته بندی", categories, "4")}
+              {this.renderSelect("subCategory", "گروه", subCategories, "3")}
+              {this.renderSelect("group", "زیرگروه", groups, "3")}
+              {this.renderInput("name", "عنوان", "4", true)}
+              {this.renderInput("brand", "برند")}
+              {this.renderSelect("supplier", "تامین کننده", suppliers)}
+              {this.renderSelect("color", "رنگ", colors)}
+              {this.renderSelect("material", "جنس", materials)}
+              {this.renderInput("weight", "وزن")}
+              {this.renderInput("length", "طول")}
+              {this.renderInput("width", "عرض")}
+              {this.renderInput("height", "ارتفاع")}
+              {this.renderInput("tradeListPrice", "قیمت لیست")}
+              {this.renderInput("tradeBuyingPrice", "قیمت خرید")}
+              {this.renderInput("commission", "کمیسیون")}
+              {this.renderInput("wholePrice", "قیمت عمده فروشی")}
+              {this.renderInput("retailPrice", "قیمت خرده فروشی")}
+              {this.renderInput("marketPlacePrice", "قیمت مارکت پلیس")}
+              {this.renderInput(
+                "retailStoreStock",
+                "موجودی انبار خرده فروشی",
+                "2"
+              )}
+              {this.renderInput(
+                "wholeStoreStock",
+                "موجودی انبار عمده فروشی",
+                "2"
+              )}
+              {this.renderInput(
+                "virtualStoreStock",
+                "موجودی انبار دیجیکالا",
+                "2"
+              )}
+              {this.renderInput("boxQuantity", "تعداد در جعبه")}
+              {this.renderInput(
+                "buyingPriceHistory",
+                "قیمت خرید های قبلی",
+                "11"
+              )}
+              {this.renderImage("img", " انتخاب عکس اصلی")}
+              {this.renderGallery("imgs", "انتخاب عکس گالری")}
+            </div>
+          </form>
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

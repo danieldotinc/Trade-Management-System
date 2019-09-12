@@ -153,52 +153,48 @@ class Payment extends Form {
     );
 
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="rose">
-            <h4 className={this.props.classes.cardTitleWhite}>
-              دریافت / پرداخت
-            </h4>
-            <p className={this.props.classes.cardCategoryWhite}>
-              دریافت / پرداخت
-            </p>
-          </CardHeader>
-          <CardBody>
-            <form onSubmit={this.handleFormSubmission} id="addPaymentform">
-              <div className="row m-2">
-                {this.renderSubmitBtn()}
-                {this.renderCancelBtn("لغو")}
-              </div>
+      <React.Fragment>
+        <CardHeader color="rose">
+          <h4 className={this.props.classes.cardTitleWhite}>دریافت / پرداخت</h4>
+          <p className={this.props.classes.cardCategoryWhite}>
+            دریافت / پرداخت
+          </p>
+        </CardHeader>
+        <CardBody>
+          <form onSubmit={this.handleFormSubmission} id="addPaymentform">
+            <div className="row m-2">
+              {this.renderSubmitBtn()}
+              {this.renderCancelBtn("لغو")}
+            </div>
+            <div className="row col-12">
               <div className="row col-12">
-                <div className="row col-12">
-                  {this.renderSelect("type", "نوع عملیات", types)}
-                  {this.renderSelect("accountType", "نوع حساب", accountTypes)}
-                  {this.renderSelect(
-                    "account",
-                    "عنوان حساب",
-                    filteredAccounts,
-                    "4"
-                  )}
-                  {this.renderSelect("status", "وضعیت", status)}
-                </div>
-                <ColoredLine color="black" />
-                <div className="row col-12">
-                  {/* {this.renderInput("name", "شرح عملیات", "5")} */}
-                  {this.renderInvoiceAutoSuggest(
-                    "invoice",
-                    "عنوان فاکتور",
-                    true,
-                    "5"
-                  )}
-                  {this.renderInput("person", "نام شخص", "3", true)}
-                  {/* {this.renderPersonAutoSuggest("person", "نام شخص", true)} */}
-                  {this.renderInput("price", "مبلغ", "3", true)}
-                </div>
+                {this.renderSelect("type", "نوع عملیات", types)}
+                {this.renderSelect("accountType", "نوع حساب", accountTypes)}
+                {this.renderSelect(
+                  "account",
+                  "عنوان حساب",
+                  filteredAccounts,
+                  "4"
+                )}
+                {this.renderSelect("status", "وضعیت", status)}
               </div>
-            </form>
-          </CardBody>
-        </Card>
-      </GridItem>
+              <ColoredLine color="black" />
+              <div className="row col-12">
+                {/* {this.renderInput("name", "شرح عملیات", "5")} */}
+                {this.renderInvoiceAutoSuggest(
+                  "invoice",
+                  "عنوان فاکتور",
+                  true,
+                  "5"
+                )}
+                {this.renderInput("person", "نام شخص", "3", true)}
+                {/* {this.renderPersonAutoSuggest("person", "نام شخص", true)} */}
+                {this.renderInput("price", "مبلغ", "3", true)}
+              </div>
+            </div>
+          </form>
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

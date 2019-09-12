@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 const Search = ({ search, onSearch }) => {
   return (
-    <form className="form-inline m-2">
+    <form className="form-inline m-2 no-print">
       <i
         className="fas fa-search ml-2"
         aria-hidden="true"

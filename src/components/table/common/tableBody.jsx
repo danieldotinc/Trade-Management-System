@@ -15,7 +15,7 @@ class TableBody extends Component {
   }
 
   getDots = string => {
-    if (string.length > 50) return string.substring(0, 50) + "...";
+    if (string.length > 40) return string.substring(0, 40) + "...";
     return string;
   };
 
@@ -85,7 +85,7 @@ class TableBody extends Component {
             {/* <td key={uuid.v4()}>
               <Like movie={item} onClick={() => onLikeItem(item, listName)} />
             </td> */}
-            <td key={uuid.v4()} style={{ float: "left" }}>
+            <td key={uuid.v4()} style={{ float: "left" }} className="no-print">
               {listName == "Product" && (
                 <a
                   className="btn btn-raised btn-primary ml-2 shadow rounded"

@@ -25,46 +25,43 @@ class ListPage extends Component {
     const { addLink, links } = this.props.state;
     const user = auth.getCurrentUser();
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="info">
-            <h4 className={classes.cardTitleWhite}>
-              {PersianNum(title) || PersianNum(properties.rtlName)}
-            </h4>
-            <p className={classes.cardCategoryWhite}>
-              {links.map(link => {
-                return (
-                  <NavLink
-                    className="btn btn-info m-1"
-                    to={link.link}
-                    onClick={() => onRoute(link.link)}
-                  >
-                    {link.label}
-                  </NavLink>
-                );
-              })}
-            </p>
-            <p className={this.props.classes.cardCategoryWhite}>
-              لیست جدیدترین{" "}
-              {PersianNum(title) || PersianNum(properties.rtlName)}
-            </p>
-            <div />
-          </CardHeader>
-          <CardBody>
-            <div className="row m-2">
-              {((settings[0] && settings[0].addAction) || user.isAdmin) && (
-                <Link
-                  to={addLink}
-                  className="btn btn-lg btn-info m-2 shadow-lg rounded"
+      <React.Fragment>
+        <CardHeader color="info">
+          <h4 className={classes.cardTitleWhite}>
+            {PersianNum(title) || PersianNum(properties.rtlName)}
+          </h4>
+          <p className={classes.cardCategoryWhite}>
+            {links.map(link => {
+              return (
+                <NavLink
+                  className="btn btn-info m-1"
+                  to={link.link}
+                  onClick={() => onRoute(link.link)}
                 >
-                  <i className="fa fa-plus" />
-                </Link>
-              )}
-            </div>
-            <FullList {...rest} />
-          </CardBody>
-        </Card>
-      </GridItem>
+                  {link.label}
+                </NavLink>
+              );
+            })}
+          </p>
+          <p className={this.props.classes.cardCategoryWhite}>
+            لیست جدیدترین {PersianNum(title) || PersianNum(properties.rtlName)}
+          </p>
+          <div />
+        </CardHeader>
+        <CardBody>
+          <div className="row m-2 no-print">
+            {((settings[0] && settings[0].addAction) || user.isAdmin) && (
+              <Link
+                to={addLink}
+                className="btn btn-lg btn-info m-2 shadow-lg rounded"
+              >
+                <i className="fa fa-plus" />
+              </Link>
+            )}
+          </div>
+          <FullList {...rest} />
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

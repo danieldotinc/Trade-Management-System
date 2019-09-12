@@ -197,122 +197,116 @@ class Invoice extends Form {
     ];
 
     return (
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="info">
-            <h4 className={this.props.classes.cardTitleWhite}>صدور فاکتور</h4>
-            <p className={this.props.classes.cardCategoryWhite}>صدور فاکتور</p>
-          </CardHeader>
-          <CardBody>
-            <form onSubmit={this.handleFormSubmission} id="addInvoiceform">
-              <div className="row m-2">
-                {this.renderSubmitBtn("", "info", true)}
-                {this.renderCancelBtn("لغو")}
-              </div>
-              <div className="row">
-                <div className="list-group p-4 text-center col-12">
-                  <div className="row">
-                    {this.renderSelect(
-                      "invoiceType",
-                      "نوع فاکتور",
-                      invoiceTypes,
-                      "3"
-                    )}
+      <React.Fragment>
+        <CardHeader color="info">
+          <h4 className={this.props.classes.cardTitleWhite}>صدور فاکتور</h4>
+          <p className={this.props.classes.cardCategoryWhite}>صدور فاکتور</p>
+        </CardHeader>
+        <CardBody>
+          <form onSubmit={this.handleFormSubmission} id="addInvoiceform">
+            <div className="row m-2">
+              {this.renderSubmitBtn("", "info", true)}
+              {this.renderCancelBtn("لغو")}
+            </div>
+            <div className="row">
+              <div className="list-group p-4 text-center col-12">
+                <div className="row">
+                  {this.renderSelect(
+                    "invoiceType",
+                    "نوع فاکتور",
+                    invoiceTypes,
+                    "3"
+                  )}
+                </div>
+                <div className="row">
+                  {this.renderInput("sellerName", "فروشنده", "3")}
+                  {this.renderInput("sellerَAddress", "آدرس فروشنده", "5")}
+                  {this.renderInput("sellerَPhoneNumber", "تلفن فروشنده", "3")}
+                </div>
+                <div className="row">
+                  {this.renderPersonAutoSuggest("buyerName", "خریدار", "3")}
+                  {this.renderInput("buyerAddress", "آدرس خریدار", "5")}
+                  {this.renderInput("buyerPhoneNumber", "تلفن خریدار", "3")}
+                </div>
+                <ColoredLine color="black" />
+                <div className="row">
+                  <div className={`form-group m-3 col-1 mt-5`}>
+                    <p
+                      id="ProInput"
+                      className="btn btn-info shadow"
+                      onClick={this.addProHandler}
+                    >
+                      افزودن
+                    </p>
                   </div>
-                  <div className="row">
-                    {this.renderInput("sellerName", "فروشنده", "3")}
-                    {this.renderInput("sellerَAddress", "آدرس فروشنده", "5")}
-                    {this.renderInput(
-                      "sellerَPhoneNumber",
-                      "تلفن فروشنده",
-                      "3"
-                    )}
-                  </div>
-                  <div className="row">
-                    {this.renderPersonAutoSuggest("buyerName", "خریدار", "3")}
-                    {this.renderInput("buyerAddress", "آدرس خریدار", "5")}
-                    {this.renderInput("buyerPhoneNumber", "تلفن خریدار", "3")}
-                  </div>
-                  <ColoredLine color="black" />
-                  <div className="row">
-                    <div className={`form-group m-3 col-1 mt-5`}>
-                      <p
-                        id="ProInput"
-                        className="btn btn-info shadow"
-                        onClick={this.addProHandler}
-                      >
-                        افزودن
-                      </p>
-                    </div>
-                    {this.renderProductAutoSuggest(
-                      "product",
-                      "نام محصول",
-                      false,
-                      "6"
-                    )}
-                    {this.renderInput("productPrice", "مبلغ")}
-                  </div>
+                  {this.renderProductAutoSuggest(
+                    "product",
+                    "نام محصول",
+                    false,
+                    "6"
+                  )}
+                  {this.renderInput("productPrice", "مبلغ")}
+                </div>
 
-                  <div className="list-group m-2 mt-4">
-                    {this.state.data.products.map((pro, i) => (
-                      <div className="row">
-                        <ListGroupItem
-                          label={`${i + 1} - نام محصول`}
-                          value={this.getDots(pro.name)}
-                          float=""
-                          size="5"
-                        />
-                        <ListGroupItem
-                          label="قیمت واحد"
-                          value={pro.tradeBuyingPrice}
-                          float=""
-                          size="2"
-                        />
-                        <ListGroupItem
-                          label="تعداد"
-                          value={pro.quantity}
-                          float=""
-                          size="1"
-                        />
-                        <ListGroupItem
-                          label="قیمت کل"
-                          value={pro.tradeBuyingPrice * pro.quantity}
-                          float=""
-                          size="2"
-                        />
-                        <span
-                          className="btn btn-info btn-rounded shadow m-2 mr-3"
-                          onClick={() => this.addItem(i)}
-                        >
-                          <i className="fa fa-plus"></i>
-                        </span>
-                        <span
-                          className="btn btn-info btn-rounded shadow m-2"
-                          onClick={() => this.subItem(i)}
-                        >
-                          <i className="fa fa-minus"></i>
-                        </span>
-                        <span
-                          className="btn btn-danger btn-rounded shadow m-2"
-                          onClick={() => this.delItem(i)}
-                        >
-                          <i className="fa fa-times"></i>
-                        </span>
-                      </div>
-                    ))}
-                    <ListGroupItem
-                      label="مبلغ کل فاکتور"
-                      value={this.state.data.totalPrice}
-                      float=""
-                      size="3"
-                    />
-                  </div>
+                <div className="list-group m-2 mt-4">
+                  {this.state.data.products.map((pro, i) => (
+                    <div className="row">
+                      <ListGroupItem
+                        label={`${i + 1} - نام محصول`}
+                        value={this.getDots(pro.name)}
+                        float=""
+                        size="5"
+                      />
+                      <ListGroupItem
+                        label="قیمت واحد"
+                        value={pro.tradeBuyingPrice}
+                        float=""
+                        size="2"
+                      />
+                      <ListGroupItem
+                        label="تعداد"
+                        value={pro.quantity}
+                        float=""
+                        size="1"
+                      />
+                      <ListGroupItem
+                        label="قیمت کل"
+                        value={pro.tradeBuyingPrice * pro.quantity}
+                        float=""
+                        size="2"
+                      />
+                      <span
+                        className="btn btn-info btn-rounded shadow m-2 mr-3"
+                        onClick={() => this.addItem(i)}
+                      >
+                        <i className="fa fa-plus"></i>
+                      </span>
+                      <span
+                        className="btn btn-info btn-rounded shadow m-2"
+                        onClick={() => this.subItem(i)}
+                      >
+                        <i className="fa fa-minus"></i>
+                      </span>
+                      <span
+                        className="btn btn-danger btn-rounded shadow m-2"
+                        onClick={() => this.delItem(i)}
+                      >
+                        <i className="fa fa-times"></i>
+                      </span>
+                    </div>
+                  ))}
+                  <ListGroupItem
+                    label="مبلغ کل فاکتور"
+                    value={this.state.data.totalPrice}
+                    float=""
+                    size="3"
+                  />
                 </div>
               </div>
-            </form>
-          </CardBody>
-        </Card>
-      </GridItem>
+            </div>
+          </form>
+        </CardBody>
+      </React.Fragment>
     );
   }
 }

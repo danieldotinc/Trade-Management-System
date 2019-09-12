@@ -9,6 +9,10 @@ export class Navigation extends Component {
   componentDidMount() {
     this.props.getSettingItems();
   }
+  handlePrint = () => {
+    window.print();
+    return false;
+  };
   render() {
     const user = auth.getCurrentUser();
     const { onRoute, settings } = this.props;
@@ -38,7 +42,7 @@ export class Navigation extends Component {
                     to="/Dashboard"
                     onClick={() => onRoute("/Dashboard")}
                   >
-                    داشبورد
+                    داشبورد <i className="fa fa-chart-line"></i>
                   </NavLink>
                 </li>
 
@@ -48,7 +52,7 @@ export class Navigation extends Component {
                     to="/Products"
                     onClick={() => onRoute("/Products")}
                   >
-                    محصولات
+                    محصولات <i className="fa fa-box-open"></i>
                   </NavLink>
                 </li>
 
@@ -60,7 +64,7 @@ export class Navigation extends Component {
                       to="/Profiles/Business"
                       onClick={() => onRoute("/Profiles/Business")}
                     >
-                      اشخاص
+                      اشخاص <i className="fa fa-user"></i>
                     </NavLink>
                   </li>
                 )}
@@ -72,7 +76,7 @@ export class Navigation extends Component {
                       to="/Profiles/Company"
                       onClick={() => onRoute("/Profiles/Company")}
                     >
-                      شرکت ها
+                      شرکت ها <i className="fa fa-building"></i>
                     </NavLink>
                   </li>
                 )}
@@ -84,7 +88,7 @@ export class Navigation extends Component {
                       to="/Trade"
                       onClick={() => onRoute("/Trade")}
                     >
-                      بازرگانی
+                      بازرگانی <i className="fa fa-truck"></i>
                     </NavLink>
                   </li>
                 )}
@@ -94,7 +98,7 @@ export class Navigation extends Component {
                     to="/FinDashboard"
                     onClick={() => onRoute("/FinDashboard")}
                   >
-                    مالی
+                    مالی <i className="fa fa-credit-card"></i>
                   </NavLink>
                 </li>
                 {user.isAdmin && (
@@ -104,19 +108,24 @@ export class Navigation extends Component {
                       to="/Settings"
                       onClick={() => onRoute("/Settings")}
                     >
-                      تنظیمات
+                      تنظیمات <i className="fa fa-cogs"></i>
                     </NavLink>
                   </li>
                 )}
                 <li className="nav-item">
                   <NavLink className="nav-link" to="/Logout">
-                    خروج از حساب
+                    خروج از حساب <i className="fa fa-sign-out-alt"></i>
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink className="nav-link" to="#">
-                    {user.name}
+                    {user.name} <i className="fa fa-smile"></i>
                   </NavLink>
+                </li>
+                <li className="nav-item">
+                  <span className="nav-link" onClick={() => this.handlePrint()}>
+                    <i className="fa fa-print"></i>
+                  </span>
                 </li>
               </React.Fragment>
             )}
@@ -128,7 +137,7 @@ export class Navigation extends Component {
                     to="/Register"
                     onClick={() => onRoute("/Register")}
                   >
-                    ثبت نام
+                    ثبت نام <i className="fa fa-clipboard"></i>
                   </NavLink>
                 </li>
                 <li className="nav-item">
@@ -137,7 +146,7 @@ export class Navigation extends Component {
                     to="/Login"
                     onClick={() => onRoute("/Login")}
                   >
-                    ورود به حساب کاربری
+                    ورود به حساب کاربری <i className="fa fa-sign-in-alt"></i>
                   </NavLink>
                 </li>
               </React.Fragment>
